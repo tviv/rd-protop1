@@ -1,0 +1,9 @@
+// Here you can add other styles
+.no-clear-button::-webkit-clear-button {
+  -webkit-appearance: none;
+}
+
+.no-spin-button::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+

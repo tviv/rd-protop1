@@ -1,0 +1,8 @@
+{
+  "name": "SalesCone",
+  "version": "0.0.0",
+  "private": true,
+  "proxy": "http://localhost:3101/",
+  "main": "./SalesCone.js"
+
+}
