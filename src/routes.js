@@ -22,12 +22,18 @@ const OlapSettings = Loadable({
   loading: Loading,
 });
 
+const OlapSalesConeChart = Loadable({
+  loader: () => import('./views/Olap/SalesCone/CompaireShopConesChart'),
+  loading: Loading,
+});
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Начало', component: DefaultLayout },
   { path: '/dashboard', name: 'Общая панель аналитики', component: Dashboard },
+  { path: '/olap/sales-cone/compaire-conechart', name: 'Диаграмма сравения КУП', component: OlapSalesConeChart },
   { path: '/olap/sales-cone', name: 'Воронка продаж', component: OlapSalesCone },
-  { path: '/olap/settings', name: 'Settings', component: OlapSettings },
+  { path: '/olap/settings', name: 'Настройки', component: OlapSettings },
 ];
 
 export default routes;

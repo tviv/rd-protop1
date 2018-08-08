@@ -7,3 +7,54 @@
   -webkit-appearance: none;
 }
 
+td.cell-cone.focus {
+  color: #5c6873;
+  background-color: #fff;
+  border-color: #8ad4ee;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(32, 168, 216, 0.25); }
+
+td.cell-cone:hover {
+  cursor: pointer;
+  color: #5c6873;
+  background-color: #fff;
+  border-color: #8ad4ee;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(32, 168, 216, 0.25); }
+
+.main .container-fluid {
+  height: 100%;
+  padding-bottom: 80px!important;
+}
+
+.app-body .main {
+  overflow: hidden;
+}
+
+
+//react-select customising
+.react-select__control {
+  background-color: hsl(0,0%,100%)!important;
+  border-color: hsl(0,0%,90%)!important;
+  min-height: 35px!important;
+}
+
+.react-select__control:focus {
+  color: #5c6873!important;
+  background-color: #fff;
+  border-color: #8ad4ee!important;
+  outline: 0!important;
+  box-shadow: 0 0 0 0.2rem rgba(32, 168, 216, 0.25)!important; }
+
+.react-select__multi-value {
+  background-color: hsl(0,0%,100%)!important;
+}
+
+.react-select__multi-value__label {
+  font-size: 100%!important;
+  padding: 0px!important;
+}
+
+.react-select__indicator {
+  padding: 6px!important;
+}

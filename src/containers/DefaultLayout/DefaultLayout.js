@@ -23,6 +23,16 @@ import DefaultFooter from './DefaultFooter';
 import DefaultHeader from './DefaultHeader';
 
 class DefaultLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+    this.state = {}
+  }
+  componentDidMount() {
+    //let { clientHeight, clientWidth } = this.refs.myImgContainer;
+    //console.log(this.refs);
+  }
+
   render() {
     return (
       <div className="app">
@@ -37,9 +47,9 @@ class DefaultLayout extends Component {
             <AppSidebarFooter />
             <AppSidebarMinimizer />
           </AppSidebar>
-          <main className="main">
+          <main className="main" ref="myImgContainer">
             <AppBreadcrumb appRoutes={routes}/>
-            <Container fluid>
+            <Container fluid >
               <Switch>
                 {routes.map((route, idx) => {
                     return route.component ? (<Route key={idx} path={route.path} exact={route.exact} name={route.name} render={props => (

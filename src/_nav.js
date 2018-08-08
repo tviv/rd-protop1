@@ -1,7 +1,7 @@
 export default {
   items: [
     {
-      name: 'Dashboard',
+      name: 'Chart',
       url: '/dashboard',
       icon: 'icon-drop',
     },
@@ -16,7 +16,7 @@ export default {
           icon: 'icon-drop',
         },
         {
-          name: 'Settings',
+          name: 'Настройки',
           url: '/olap/settings',
           icon: 'icon-puzzle',
         }
