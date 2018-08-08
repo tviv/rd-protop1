@@ -17,7 +17,7 @@ function CellPropertyWindow (props) {
         <PopoverHeader>Свойства значения</PopoverHeader>
         <PopoverBody>
           <div>КУП: {data.КУП}</div>
-          <div>Маржа: 23.4%</div>
+          {/*<div>Маржа: 23.4%</div>*/}
 
           <hr/>
 

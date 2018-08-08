@@ -28,7 +28,7 @@ let salesConeModel = {
     let model = this;
 
     return new Promise((resolve, reject) => {
-      getJsonFromOlapApi('/api/olap/sales-cone', model.filters).then((response) => {
+      getJsonFromOlapApi('/api/olap/sales-cone', {segmentFilter: model.filters.segmentFilter, periodFilter: {date: this.filters.dateFilter, days: -6}, shopFilter: this.filters.shopFilter}).then((response) => {
         response.data.headerColumns.forEach((x)=>{
           x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, ''); //move names, remain only number
         })
@@ -52,7 +52,6 @@ let salesConeModel = {
 
   },
 
-
   getFilterOption: function(dimension) {
     let model = this;
 
@@ -63,6 +62,19 @@ let salesConeModel = {
       ).catch((e) => reject(e));
     });
 
+  },
+
+  getDynamicCUPData: function(filters) {
+    let model = this;
+
+    return new Promise((resolve, reject) => {
+      getJsonFromOlapApi('/api/olap/sales-cone/dynamic-cup', filters).then((response) => {
+
+          model.dynamicCUPdata = this.convertTableDataToChartData(response.data); //for the furture, and storing filter inside
+          resolve(model.dynamicCUPdata);
+        }
+      ).catch((e) => reject(e));
+    });
   },
 
   //--------------VIEW MODEL----------------
@@ -79,7 +91,7 @@ let salesConeModel = {
     let good = this.data.rows[cell.y][GOOD_COLUMN];
     let shop = this.data.headerColumns[cell.x][0];
 
-    let filter = {dateFilter: this.filters.dateFilter};
+    let filter = {periodFilter: {date: this.filters.dateFilter, days: -60}};
     filter.shopFilter = shop.UName && shop.UName.includes('&') > 0 ? shop.UName : this.filters.shopFilter;
     filter.goodFilter = good.UName;
 
@@ -95,18 +107,6 @@ let salesConeModel = {
     return this.cellMap.get(cellId)
   },
 
-  getDynamicCUPData: function(filters) {
-    let model = this;
-
-    return new Promise((resolve, reject) => {
-      getJsonFromOlapApi('/api/olap/sales-cone/dynamic-cup', filters).then((response) => {
-
-          model.dynamicCUPdata = this.convertTableDataToChartData(response.data); //for the furture, and storing filter inside
-          resolve(model.dynamicCUPdata);
-        }
-      ).catch((e) => reject(e));
-    });
-  },
 
   //now only for col to labels
   convertTableDataToChartData: function (data) {

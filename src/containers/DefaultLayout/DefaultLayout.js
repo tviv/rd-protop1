@@ -40,7 +40,7 @@ class DefaultLayout extends Component {
           <DefaultHeader />
         </AppHeader>
         <div className="app-body">
-          <AppSidebar fixed display="lg">
+          <AppSidebar fixed display={process.env.NODE_ENV === 'development' && "lg"}>
             <AppSidebarHeader />
             <AppSidebarForm />
             <AppSidebarNav navConfig={navigation} {...this.props} />

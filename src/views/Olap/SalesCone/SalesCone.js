@@ -65,14 +65,18 @@ class Tabs extends Component {
                   Динамика КУП
                 </NavLink>
               </NavItem>
+              {process.env.NODE_ENV === 'development' &&
               <NavItem>
                 <NavLink
-                  className={classnames({ active: this.state.activeTab === '3' })}
-                  onClick={() => { this.toggle('3'); }}
+                  className={classnames({active: this.state.activeTab === '3'})}
+                  onClick={() => {
+                    this.toggle('3');
+                  }}
                 >
                   Динамика хвоста
                 </NavLink>
               </NavItem>
+              }
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
