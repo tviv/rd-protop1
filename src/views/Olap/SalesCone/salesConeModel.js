@@ -21,7 +21,7 @@ let salesConeModel = {
 
   filterShopOptions: {},
   filters:{
-    segmentFilter: process.env.NODE_ENV === 'development' ? '[Товары].[Товары].&[135639]' : '[Товары].[Товары].&[99638]', //  '[Товары].[Товары].[All].UNKNOWNMEMBER',
+    segmentFilter: process.env.NODE_ENV === 'development' ? '[Товары].[Товары].&[135639]' : '[Товары].[Товары].&[213571]', //  '[Товары].[Товары].[All].UNKNOWNMEMBER',
     //dateFilter: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'),
     periodFilter: {date: (process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd')), days: coneDaysToView},
     //shopFilter: ['[Подразделения].[Подразделение].[All]']
