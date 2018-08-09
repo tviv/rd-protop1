@@ -11,9 +11,10 @@ function addDays(date, days) {
 
 let GOOD_COLUMN = 0;
 let KUP_COLUMN = 2;
+let coneDaysToView =  6;
 
 let salesConeModel = {
-  coneDaysToView:  6,
+
 
   data : {},
   dynamicCUPdata : {},
@@ -22,7 +23,7 @@ let salesConeModel = {
   filters:{
     segmentFilter: process.env.NODE_ENV === 'development' ? '[Товары].[Товары].&[135639]' : '[Товары].[Товары].&[171467]', //  '[Товары].[Товары].[All].UNKNOWNMEMBER',
     //dateFilter: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'),
-    periodFilter: {date: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'), days: this.coneDaysToView}
+    periodFilter: {date: (process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd')), days: coneDaysToView},
     //shopFilter: ['[Подразделения].[Подразделение].[All]']
   },
 
@@ -31,6 +32,7 @@ let salesConeModel = {
     let model = this;
 
     return new Promise((resolve, reject) => {
+      console.log(model.filters);
       getJsonFromOlapApi('/api/olap/sales-cone', model.filters).then((response) => {
         response.data.headerColumns.forEach((x)=>{
           x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, ''); //move names, remain only number
