@@ -28,7 +28,7 @@ function getJsonFromOlapApi(relPath, body) {
   return new Promise((resolve, reject) => {
     setTimeout(function () {
 
-      fetch('' + relPath, {accept: 'application/json',
+      fetch('' + relPath, {accept: 'application/json', timeout: 120000,
         method: 'POST',
         headers: {
           'Accept': 'application/json',
