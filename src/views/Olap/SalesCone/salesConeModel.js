@@ -11,7 +11,7 @@ function addDays(date, days) {
 
 let GOOD_COLUMN = 0;
 let KUP_COLUMN = 2;
-let coneDaysToView =  6;
+let coneDaysToView =  -6;
 
 let salesConeModel = {
 
