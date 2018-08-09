@@ -174,7 +174,7 @@ class CompaireShopConesChart extends Component {
 
   componentWillReceiveProps(props) {
     //console.log(props.option);
-    this.refreshData(props.option.filter);
+    this.refreshData(props.option.dynamicCUPdataFilter);
   }
 
   updateDimensions(){

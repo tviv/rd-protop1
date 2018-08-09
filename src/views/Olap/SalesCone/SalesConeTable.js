@@ -55,7 +55,7 @@ class SalesConeTable extends Component {
       error: null
     });
 
-    model.getFilterOption('[Подразделения].[Подразделение]').then((options)=>{
+    model.getFilterOption('[Подразделения].[Подразделение].[Подразделение]').then((options)=>{
       this.setState({
           shopOptions: options
         }
@@ -84,7 +84,8 @@ class SalesConeTable extends Component {
   refreshOnlyData = () => {
     this.setState({
       loading: true,
-      error: null
+      error: null,
+      cellId: null,
     });
 
     model.getData().then((data) => {
@@ -111,7 +112,7 @@ class SalesConeTable extends Component {
   handleShopChange = (selectedOption) => {
     console.dir(selectedOption)
     model.filters.shopFilter = selectedOption.map((item)=>item.value);
-    this.setState({shopFilter: selectedOption})
+    //this.setState({shopFilter: selectedOption})
     this.refreshOnlyData();
 
   }
@@ -122,14 +123,15 @@ class SalesConeTable extends Component {
   }
 
   handleDateChange = (event) => {
-    model.filters.dateFilter = event.target.value;
+    model.filters.periodFilter.date = event.target.value;
     this.refreshOnlyData();
   }
 
   onCellClick = (e) => {
     let cellId = e.target.id;
-    console.log(cellId);
-    let option = model.getDataCellPropertyById(cellId);
+    //console.log(cellId);
+//    let option = model.getDataCellPropertyById(cellId);
+
     //model.setSelectedCell(e.target.dataset.row, e.target.dataset.col);
     // let filter = {dateFilter: model.filters.dateFilter};
     // filter.shopFilter = this.state.data.headerColumns[e.target.dataset.col][0].UName;
@@ -157,15 +159,14 @@ class SalesConeTable extends Component {
         <Col xs="12" lg="2">
         <FormGroup>
             <Label htmlFor="date-input">Дата</Label>
-            <Input required="required" className="no-spin-button" type="date" id="date-input" name="date-input" placeholder="date" value = {model.filters.dateFilter} onChange={this.handleDateChange}/>
+            <Input required="required" className="no-spin-button" type="date" id="date-input" name="date-input" placeholder="date" value = {model.filters.periodFilter.date} onChange={this.handleDateChange}/>
         </FormGroup>
         </Col>
         <Col xs="12" lg="3">
           <FormGroup>
             <Label htmlFor="shop">Подразделение</Label>
-            <Select  classNamePrefix="react-select" name="shop" id="shop" isMulti = "true" value = {this.state.shopFilter} options = {model.convertDimFilterOptionsToMulti(this.state.shopOptions)} onChange={this.handleShopChange}>
+            <Select  classNamePrefix="react-select" name="shop" id="shop" isMulti = "true" value = {model.convertFilterArrayToOptions(this.state.shopOptions, model.filters.shopFilter, true)} options = {this.state.shopOptions} onChange={this.handleShopChange}/>
 
-            </Select>
           </FormGroup>
         </Col>
         <Col xs="12" lg="6">

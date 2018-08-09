@@ -8,25 +8,54 @@ import {
 import LoadingWrappedView from "../../components/LoadingWrappedView";
 
 
-function CellPropertyWindow (props) {
-  let data = props.property;
-  return (
-    <div>
-      {data.cellId && <Popover placement="top" isOpen={props.isOpen}
-                               target={data.cellId} toggle={props.toggle}>
-        <PopoverHeader>Свойства значения</PopoverHeader>
-        <PopoverBody>
-          <div>КУП: {data.КУП}</div>
-          {/*<div>Маржа: 23.4%</div>*/}
+class CellPropertyWindow  extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.property,
+      addValues: null
+    };
 
-          <hr/>
+  }
 
-          <Button block color="link" onClick={data.onDynamicClick}>Динамика КУП</Button>
-        </PopoverBody>
-      </Popover>
-      }
+  componentWillReceiveProps(props) {
+    console.log("propsss ", props.option);
+    if (props.isOpen) {
+    props.property.serverValuesPromise.then((data) => {
+      this.setState({addValues: data});
+    });
+  }
+    this.setState({data: props.property, addValues:{}});
+  }
+
+  render () {
+    let data = this.state.data;
+    let addValues = this.state.addValues;
+
+    return (
+      <div>
+        {data.cellId && this.props.isOpen && <Popover placement="top" isOpen={this.props.isOpen}
+                                                 target={data.cellId} toggle={this.props.toggle}>
+          <PopoverHeader>Свойства значения</PopoverHeader>
+          <PopoverBody>
+            <div>КУП: {data.КУП}</div>
+            {addValues &&
+            <div>
+              <div><span>Цена продажи: </span><span>{addValues['Цена продажи']}</span></div>
+              <div>Сумма продажи: {addValues['Сумма продажи']}</div>
+              <div>Маржа: {addValues['Маржа %']}%</div>
+              <div>Остаток: {addValues['Остаток']}</div>
+            </div>
+            }
+            <hr/>
+
+            <Button block color="link" onClick={data.onDynamicClick}>Динамика КУП</Button>
+          </PopoverBody>
+        </Popover>
+        }
       </div>
-  )
+    )
+  }
 }
 
 

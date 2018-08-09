@@ -13,14 +13,17 @@ let GOOD_COLUMN = 0;
 let KUP_COLUMN = 2;
 
 let salesConeModel = {
+  coneDaysToView:  6,
+
   data : {},
   dynamicCUPdata : {},
 
   filterShopOptions: {},
   filters:{
-    segmentFilter: process.env.NODE_ENV === 'development' ? '[Товары].[Товары].&[135639]' : '[Товары].[Товары].[All].UNKNOWNMEMBER',
-    dateFilter: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'),
-    shopFilter: ['[Подразделения].[Подразделение].[All]']
+    segmentFilter: process.env.NODE_ENV === 'development' ? '[Товары].[Товары].&[135639]' : '[Товары].[Товары].&[171467]', //  '[Товары].[Товары].[All].UNKNOWNMEMBER',
+    //dateFilter: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'),
+    periodFilter: {date: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'), days: this.coneDaysToView}
+    //shopFilter: ['[Подразделения].[Подразделение].[All]']
   },
 
   //---------------MODEL----------------------
@@ -28,7 +31,7 @@ let salesConeModel = {
     let model = this;
 
     return new Promise((resolve, reject) => {
-      getJsonFromOlapApi('/api/olap/sales-cone', {segmentFilter: model.filters.segmentFilter, periodFilter: {date: this.filters.dateFilter, days: -6}, shopFilter: this.filters.shopFilter}).then((response) => {
+      getJsonFromOlapApi('/api/olap/sales-cone', model.filters).then((response) => {
         response.data.headerColumns.forEach((x)=>{
           x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, ''); //move names, remain only number
         })
@@ -57,7 +60,9 @@ let salesConeModel = {
 
     return new Promise((resolve, reject) => {
       getJsonFromOlapApi('/api/olap/dim', {dim: dimension}).then((response) => {
-        resolve(response.data.rows.map((x) => x[0]));
+        let options = response.data.rows.map((x) => ({value: x[0].UName, label: x[0].Caption, ...x[0]}));
+
+        resolve(options);
         }
       ).catch((e) => reject(e));
     });
@@ -81,24 +86,51 @@ let salesConeModel = {
   cellMap: new Map(),
 
   getDataCellPropertyById: function (cellId)  {
+    let model = this;
     let cell = this.getCellById(cellId);
 
 
     let property = {};
 
-    if (!cell) return property;
+   // if (!cell) return property;
 
-    let good = this.data.rows[cell.y][GOOD_COLUMN];
-    let shop = this.data.headerColumns[cell.x][0];
+    try {
+      let good = this.data.rows[cell.y][GOOD_COLUMN];
+      let shop = this.data.headerColumns[cell.x][0];
+      property.filter = {
+        periodFilter: this.filters.periodFilter,
+        shopFilter: shop.UName && shop.UName.includes('&') > 0 ? shop.UName : this.filters.shopFilter,
+        goodFilter: good.UName
+      }
 
-    let filter = {periodFilter: {date: this.filters.dateFilter, days: -60}};
-    filter.shopFilter = shop.UName && shop.UName.includes('&') > 0 ? shop.UName : this.filters.shopFilter;
-    filter.goodFilter = good.UName;
+      property.dynamicCUPdataFilter = {...property.filter} ;
+      property.dynamicCUPdataFilter.periodFilter = {date: this.filters.periodFilter.date, days: -60};
+      property.goodName = good.Caption;
+      property.cell = cell;
+      property.КУП = (cell.x > KUP_COLUMN ? cell.FmtValue : this.data.rows[cell.y][KUP_COLUMN].FmtValue);
 
-    property.filter = filter;
-    property.goodName = good.Caption;
-    property.cell = cell;
-    property.КУП = (cell.x > KUP_COLUMN ? cell.FmtValue : this.data.rows[cell.y][KUP_COLUMN].FmtValue);
+    } catch (e) {
+    }
+
+    //get additional values from server
+      property.serverValuesPromise = new Promise((resolve, reject) => {
+        console.log("prop0")
+        if (!property.filter) { resolve(null); return}
+
+          getJsonFromOlapApi('/api/olap/sales-cone/cell-property', property.filter).then((response) => {
+              console.log("prop")
+
+              let values = {};
+              response.data.headerColumns.forEach((x, index) => {
+//                console.dir(response.data.rows[0][index]);
+                values[x[0].Caption] = response.data.rows[0][index].Caption || response.data.rows[0][index].FmtValue
+              });
+
+              console.dir(values);
+              resolve(values);
+            }
+          ).catch((e) => reject(e));
+      });
 
     return property;
   },
@@ -135,10 +167,28 @@ let salesConeModel = {
     return result;
   },
 
-  convertDimFilterOptionsToMulti: function (options) {
-    return options.map((item) => {return {value: item.UName, label: item.Caption}});
-  }
+  convertFilterArrayToOptions(options, filter, onlyTrailNumbers = false) {
+    let res = filter && filter.map(x => {
 
+      let opt = this.getOptionByValue(options, x);
+      console.dir(opt);
+      let label = opt && (onlyTrailNumbers ? this.extractOnlyTrailNumber(opt.label) : opt.label);
+      return {
+        value: x,
+        label: label
+      }
+    });
+    console.dir(res);
+    return res;
+  },
+
+  getOptionByValue(options, value) {
+    return options.find(x => x.value === value);
+  },
+
+  extractOnlyTrailNumber(value) {
+    return value && value.replace(/^.*[- ]/g, '');
+  }
 
 };
 
