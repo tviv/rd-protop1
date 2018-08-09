@@ -32,7 +32,7 @@ let salesConeModel = {
     let model = this;
 
     return new Promise((resolve, reject) => {
-      console.log(model.filters);
+
       getJsonFromOlapApi('/api/olap/sales-cone', model.filters).then((response) => {
         response.data.headerColumns.forEach((x)=>{
           x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, ''); //move names, remain only number
