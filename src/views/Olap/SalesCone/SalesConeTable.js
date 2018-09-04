@@ -223,16 +223,8 @@ class SalesConeTable extends Component {
                           <tr key={rowIndex}>
                             {/*<td style={styles.tableCell}>{item[0]['[Товары].[Товар].[Товар].[Код товара]']}</td>*/}
                             {row.map((col, index)=>
-                              <td id={col.cellId} className={'cell-cone ' + (this.state.cellId === col.cellId ? 'focus' : '')} style={{...styles.tableCell,... index >= 1 ? styles.tableCellValue : {}}} key={index} onClick={this.onCellClick} >
+                              <td id={col.cellId} className={'cell-cone ' + (this.state.cellId === col.cellId ? 'focus' : '')} style={{'background':model.getCellColor(col.cellId), ...styles.tableCell,... index >= 1 ? styles.tableCellValue : {}}} key={index} onClick={this.onCellClick} >
                                 {col.FmtValue ? col.FmtValue : col.Caption}
-                                {/*{this.state.cellId == col.cellId && !this.state.loading && <div></div>*/}
-                                  {/*}*/}
-                                {/*<Popover placement="bottom" isOpen={this.state.popoverOpen}*/}
-                                {/*target={"cell_" + rowIndex + ',' + index} toggle={this.onCellClick}>*/}
-                                {/*<PopoverHeader>Popover Title</PopoverHeader>*/}
-                                {/*<PopoverBody>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque*/}
-                                {/*ornare sem lacinia quam venenatis vestibulum.</PopoverBody>*/}
-                                {/*</Popover>*/}
                                 </td>
                             )}
                           </tr>

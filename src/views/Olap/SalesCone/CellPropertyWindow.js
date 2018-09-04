@@ -39,6 +39,7 @@ class CellPropertyWindow  extends Component {
           <PopoverHeader>Свойства значения</PopoverHeader>
           <PopoverBody>
             <div>КУП: {data.КУП}</div>
+            <div>Отклонение: {data['Отклонение %']}%</div>
             {addValues &&
             <div>
               <div><span>Цена продажи: </span><span>{addValues['Цена продажи']}</span></div>

@@ -44,6 +44,8 @@ let salesConeModel = {
               cell.cellId = `c_${xInd}_${yInd}`
               cell.x = xInd;
               cell.y = yInd;
+              cell.row = row;
+              cell.headerCell = response.data.headerColumns[xInd][0];
               model.cellMap.set(cell.cellId, cell)
             })
           })
@@ -110,6 +112,7 @@ let salesConeModel = {
       property.goodName = good.Caption;
       property.cell = cell;
       property.КУП = (cell.x > KUP_COLUMN ? cell.FmtValue : this.data.rows[cell.y][KUP_COLUMN].FmtValue);
+      property['Отклонение %'] = this.getDeviation(cellId) * 100;
 
     } catch (e) {
     }
@@ -141,6 +144,27 @@ let salesConeModel = {
     return this.cellMap.get(cellId)
   },
 
+  getDeviation: function(cellId) {
+    let cell = this.getCellById(cellId);
+    let cellCommonCup = cell.row[KUP_COLUMN];
+    let commonCUP = cellCommonCup.Value;
+
+    return  (commonCUP > 0 ? ((cell.Value - commonCUP)/commonCUP).toPrecision(4) : null);
+  },
+
+  getCellColor: function (cellId) {
+    let cell = this.getCellById(cellId);
+    if (cell.x < KUP_COLUMN) return;
+
+    let deviation =  this.getDeviation(cellId);
+    if (deviation > 0.2) {
+      return '#A6CAF0';
+    }
+    if (deviation < -0.2) {
+      return '#FFC0CB'
+    }
+
+  },
 
   //now only for col to labels
   convertTableDataToChartData: function (data) {
