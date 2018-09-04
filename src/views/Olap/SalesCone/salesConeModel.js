@@ -112,7 +112,7 @@ let salesConeModel = {
       property.goodName = good.Caption;
       property.cell = cell;
       property.КУП = (cell.x > KUP_COLUMN ? cell.FmtValue : this.data.rows[cell.y][KUP_COLUMN].FmtValue);
-      property['Отклонение %'] = this.getDeviation(cellId) * 100;
+      property['Отклонение %'] = Math.round(this.getDeviation(cellId) * 10000)/100;
 
     } catch (e) {
     }
@@ -160,7 +160,7 @@ let salesConeModel = {
     if (deviation > 0.2) {
       return '#A6CAF0';
     }
-    if (deviation < -0.2) {
+    if (deviation < -0.2 && deviation > -1) {
       return '#FFC0CB'
     }
 
