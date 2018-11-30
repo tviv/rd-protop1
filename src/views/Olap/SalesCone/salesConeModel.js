@@ -11,7 +11,10 @@ function addDays(date, days) {
 
 let GOOD_COLUMN = 0;
 let KUP_COLUMN = 2;
-let coneDaysToView =  -6;
+let coneDaysForView =  -21;
+let conedaysForDynamicCUP =  -26*7;
+
+//let coneResultMultiplier =  3;
 
 let salesConeModel = {
 
@@ -23,7 +26,7 @@ let salesConeModel = {
   filters:{
     segmentFilter: process.env.NODE_ENV === 'development' ? '[Товары].[Товары].&[135639]' : '[Товары].[Товары].&[213571]', //  '[Товары].[Товары].[All].UNKNOWNMEMBER',
     //dateFilter: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'),
-    periodFilter: {date: (process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd')), days: coneDaysToView},
+    periodFilter: {date: (process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), 0), 'yyyy-mm-dd')), days: coneDaysForView + 1},
     //shopFilter: ['[Подразделения].[Подразделение].[All]']
   },
 
@@ -108,7 +111,7 @@ let salesConeModel = {
       }
 
       property.dynamicCUPdataFilter = {...property.filter} ;
-      property.dynamicCUPdataFilter.periodFilter = {date: this.filters.periodFilter.date, days: -60};
+      property.dynamicCUPdataFilter.periodFilter = {date: this.filters.periodFilter.date, days: conedaysForDynamicCUP};
       property.goodName = good.Caption;
       property.cell = cell;
       property.КУП = (cell.x > KUP_COLUMN ? cell.FmtValue : this.data.rows[cell.y][KUP_COLUMN].FmtValue);
