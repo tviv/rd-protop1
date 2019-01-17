@@ -107,7 +107,7 @@ class SalesConeTableContainer extends Component {
       return (
         <div>
         <Row>
-          <Col ms="10"><h5 style={{position:"absolute", bottom:"0"}}>Данные по КУП за три полных недели:</h5></Col>
+          <Col ms="10"><h5 style={{position:"absolute", bottom:"0", marginBottom:"2px"}}>Данные по КУП за три полных недели:</h5></Col>
           <Col ms="1" >
             <ExcelFile element={<Button color="primary" className="float-right" filename = "Воронка продаж" ><i className="icon-cloud-download"></i></Button>}>
               <ExcelSheet dataSet={this.multiDataSet} name="Organization"/>
@@ -115,8 +115,8 @@ class SalesConeTableContainer extends Component {
           </Col>
         </Row>
           <Row>
-            <Col>
-        <DoubleScrollbar>
+            <Col className="double-scroll">
+        <DoubleScrollbar >
           <ColorTable data={this.state.data} {...this.props}/>
         </DoubleScrollbar>
             </Col>

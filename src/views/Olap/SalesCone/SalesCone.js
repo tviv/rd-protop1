@@ -17,7 +17,7 @@ class Tabs extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: process.env.NODE_ENV !== 'development' ? '1' : '1',
+      activeTab: process.env.NODE_ENV !== 'development' ? '1' : '3',
       cellProperty: {}
     };
 
