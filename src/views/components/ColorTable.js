@@ -3,7 +3,6 @@ import { Table } from 'reactstrap';
 import DoubleScrollbar from 'react-double-scrollbar';
 import model from "../Olap/SalesCone/salesConeModel";
 
-
 class ColorTable extends Component {
     state = {
       cellId: null

@@ -29,7 +29,7 @@ let salesConeModel = {
     //dateFilter: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'),
     periodFilter: {date: (process.env.NODE_ENV === 'development' ? '2018-06-11' : dateformat(addDays(new Date(), 0), 'yyyy-mm-dd')), days: coneDaysForView + 1},
     //shopFilter: ['[Подразделения].[Подразделение].[All]']
-    filterArray: [['[Товары].[Товары]', [process.env.NODE_ENV === 'development' ? '99841' : '213571']]]
+    filterArray: [['[Товары].[Товары]', [process.env.NODE_ENV === 'development' ? '99841' : '99841']]]
   },
 
 

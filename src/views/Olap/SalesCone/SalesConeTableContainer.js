@@ -49,6 +49,8 @@ class SalesConeTableContainer extends Component {
     if (this.state.data === null) {
       this.refreshData();
     }
+    console.log(this.state);
+    if (this.mRef) console.log(this.mRef);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -117,7 +119,7 @@ class SalesConeTableContainer extends Component {
           <Row>
             <Col className="double-scroll">
         <DoubleScrollbar >
-          <ColorTable data={this.state.data} {...this.props}/>
+          <ColorTable data={this.state.data} {...this.props} ref = {el=>this.mRef=el}/>
         </DoubleScrollbar>
             </Col>
           </Row>
