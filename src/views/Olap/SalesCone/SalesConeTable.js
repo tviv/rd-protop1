@@ -34,8 +34,6 @@ class SalesConeTable extends Component {
       popoverOpen: false,
       //shopFilter: model.filters.shopFilter.map((item)=>{return { value: item, label: 'ddd'}})
     }
-
-
   }
 
   toggle = () => {
@@ -44,9 +42,7 @@ class SalesConeTable extends Component {
     });
   }
 
-
   getCellId = (row, col) => "cell_" + row + '_' + col;
-
 
   refreshData = () => {
     this.setState({
@@ -150,6 +146,7 @@ class SalesConeTable extends Component {
     this.props.config.showDynamicCUP(option);
   }
 
+  //render() { return null };
 
   render() {
 
@@ -184,10 +181,7 @@ class SalesConeTable extends Component {
 
     return (
 
-
       <div className="animated fadeIn">
-
-
 
         <Row>
           <Col xs="12" lg="12">
@@ -223,7 +217,7 @@ class SalesConeTable extends Component {
                           <tr key={rowIndex}>
                             {/*<td style={styles.tableCell}>{item[0]['[Товары].[Товар].[Товар].[Код товара]']}</td>*/}
                             {row.map((col, index)=>
-                              <td id={col.cellId} className={'cell-cone ' + (this.state.cellId === col.cellId ? 'focus' : '')} style={{'background':model.getCellColor(col.cellId), ...styles.tableCell,... index >= 1 ? styles.tableCellValue : {}}} key={index} onClick={this.onCellClick} >
+                              <td id={col.cellId} className={'cell-cone ' + (this.state.cellId === col.cellId ? 'focus' : '')} style={{'background':col.background, ...styles.tableCell,... index >= 1 ? styles.tableCellValue : {}}} key={index} onClick={this.onCellClick} >
                                 {col.FmtValue ? col.FmtValue : col.Caption}
                                 </td>
                             )}

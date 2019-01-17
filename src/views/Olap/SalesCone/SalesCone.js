@@ -7,6 +7,7 @@ import SalesConeTable from "./SalesConeTable";
 import CompaireShopConesChart from "./CompaireShopConesChart";
 import TestComponent from "./TestComponent";
 import salesConeModel from "./salesConeModel";
+import SalesConeTableView from "./SalesConeTableView";
 
 
 class Tabs extends Component {
@@ -16,7 +17,7 @@ class Tabs extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1',
+      activeTab: process.env.NODE_ENV !== 'development' ? '1' : '1',
       cellProperty: {}
     };
 
@@ -80,13 +81,13 @@ class Tabs extends Component {
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
-                <SalesConeTable config = {this.tableConfig} />
+                <SalesConeTableView config = {this.tableConfig} />
               </TabPane>
               <TabPane tabId="2">
                 <CompaireShopConesChart option={this.state.cellProperty}/>
               </TabPane>
               <TabPane tabId="3">
-                <TestComponent config = {this.tableConfig} />
+                {/*<TestComponent config = {this.tableConfig} />*/}
               </TabPane>
             </TabContent>
           </Col>

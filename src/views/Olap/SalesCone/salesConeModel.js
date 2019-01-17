@@ -1,6 +1,6 @@
 'use strict'
 
-import {getJsonAnswer, getJsonFromOlapApi} from '../../../models/response-handle';
+import {getJsonFromOlapApi} from '../../../api/response-handle';
 import dateformat from 'dateformat';
 
 function addDays(date, days) {
@@ -10,7 +10,8 @@ function addDays(date, days) {
 }
 
 let GOOD_COLUMN = 0;
-let KUP_COLUMN = 2;
+let HIDDEN_COLS = [1];
+let KUP_COLUMN = 3;
 let coneDaysForView =  -21;
 let conedaysForDynamicCUP =  -26*7;
 
@@ -24,42 +25,54 @@ let salesConeModel = {
 
   filterShopOptions: {},
   filters:{
-    segmentFilter: process.env.NODE_ENV === 'development' ? '[Товары].[Товары].&[135639]' : '[Товары].[Товары].&[213571]', //  '[Товары].[Товары].[All].UNKNOWNMEMBER',
+    segmentFilter: process.env.NODE_ENV === 'development' ? '[Товары].[Товары].&[99841]' : '[Товары].[Товары].&[213571]', //  '[Товары].[Товары].[All].UNKNOWNMEMBER',
     //dateFilter: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'),
-    periodFilter: {date: (process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), 0), 'yyyy-mm-dd')), days: coneDaysForView + 1},
+    periodFilter: {date: (process.env.NODE_ENV === 'development' ? '2018-06-11' : dateformat(addDays(new Date(), 0), 'yyyy-mm-dd')), days: coneDaysForView + 1},
     //shopFilter: ['[Подразделения].[Подразделение].[All]']
+    filterArray: [['[Товары].[Товары]', [process.env.NODE_ENV === 'development' ? '99841' : '213571']]]
   },
 
-  //---------------MODEL----------------------
-  getData: function() {
+
+  //---------------MODEL VIEW----------------------
+  getData: function(filters = this.filters) {
     let model = this;
 
     return new Promise((resolve, reject) => {
 
-      getJsonFromOlapApi('/api/olap/sales-cone', model.filters).then((response) => {
-        response.data.headerColumns.forEach((x)=>{
-          x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, ''); //move names, remain only number
-        })
-
+      getJsonFromOlapApi('/api/olap/sales-cone', filters).then((response) => {
         //set cellId
-          response.data.rows.forEach((row, yInd)=> {
+        response.data.rows.forEach((row, yInd)=> {
             row.forEach((cell, xInd) => {
-              cell.cellId = `c_${xInd}_${yInd}`
-              cell.x = xInd;
-              cell.y = yInd;
-              cell.row = row;
-              cell.headerCell = response.data.headerColumns[xInd][0];
+              Object.assign(cell, {
+                cellId: `c_${xInd}_${yInd}`,
+                label: cell.FmtValue ? cell.FmtValue : cell.Caption,
+                x: xInd,
+                y: yInd,
+                row: row,
+                headerCell: response.data.headerColumns[xInd][0],
+                hidden: HIDDEN_COLS.includes(xInd)
+              });
+              cell.background = this.getBackgroundColorOfCell(cell),
               model.cellMap.set(cell.cellId, cell)
-            })
-          })
+            });
+          });
+
+        //refine header objects
+        this.convertDataToDisplay(response.data);
 
         model.data = response.data;
         resolve(model.data);
         }
       ).catch((e) => reject(e));
     });
+  },
 
-
+  convertDataToDisplay: function(data) {
+    data.headerColumns.forEach((x)=>{
+      x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, ''); //move names, remain only number
+    });
+    data.headerColumns = data.headerColumns.map((item, index) =>{return {label:item[0].Caption, hidden: HIDDEN_COLS.includes(index)}});
+    //return data;
   },
 
   getFilterOption: function(dimension) {
@@ -93,6 +106,7 @@ let salesConeModel = {
   cellMap: new Map(),
 
   getDataCellPropertyById: function (cellId)  {
+    if (!cellId) return;
     let model = this;
     let cell = this.getCellById(cellId);
 
@@ -103,21 +117,23 @@ let salesConeModel = {
 
     try {
       let good = this.data.rows[cell.y][GOOD_COLUMN];
-      let shop = this.data.headerColumns[cell.x][0];
+      let shop = cell.headerCell;
       property.filter = {
         periodFilter: this.filters.periodFilter,
         shopFilter: shop.UName && shop.UName.includes('&') > 0 ? shop.UName : this.filters.shopFilter,
         goodFilter: good.UName
-      }
+      };
+      Object.assign(property, {
+        dynamicCUPdataFilter: {...property.filter, periodFilter: {date: this.filters.periodFilter.date, days: conedaysForDynamicCUP}},
+        goodName:             good.Caption,
+        cell:                 cell,
+        КУП:                  (cell.x > KUP_COLUMN ? cell.FmtValue : this.data.rows[cell.y][KUP_COLUMN].FmtValue),
+        'Отклонение %':       Math.round(this.getDeviationOfCell(cell) * 10000)/100
+      });
 
-      property.dynamicCUPdataFilter = {...property.filter} ;
-      property.dynamicCUPdataFilter.periodFilter = {date: this.filters.periodFilter.date, days: conedaysForDynamicCUP};
-      property.goodName = good.Caption;
-      property.cell = cell;
-      property.КУП = (cell.x > KUP_COLUMN ? cell.FmtValue : this.data.rows[cell.y][KUP_COLUMN].FmtValue);
-      property['Отклонение %'] = Math.round(this.getDeviation(cellId) * 10000)/100;
 
     } catch (e) {
+      throw e;
     }
 
     //get additional values from server
@@ -129,12 +145,16 @@ let salesConeModel = {
               console.log("prop")
 
               let values = {};
-              response.data.headerColumns.forEach((x, index) => {
+              if (response.data && response.data.rows.length) {
+                response.data.headerColumns.forEach((x, index) => {
 //                console.dir(response.data.rows[0][index]);
-                values[x[0].Caption] = response.data.rows[0][index].Caption || response.data.rows[0][index].FmtValue
-              });
+                  values[x[0].Caption] = response.data.rows[0][index].Caption || response.data.rows[0][index].FmtValue
+                });
+              } else {
+                reject('no result');
+              }
 
-              console.dir(values);
+              //console.dir(values);
               resolve(values);
             }
           ).catch((e) => reject(e));
@@ -147,19 +167,28 @@ let salesConeModel = {
     return this.cellMap.get(cellId)
   },
 
-  getDeviation: function(cellId) {
-    let cell = this.getCellById(cellId);
+  // getDeviation: function(cellId) {
+  //   return  getDeviationOfCell(this.getCellById(cellId));
+  // },
+
+  getDeviationOfCell: function(cell) {
     let cellCommonCup = cell.row[KUP_COLUMN];
     let commonCUP = cellCommonCup.Value;
 
     return  (commonCUP > 0 ? ((cell.Value - commonCUP)/commonCUP).toPrecision(4) : null);
   },
 
-  getCellColor: function (cellId) {
-    let cell = this.getCellById(cellId);
-    if (cell.x < KUP_COLUMN) return;
+  // getCellColor: function (cellId) {
+  //   return this.getBackgroundColorOfCell(this.getCellById(cellId));
+  // },
 
-    let deviation =  this.getDeviation(cellId);
+  getBackgroundColorOfCell: function (cell) {
+    let res = null;
+    if (cell.row[1].Value == 'Нет') res = "#FFCC99";
+
+    if (!cell || cell.x < KUP_COLUMN) return res;
+
+    let deviation =  this.getDeviationOfCell(cell);
     if (deviation > 0.2) {
       return '#A6CAF0';
     }
@@ -167,6 +196,7 @@ let salesConeModel = {
       return '#FFC0CB'
     }
 
+    return res;
   },
 
   //now only for col to labels
@@ -194,6 +224,17 @@ let salesConeModel = {
 
     console.log(result);
     return result;
+  },
+
+  convertDataToExcelFormat: function (data) {
+    let widths = [300, 50, 50, 30];
+    //let headerRow = data.headerColumns.map((x, ind) =>{return {value: x.label, style: {font: {sz: "10"}}, width: {wpx: ind < widths.length ? widths[ind] : widths[widths.length-1]}}});
+    let res = [{
+      columns: data.headerColumns.map((x, ind) =>{return {title: x.label, style: {font: {sz: "10"}}, width: {wpx: ind < widths.length ? widths[ind] : widths[widths.length-1]}}}),
+      data: data.rows.map((row, rowIndex) =>
+          row.map((col, index)=> {return {value: (col.Value ? parseFloat(col.Value) || col.label : col.label) || '', style: {font: {sz: "10"}, fill: col.background && {patternType: "solid", fgColor: {rgb: 'FF'+col.background.replace('#','')}}}} }))
+    }];
+    return res;
   },
 
   convertFilterArrayToOptions(options, filter, onlyTrailNumbers = false) {

@@ -20,7 +20,7 @@ class LoadingWrappedView extends Component {
         <Loading loading={this.props.dataLoading} error={this.props.error}>
           <div>
           {this.props.dataSize === 0 ?
-            <div class="text-info">Нет данных по запросу</div>
+            <div className="text-info">Нет данных по запросу</div>
             :
             this.props.children}
           </div>
