@@ -91,13 +91,13 @@ class SalesConeFilter extends Component {
             <Col xs="12" lg="3">
               <FormGroup>
                 <Label htmlFor="suppl-select">Поставщики</Label>
-                <WrappedSelect name="suppl-select" hierarchyName = '[Товары].[Поставщик]' />
+                <WrappedSelect name="suppl-select" hierarchyName = '[Товары].[Поставщик]' alwaysSearch />
               </FormGroup>
             </Col>
             <Col xs="12" lg="4">
               <FormGroup>
                 <Label htmlFor="manaf-select">Производители</Label>
-                <WrappedSelect name="manaf-select" hierarchyName = '[Товары].[Производитель]' />
+                <WrappedSelect name="manaf-select" hierarchyName = '[Товары].[Производитель]' alwaysSearch />
               </FormGroup>
             </Col>
             <Col xs="12" lg="2">

@@ -31,7 +31,8 @@ class DimensionSelect extends Component {
   }
 
   setHiddenOfSearch(value) {
-    this.myRef.node.className=classnames({'hide-search':value}, this._defaultClassName);
+    if (!this.props.alwaysSearch)
+      this.myRef.node.className=classnames({'hide-search':value}, this._defaultClassName);
   }
 
   setDefaultVaules (data) {
