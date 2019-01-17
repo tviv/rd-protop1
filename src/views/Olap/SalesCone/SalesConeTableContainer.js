@@ -13,7 +13,6 @@ import {
   Button,
   Collapse,
   Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap';
-import XLSX from 'xlsx';
 import ReactExport from 'react-data-export';
 
 const ExcelFile = ReactExport.ExcelFile;
