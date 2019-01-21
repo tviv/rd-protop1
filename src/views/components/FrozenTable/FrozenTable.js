@@ -106,10 +106,6 @@ class FrozenTable extends Component {
     return (
       <div style={this.props.style}>
         <div className="sticky"  style={{zIndex:111}}>
-          <div ref = {el=>this.divTopScrollRef=el} style={{overflowX: "auto"}} onScroll={this.handleTableScroll}>
-            <div style={{height: 1, width:this.state.scrollWidth}}>
-            </div>
-          </div>
           <div style={{position:'relative'}}>
 
             <div ref = {el=>this.div1Ref=el} className="hide-scroll"  style={{overflowX: "auto", paddingLeft:this.offsetLeft}}>
@@ -132,9 +128,14 @@ class FrozenTable extends Component {
 
         <div style={{position:'relative'}}>
 
-        <div id="tv-wrap-table-div" ref = {el=>this.div2Ref=el} style={{overflowX: "auto", paddingLeft:this.offsetLeft, overflowY:'hidden', marginTop:`-${this.headerHeight}px`}} onScroll={this.handleTableScroll}>
+        <div className="hide-scroll" ref = {el=>this.div2Ref=el} style={{overflowX: "auto", paddingLeft:this.offsetLeft, overflowY:'hidden', marginTop:`-${this.headerHeight}px`}} onScroll={this.handleTableScroll}>
           {this.props.children}
         </div>
+          <div ref = {el=>this.divTopScrollRef=el} style={{overflowX: "auto", position:'sticky', bottom:0}} onScroll={this.handleTableScroll}>
+            <div style={{height: 1, width:this.state.scrollWidth}}>
+            </div>
+          </div>
+
         </div>
       </div>
     );
