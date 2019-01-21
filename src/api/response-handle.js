@@ -46,7 +46,7 @@ function getJsonFromOlapApi(relPath, body) {
           resolve(response);
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           reject('Произошла ошибка при загрузке данных')
         });
 

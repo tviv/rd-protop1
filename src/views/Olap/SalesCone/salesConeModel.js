@@ -138,12 +138,9 @@ let salesConeModel = {
 
     //get additional values from server
       property.serverValuesPromise = new Promise((resolve, reject) => {
-        console.log("prop0")
         if (!property.filter) { resolve(null); return}
 
           getJsonFromOlapApi('/api/olap/sales-cone/cell-property', property.filter).then((response) => {
-              console.log("prop")
-
               let values = {};
               if (response.data && response.data.rows.length) {
                 response.data.headerColumns.forEach((x, index) => {
@@ -221,8 +218,6 @@ let salesConeModel = {
       );
     });
 
-
-    console.log(result);
     return result;
   },
 

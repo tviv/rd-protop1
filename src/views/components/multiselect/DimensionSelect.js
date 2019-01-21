@@ -25,7 +25,7 @@ class DimensionSelect extends Component {
   }
 
   componentDidUpdate() {
-    console.log(this.myRef);
+    //console.log(this.myRef);
     this._defaultClassName = this.myRef.node.className;
     this.setHiddenOfSearch(this.props.getSelectedValues(this.props.hierarchyName) && true)
   }

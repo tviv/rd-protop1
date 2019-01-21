@@ -31,8 +31,12 @@ td.cell-cone:hover {
   padding-bottom: 80px!important;
 }
 
+.app-body{
+  overflow-x: visible; /*todo why without it sticky doesn't work*/
+}
+
 .app-body .main {
-  overflow: hidden;
+  //overflow: visible;
 }
 
 

@@ -178,7 +178,7 @@ class CompaireShopConesChart extends Component {
   }
 
   updateDimensions(){
-    console.log("Height is:"+this.state.height);
+    //console.log("Height is:"+this.state.height);
     let height= 0;
     this.setState({height:height});
   }

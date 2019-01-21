@@ -18,55 +18,47 @@ import SalesConeTableContainer from "./SalesConeTableContainer";
 import SalesConeTableView from "./SalesConeTableView";
 import SalesConeTable from "./SalesConeTable";
 
-function TestComponent ({config}) {
-  // return (
-  //   <div>
-  //     3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-  //     et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-  //     aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-  //     dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-  //     officia deserunt mollit anim id est laborum.
-  //     <Button onClick={() => { config.showDynamicCUP({
-  //       "goodFilter": "[Товары].[Товары].&[135639]",
-  //       "dateFilter": "2018-06-17",
-  //       "shopFilter": "[Подразделения].[Подразделение].&[218]" });
-  //     }}>Go</Button>
-  //
-  //   </div>
-  // )
+let colNums = 100;
+const data = {
+  headerColumns: (() => {let res = []; for (let i = 0; i < colNums; i++) { res.push(i.toString())} return res;})(),
+  rows: (() => {let res = []; for (let i = 0; i < 300; i++) { res.push([]); for (let j = 0; j < colNums; j++)  { res[i].push(j.toString())}} return res;})()
+}
 
-  const data = {
-    label: 'search me',
-    value: 'searchme',
-    children: [
-      {
-        label: 'search me too',
-        value: 'searchmetoo',
-        children: [
-          {
-            label: 'No one can get me',
-            value: 'anonymous'
-          }
-        ]
-      }
-    ]
+class TestComponent extends Component{
+  componentDidUpdate() {
+    console.log(this.myRef);
   }
 
 
+
+render() {
   return (
-    <div>
-    <Row>
-      <Col xs="12" lg="12">
-        <FormGroup>
-          <SalesConeTable config = {config} />
-        </FormGroup>
-      </Col>
-    </Row>
-      <Row>
-      </Row>
+    <div style={{overflowX: "auto"}}>
+      <Table ref={el => this.myRef = el} bordered className="table-sm">
+        <thead>
+        <tr>
+          {data.headerColumns.map((item, index) =>
+            <th key={index}>{item}</th>
+          )}
+        </tr>
+        </thead>
+
+        <tbody>
+        {data.rows.map((row, rowIndex) =>
+          <tr key={rowIndex}>
+            {row.map((col, index) =>
+              <td key={`cell${rowIndex}_${index}`}>
+                {col}
+              </td>
+            )}
+          </tr>
+        )}
+        </tbody>
+      </Table>
     </div>
 
   )
+}
 }
 
 export default TestComponent;

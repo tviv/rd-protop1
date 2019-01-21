@@ -26,7 +26,8 @@ class SalesConeTableView extends Component {
   }
 
   handleCellClick = (cellId) => {
-    console.log(cellId);
+    //console.log(cellId);
+    if(model.getCellById(cellId).x < 2) return; //todo temp decision, because absolute position brakes down
     this.setState ({
       popoverOpen: this.state.cellId === cellId ? !this.state.popoverOpen : true,
       cellId: cellId
@@ -56,7 +57,7 @@ render() {
       <Row>
         <Col xs="12" lg="12">
           <FormGroup>
-            <SalesConeFilter onChange={this.handleChangeFilter} defaultValues={this.defaultValues}/>
+            <SalesConeFilter onChange={this.handleChangeFilter} defaultValues={this.defaultValues} style = {{position:"relative", zIndex: 300}}/>
             <SalesConeTableContainer filters={this.state.filters} onCellClick={this.handleCellClick} cellId = {this.state.cellId}/>
             <CellPropertyWindow property={{cellId: this.state.cellId,...model.getDataCellPropertyById(this.state.cellId), onDynamicClick: this.onDynamicClick}} isOpen={this.state.popoverOpen} toggle={this.handlePopupWindowToggle}  />
           </FormGroup>

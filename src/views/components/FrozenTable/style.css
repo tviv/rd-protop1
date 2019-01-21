@@ -1,0 +1,35 @@
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 55px;
+  background-color: #fff;
+
+}
+
+
+.hide-scroll::-webkit-scrollbar {
+  height: 0 !important;
+}
+
+.frozen-col {
+  position:absolute ;
+  left:0;
+  top:0px;
+  /*width: 109px;*/
+  background: white;
+  border-top-width:2px;
+  /*margin-top:0px; !*compensate for top border*!*/
+}
+
+.frozen-col-temp {
+  top:auto;
+  border-top-width:0.5px; /*only relevant for first row*/
+  margin-top:-0.5px; /*compensate for top border*/
+}
+.table-bordered {
+  /*margin-left: 109px;*/
+}
+
+.hide-table-header > thead {
+  display: none;
+}

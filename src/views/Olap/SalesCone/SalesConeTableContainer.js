@@ -14,6 +14,7 @@ import {
   Collapse,
   Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap';
 import ReactExport from 'react-data-export';
+import FrozenTable from "../../components/FrozenTable/FrozenTable";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -49,8 +50,8 @@ class SalesConeTableContainer extends Component {
     if (this.state.data === null) {
       this.refreshData();
     }
-    console.log(this.state);
-    if (this.mRef) console.log(this.mRef);
+    //console.log(this.state);
+    //if (this.refs.table) {console.log(this.refs.table); this.refs.table.focus();}
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -74,6 +75,7 @@ class SalesConeTableContainer extends Component {
       }
       this.reqId = model.getData(this.props.filters).then((data) => {
         this.reqId = null;
+        //this.mRef.focus();
         this.multiDataSet = this.getDownloadData(data);
         this.setState({
           loading: false,
@@ -117,10 +119,12 @@ class SalesConeTableContainer extends Component {
           </Col>
         </Row>
           <Row>
-            <Col className="double-scroll">
-        <DoubleScrollbar >
-          <ColorTable data={this.state.data} {...this.props} ref = {el=>this.mRef=el}/>
-        </DoubleScrollbar>
+            <Col className="cccdouble-scroll" style={{paddingTop:4}}>
+        {/*<DoubleScrollbar >*/}
+          <FrozenTable>
+          <ColorTable data={this.state.data} {...this.props}  />
+          </FrozenTable>
+        {/*</DoubleScrollbar>*/}
             </Col>
           </Row>
         </div>

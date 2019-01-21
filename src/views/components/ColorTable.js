@@ -22,7 +22,7 @@ class ColorTable extends Component {
   render () {
 
     return (
-        <Table bordered className="table-bordered table-sm">
+        <table className="table table-bordered table-sm">
           <thead>
           <tr>
             {this.props.data.headerColumns.filter(x=>!x.hidden).map((item, index) =>
@@ -42,7 +42,7 @@ class ColorTable extends Component {
             </tr>
           )}
           </tbody>
-        </Table>
+        </table>
     )
 
   }

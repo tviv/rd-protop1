@@ -51,7 +51,7 @@ class SalesConeFilter extends Component {
   render() {
     let WrappedSelect = this.WrappedSelect;
     return  (
-      <div>
+      <div style={this.props.style}>
         <div>
           <div className="card-header-actions">
             <a className="card-header-action btn btn-minimize" data-target="#collapseExample" onClick={this.toggleHide}><i className={!this.state.collapse ? "icon-arrow-up" : "icon-arrow-down"}></i></a>

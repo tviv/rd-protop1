@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class LoadingWrappedView extends Component {
 
   componentDidMount () {
-    console.log(this.refs);
+    //console.log(this.refs);
     this.refs.table.focus();
 
   }
