@@ -19,6 +19,8 @@ import FrozenTable from "../../components/FrozenTable/FrozenTable";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
+const EventTypes = {LOADING: 1, ERROR:2, NO_DATA:3, FILTER_ERROR:4};
+
 class SalesConeTableContainer extends Component {
   constructor(props) {
     super(props);
@@ -58,10 +60,17 @@ class SalesConeTableContainer extends Component {
     if (props.filters !== state.filters) {
       return {
         data: null,
-        filters: props.filters,
+        filters: SalesConeTableContainer.checkFilters(props.filters) ? props.filters : null,
       };
     }
     return null;
+  }
+
+  //todo move to filter block
+  static checkFilters (filters) {
+    let vals = (new Map(filters.filterArray)).get('[Товары].[Товары]');
+    return (vals && vals.length > 0 && !vals.includes('0'));
+
   }
 
   refreshData () {
@@ -73,6 +82,7 @@ class SalesConeTableContainer extends Component {
         this.reqId.cancel;
         this.reqId = null;
       }
+      if (!this.state.filters) return; //todo move into the filter block
       this.reqId = model.getData(this.props.filters).then((data) => {
         this.reqId = null;
         //this.mRef.focus();
@@ -99,14 +109,53 @@ class SalesConeTableContainer extends Component {
   };
 
 
+  getMessageBox = (eventType, t_text) => {
+    let icn, text;
+    switch (eventType) {
+      case EventTypes.LOADING:
+        icn =
+           <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>;
+          text = <h6>Загрузка...</h6>;
+        break;
+
+      case EventTypes.ERROR:
+        icn = <i className="fa fa-cogs text-danger fa-3x" />
+        text = <span className="text-danger">{`Ошибка: ${t_text}`}</span>;
+        break;
+
+      case EventTypes.NO_DATA:
+        icn = <i className="fa fa-frown-o text-info fa-3x" />
+        text = <span className="text-info">Нет данных по запросу</span>;
+        break;
+
+      case EventTypes.FILTER_ERROR:
+        icn = <i className="fa fa-frown-o text-danger fa-3x" />
+        text = <span className="text-danger">Нет ограничения по сегменту/категории</span>;
+        break;
+    }
+
+      let res =
+        <Row className="text-center" style={{height:'400px'}}>
+        <Col style={{top:'25%'}}>
+          {icn}<br /> {text}
+        </Col>
+        </Row>;
+
+      return res;
+  }
+
 
   render () {
-    if (this.state.data === null) {
-     return <div  style={{minHeight:'400px'}}>Загрузка...</div>
+    if (!this.state.filters) {
+      return this.getMessageBox(EventTypes.FILTER_ERROR);
+    } else if (this.state.data === null) {
+      return this.getMessageBox(EventTypes.LOADING);
     } else if (typeof this.state.data === 'string') {
-      return <div  style={{minHeight:'400px'}} className="text-danger">Ошибка: {this.state.data}</div>;
+      return this.getMessageBox(EventTypes.ERROR, this.state.data);
     } else if ((this.state.data.rows ? this.state.data.rows.length : 0) === 0) {
-      return <div style={{minHeight:'400px'}} className="text-info">Нет данных по запросу</div>;
+      return this.getMessageBox(EventTypes.NO_DATA);
     } else
       return (
         <div>
