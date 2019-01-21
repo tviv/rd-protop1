@@ -6,7 +6,7 @@ class FrozenTable extends Component {
 
 
   state = {colNumbers: 0};
-
+  offsetLeft = 0;
   // componentDidMount() {
   //     console.dir(this.table2Ref);
   // }
@@ -55,8 +55,8 @@ class FrozenTable extends Component {
     //   return;
     // }
 
-    if (this.state.colNumbers) {
-      this.table1Ref.width = this.table2Ref.offsetWidth;
+    if (this.state.colNumbers || true) {
+      this.table1Ref.width = this.table2Ref.offsetWidth + 1; //todo
       let cells1 = this.table1Ref.rows[0].cells;
       let cells2 = this.table2Ref.rows[0].cells;
       //this.table1Ref.rows = this.table2Ref.rows;
@@ -76,7 +76,8 @@ class FrozenTable extends Component {
         cells1[i].height = this.headerHeight;
 
       }
-      cells1[0].height = this.headerHeight + 1; //todo remove hard code
+      cells1[0].height = this.headerHeight + 3; //todo remove hard code
+      //cells1[0].width = this.col1Width + 1; //todo remove hard code
 
       if (!this.state.scrollWidth)
         this.setState({scrollWidth: this.table2Ref.offsetWidth + this.offsetLeft});
@@ -112,11 +113,11 @@ class FrozenTable extends Component {
           <div style={{position:'relative'}}>
 
             <div ref = {el=>this.div1Ref=el} className="hide-scroll"  style={{overflowX: "auto", paddingLeft:this.offsetLeft}}>
-              <table ref={el => this.table1Ref = el} className="table-bordered table-sm" style={{tablfeLayout: 'fixed'}}>
+              <table ref={el => this.table1Ref = el} className="table-bordered table-sm" style={{tableLayout: 'fixed'}}>
                 <thead>
-                <tr>
+                <tr style={{display:'block'}}>
                   {this.getArray().map((item, index) =>
-                    <th key={'c11_'+index} style={{...index === 0 ? {width: this.col1Width}: {}}} className={index === 0 ? "frozen-col" : ""}>{item}</th>
+                    <th key={'c11_'+index}  className={index === 0 ? "frozen-col" : ""}>{item}</th>
                   )}
                 </tr>
 

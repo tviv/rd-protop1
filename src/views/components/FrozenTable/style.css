@@ -17,14 +17,17 @@ div.sticky {
   top:0px;
   /*width: 109px;*/
   background: white;
-  border-top-width:2px;
+  border-top-width:2px !important;
+  border-right-width:2px !important;
+  border-bottom-width:3px !important;
   /*margin-top:0px; !*compensate for top border*!*/
 }
 
 .frozen-col-temp {
   top:auto;
-  border-top-width:0.5px; /*only relevant for first row*/
+  border-top-width:0.5px !important;; /*only relevant for first row*/
   margin-top:-0.5px; /*compensate for top border*/
+  border-right-width:2px !important;;
 }
 .table-bordered {
   /*margin-left: 109px;*/

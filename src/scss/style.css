@@ -10546,8 +10546,9 @@ td.cell-cone:hover {
   height: 100%;
   padding-bottom: 80px !important; }
 
-.app-body .main {
-  overflow: hidden; }
+.app-body {
+  overflow-x: visible;
+  /*todo why without it sticky doesn't work*/ }
 
 .react-select__control {
   background-color: white !important;
