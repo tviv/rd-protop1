@@ -33,6 +33,7 @@ class SalesConeFilter extends Component {
 
   //todo temp decision (redo to jeneral conception) - into array of filters
   handleDateChange = (event) => {
+    model.filters.periodFilter.date = event.target.value;
     if (this.props.onChange) {
       this.props.onChange();
     }
