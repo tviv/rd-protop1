@@ -116,7 +116,7 @@ let salesConeModel = {
     let property = {};
 
    // if (!cell) return property;
-
+   if (this.data.rows.length === 0) return property; //todo why we enter here when table empty (before we watch property window).
     try {
       let good = this.data.rows[cell.y][GOOD_COLUMN];
       let shop = cell.headerCell;

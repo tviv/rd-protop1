@@ -79,9 +79,11 @@ class DropdownTreeSelect extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const tree = this.createList(nextProps.data, nextProps.simpleSelect, nextProps.showPartiallySelected)
-    const tags = this.treeManager.getTags()
-    this.setState({ tree, tags})
+    if (this.props.data !== nextProps.data) { //tvv temp
+      const tree = this.createList(nextProps.data, nextProps.simpleSelect, nextProps.showPartiallySelected)
+      const tags = this.treeManager.getTags()
+      this.setState({tree, tags})
+    }
     if (this.state.showDropdown != !nextProps.forceCloseDropDown && this.state.showDropdown) this.handleClick(); //tvv
   }
 

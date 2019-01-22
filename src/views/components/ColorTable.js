@@ -25,14 +25,14 @@ class ColorTable extends Component {
         <table className="table table-bordered table-sm">
           <thead>
           <tr>
-            {this.props.data.headerColumns.filter(x=>!x.hidden).map((item, index) =>
+            {this.props.data && this.props.data.headerColumns.filter(x=>!x.hidden).map((item, index) =>
               <th key={index}>{item.label}</th>
             )}
           </tr>
           </thead>
 
           <tbody>
-          {this.props.data.rows.map((row, rowIndex) =>
+          {this.props.data && this.props.data.rows.map((row, rowIndex) =>
             <tr key={rowIndex}>
               {row.filter(x=>!x.hidden).map((col, index)=>
                 <td id={col.cellId} className={'cell-cone ' + (this.props.cellId === col.cellId ? 'focus' : '')} style={{'background':col.background, ...styles.tableCell,... index >= 1 ? styles.tableCellValue : {}}} key={index} onClick={this.handleCellClick} >

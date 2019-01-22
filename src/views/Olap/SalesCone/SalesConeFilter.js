@@ -86,7 +86,7 @@ class SalesConeFilter extends Component {
             <Col xs="12" lg="3">
               <FormGroup>
                 <Label htmlFor="feature-select">Признаки номеклатуры</Label>
-                <WrappedSelect name="feature-select" hierarchyName = '[Категории].[Категории]' />
+                <WrappedSelect name="feature-select" hierarchyName = '[Признаки товара].[Категории]' />
               </FormGroup>
             </Col>
             <Col xs="12" lg="3">

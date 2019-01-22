@@ -46,6 +46,11 @@ class SalesConeTableContainer extends Component {
   componentDidMount () {
     this.refreshData();
     this.delayInterval = 3000;
+    window.addEventListener("resize", this.handleResize); //todo temp
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.handleResize);
   }
 
   // componentWillReceiveProps(props) {
@@ -58,6 +63,10 @@ class SalesConeTableContainer extends Component {
   // }
 
   componentDidUpdate(prevProps, prevState) {
+    if (this.state.refresh) {
+      this.setState({refresh: false});
+      return;
+    }
     if (this.state.data === null) {
       this.refreshData();
     }
@@ -73,6 +82,10 @@ class SalesConeTableContainer extends Component {
       };
     }
     return null;
+  }
+
+  handleResize = () => { //todo move to FrozenTable
+    this.setState({refresh: true});
   }
 
   //todo move to filter block
@@ -157,7 +170,10 @@ class SalesConeTableContainer extends Component {
 
 
   render () {
-    if (!this.state.filters) {
+
+    if (this.state.refresh) {
+      return this.getMessageBox(EventTypes.LOADING);
+    } else if (!this.state.filters) {
       return this.getMessageBox(EventTypes.FILTER_ERROR);
     } else if (this.state.data === null) {
       return this.getMessageBox(EventTypes.LOADING);
@@ -179,9 +195,9 @@ class SalesConeTableContainer extends Component {
           <Row>
             <Col className="cccdouble-scroll" style={{paddingTop:4}}>
         {/*<DoubleScrollbar >*/}
-          <FrozenTable>
-          <ColorTable data={this.state.data} {...this.props}  />
-          </FrozenTable>
+              <FrozenTable>
+                <ColorTable data={this.state.data} {...this.props}  />
+              </FrozenTable>;
         {/*</DoubleScrollbar>*/}
             </Col>
           </Row>

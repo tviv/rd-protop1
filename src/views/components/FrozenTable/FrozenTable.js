@@ -13,30 +13,42 @@ class FrozenTable extends Component {
 
   componentDidMount() {
     //console.dir(this.table2Ref);
-    window.addEventListener("resize", this.handleResize);
-    this.table2Ref = this.div2Ref.children[0];
+    this.table2Ref = this.table2Ref || this.div2Ref.children[0];
     if (this.table2Ref.rows.length >= 2) { //head and at least one data row
       //this.table1Ref.width = this.table2Ref.offsetWidth;
       let cells2 = this.table2Ref.rows[0].cells;
-      this.col1Width = this.table2Ref.rows[1].cells[0].offsetWidth; //todo for the furture will be array via props - what are cols frozen
-      this.offsetLeft = this.col1Width;
+      if (this.state.colNumbers !== cells2.length || true) {
+        this.col1Width = this.table2Ref.rows[1].cells[0].offsetWidth; //todo for the furture will be array via props - what are cols frozen
+        this.offsetLeft = this.col1Width;
 
-      for(let i = 0; i < this.table2Ref.rows.length; ++i) {
-        this.table2Ref.rows[i].cells[0].classList.add('frozen-col');
-        this.table2Ref.rows[i].cells[0].classList.add('frozen-col-temp');
+        for (let i = 0; i < this.table2Ref.rows.length; ++i) {
+          this.table2Ref.rows[i].cells[0].classList.add('frozen-col');
+          this.table2Ref.rows[i].cells[0].classList.add('frozen-col-temp');
+        }
+
+        this.headerHeight = cells2[1].offsetHeight;
+        this.tableWidth = this.table2Ref.offsetWidth;
+        //this.table2Ref.classList.add('hide-table-header');
+
+        this.setState({colNumbers: cells2.length});
       }
-
-      this.headerHeight = cells2[1].offsetHeight;
-      //this.tableWidth = this.table2Ref.offsetWidth;
-      //this.table2Ref.classList.add('hide-table-header');
-
-      this.setState({colNumbers: cells2.length});
     }
+
+
+    //window.addEventListener("resize", this.handleResize);
+  }
+
+  initIfNeeded() {
+
+  }
+
+  componentWillReceiveProps(nextProps) {
   }
 
   componentDidUpdate() {
-    //console.log('update');
-    this.table2Ref = this.table2Ref || this.div2Ref.children[0];
+    this.initIfNeeded();
+    if (!this.table2Ref.rows[0].cells[0]) return;
+    //this.table2Ref = this.table2Ref || this.div2Ref.children[0];
 
     // if (this.state.tableWidth) {
     //   if (this.state.tableWidth != this.table2Ref.offsetWidth) {
@@ -56,7 +68,7 @@ class FrozenTable extends Component {
     //   return;
     // }
 
-    if (this.state.colNumbers || true) {
+    if (this.state.colNumbers) {
       this.table1Ref.width = this.table2Ref.offsetWidth + 1; //todo
       let cells1 = this.table1Ref.rows[0].cells;
       let cells2 = this.table2Ref.rows[0].cells;
@@ -89,9 +101,10 @@ class FrozenTable extends Component {
     }
   }
 
-  handleResize = () => {
-    this.setState({winWidth: window.innerWidth});
-  }
+
+  // handleResize = () => {
+  //   this.setState({winWidth: window.innerWidth});
+  // }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize);
