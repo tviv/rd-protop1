@@ -13,6 +13,7 @@ class FrozenTable extends Component {
 
   componentDidMount() {
     //console.dir(this.table2Ref);
+    window.addEventListener("resize", this.handleResize);
     this.table2Ref = this.div2Ref.children[0];
     if (this.table2Ref.rows.length >= 2) { //head and at least one data row
       //this.table1Ref.width = this.table2Ref.offsetWidth;
@@ -35,7 +36,7 @@ class FrozenTable extends Component {
 
   componentDidUpdate() {
     //console.log('update');
-    this.table2Ref = this.div2Ref.children[0];
+    this.table2Ref = this.table2Ref || this.div2Ref.children[0];
 
     // if (this.state.tableWidth) {
     //   if (this.state.tableWidth != this.table2Ref.offsetWidth) {
@@ -64,8 +65,12 @@ class FrozenTable extends Component {
 
       for (let i = 0; i < cells2.length; ++i) {
         //Object.assign(cells1[i], cells2[i]);
-        cells1[i].textContent = cells2[i].textContent;
-        cells1[i].width = this.table2Ref.rows[1].cells[i].offsetWidth;
+        try {
+          cells1[i].textContent = cells2[i].textContent;
+          cells1[i].width = this.table2Ref.rows[1].cells[i].offsetWidth;
+        } catch (e) {
+            console.log(e);
+        }
       }
 
       for(let i = 0; i < this.table2Ref.rows.length; ++i) {
@@ -84,6 +89,13 @@ class FrozenTable extends Component {
     }
   }
 
+  handleResize = () => {
+    this.setState({winWidth: window.innerWidth});
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.handleResize);
+  }
 
   handleTableScroll = (e) => {
     this.div1Ref.scrollLeft = e.nativeEvent.target.scrollLeft ;

@@ -22,7 +22,9 @@ class SalesConeTableView extends Component {
     if (filterMap) {
       model.filters.filterArray = filterMap instanceof Map ? Array.from(filterMap.entries()) : filterMap;
     }
-    this.setState({filters: Object.assign({},model.filters)}); //to recognise that child component table must be update
+    this.setState({
+      filters: Object.assign({},model.filters), //to recognise that child component table must be update
+      stopFilterSelection: false});
   }
 
   handleCellClick = (cellId) => {
@@ -50,6 +52,10 @@ class SalesConeTableView extends Component {
     });
   }
 
+  handleRefreshTable = () => {
+    this.setState({stopFilterSelection: true});
+  }
+
 
 render() {
   return (
@@ -57,8 +63,8 @@ render() {
       <Row>
         <Col xs="12" lg="12">
           <FormGroup>
-            <SalesConeFilter onChange={this.handleChangeFilter} defaultValues={this.defaultValues} style = {{position:"relative", zIndex: 300}}/>
-            <SalesConeTableContainer filters={this.state.filters} onCellClick={this.handleCellClick} cellId = {this.state.cellId}/>
+            <SalesConeFilter onChange={this.handleChangeFilter} defaultValues={this.defaultValues} style = {{position:"relative", zIndex: 300}} stopFilterSelection = {this.state.stopFilterSelection}/>
+            <SalesConeTableContainer filters={this.state.filters} onCellClick={this.handleCellClick} cellId = {this.state.cellId} onRefresh={this.handleRefreshTable}/>
             <CellPropertyWindow property={{cellId: this.state.cellId,...model.getDataCellPropertyById(this.state.cellId), onDynamicClick: this.onDynamicClick}} isOpen={this.state.popoverOpen} toggle={this.handlePopupWindowToggle}  />
           </FormGroup>
         </Col>

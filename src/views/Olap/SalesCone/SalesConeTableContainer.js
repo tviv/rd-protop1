@@ -15,6 +15,7 @@ import {
   Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap';
 import ReactExport from 'react-data-export';
 import FrozenTable from "../../components/FrozenTable/FrozenTable";
+import PropTypes from "prop-types";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -22,6 +23,14 @@ const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const EventTypes = {LOADING: 1, ERROR:2, NO_DATA:3, FILTER_ERROR:4};
 
 class SalesConeTableContainer extends Component {
+  static propTypes = {
+    onRefresh: PropTypes.func,
+  }
+
+  static defaultProps = {
+    onRefresh: () => {}
+  }
+
   constructor(props) {
     super(props);
 
@@ -98,7 +107,7 @@ class SalesConeTableContainer extends Component {
           this.setState({
             data: err
           });
-        });
+        }).finally(()=>this.props.onRefresh());
     }, this.delayInterval);
   }
 

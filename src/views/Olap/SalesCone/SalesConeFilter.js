@@ -44,7 +44,7 @@ class SalesConeFilter extends Component {
   }
 
   wrappedFilterElement = WrappedComponent => {
-    return props => <WrappedComponent  {...props} onChange={this.handleChange} getSelectedValues={hName=>this.props.defaultValues.get(hName)}/>;
+    return props => <WrappedComponent  {...props} onChange={this.handleChange} getSelectedValues={hName=>this.props.defaultValues.get(hName)} forceCloseDropDown = {this.props.stopFilterSelection}/>;
   };
 
   WrappedSelect = this.wrappedFilterElement(DimensionSelect);
