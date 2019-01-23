@@ -133,7 +133,7 @@ class FrozenTable extends Component {
         <div className="sticky"  style={{zIndex:111}}>
           <div style={{position:'relative'}}>
 
-            <div ref = {el=>this.div1Ref=el} className="hide-scroll"  style={{overflowX: "auto", paddingLeft:this.offsetLeft}}>
+            <div ref = {el=>this.div1Ref=el} style={{overflowX: "hidden", paddingLeft:this.offsetLeft}}>
               <table ref={el => this.table1Ref = el} className="table-bordered table-sm" style={{tableLayout: 'fixed'}}>
                 <thead>
                 <tr style={{display:'block'}}>

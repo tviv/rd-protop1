@@ -107,6 +107,7 @@ class SalesConeTableContainer extends Component {
       if (!this.state.filters) return; //todo move into the filter block
       this.reqId = model.getData(this.props.filters).then((data) => {
         this.reqId = null;
+        this.props.onRefresh();
         //this.mRef.focus();
         this.multiDataSet = this.getDownloadData(data);
         this.setState({
@@ -117,10 +118,11 @@ class SalesConeTableContainer extends Component {
       })
         .catch((err) => {
           this.reqId = null;
+          this.props.onRefresh();
           this.setState({
             data: err
           });
-        }).finally(()=>this.props.onRefresh());
+        });
     }, this.delayInterval);
   }
 
