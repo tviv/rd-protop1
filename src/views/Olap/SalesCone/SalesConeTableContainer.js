@@ -195,11 +195,11 @@ class SalesConeTableContainer extends Component {
           </Col>
         </Row>
           <Row>
-            <Col className="cccdouble-scroll" style={{paddingTop:4}}>
+            <Col style={{paddingTop:4}}>
         {/*<DoubleScrollbar >*/}
               <FrozenTable>
                 <ColorTable data={this.state.data} {...this.props}  />
-              </FrozenTable>;
+              </FrozenTable>
         {/*</DoubleScrollbar>*/}
             </Col>
           </Row>
