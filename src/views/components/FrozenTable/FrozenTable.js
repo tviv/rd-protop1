@@ -153,7 +153,7 @@ class FrozenTable extends Component {
 
         <div style={{position:'relative'}}>
 
-          <div className="hide-scroll" ref = {el=>this.div2Ref=el} style={{overflowX: "hidden", paddingLeft:this.offsetLeft, overflowY:'hidden', marginTop:`-${this.headerHeight}px`}} onScroll={this.handleTableScroll}>
+          <div className="hide-scroll" ref = {el=>this.div2Ref=el} style={{overflowX: "auto", paddingLeft:this.offsetLeft, overflowY:'hidden', marginTop:`-${this.headerHeight}px`}} onScroll={this.handleTableScroll}>
             {this.props.children}
           </div>
           <div ref = {el=>this.divTopScrollRef=el} style={{overflowX: "auto", position:'sticky', bottom:0}} onScroll={this.handleTableScroll}>

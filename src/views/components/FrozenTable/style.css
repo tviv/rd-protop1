@@ -6,6 +6,14 @@ div.sticky {
 
 }
 
+.hide-scroll {
+  -ms-overflow-style: none;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  height: 0 !important;
+}
+
 .frozen-col {
   position:absolute ;
   left:0;
