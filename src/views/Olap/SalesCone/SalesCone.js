@@ -10,6 +10,7 @@ import salesConeModel from "./salesConeModel";
 import SalesConeTableView from "./SalesConeTableView";
 
 
+
 class Tabs extends Component {
 
   constructor(props) {

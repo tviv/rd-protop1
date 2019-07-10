@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DropdownTreeSelect from '../../../outer/DropdownTreeSelect'
-//import 'react-dropdown-tree-select/dist/styles.css'
+import 'react-dropdown-tree-select/dist/styles.css'
 import './style.css'
 import {getJsonFromOlapApi} from "../../../api/response-handle";
 import classnames from "classnames";

@@ -12,7 +12,7 @@ class FrozenTable extends Component {
   // }
 
   componentDidMount() {
-    //console.dir(this.table2Ref);
+    console.dir(this.table2Ref);
     this.table2Ref = this.table2Ref || this.div2Ref.children[0];
     if (this.table2Ref.rows.length >= 2) { //head and at least one data row
       //this.table1Ref.width = this.table2Ref.offsetWidth;
