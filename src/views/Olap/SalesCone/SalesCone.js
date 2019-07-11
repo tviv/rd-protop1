@@ -47,7 +47,7 @@ class Tabs extends Component {
 
   render() {
     return (
-      <div className="animated fadeIn" ref="myContainer">
+      <div className="animated fadeIn">
         <Row>
           <Col xs="12" md="12">
             <Nav tabs>

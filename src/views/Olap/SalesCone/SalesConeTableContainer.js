@@ -90,10 +90,19 @@ class SalesConeTableContainer extends Component {
 
   //todo move to filter block
   static checkFilters (filters) {
-    let vals = (new Map(filters.filterArray)).get('[Товары].[Товары]');
-    return (vals && vals.length > 0 && !vals.includes('0'));
-
+    let res = false;
+    return res
+      || SalesConeTableContainer.checkFilter(filters, '[Товары].[Товары]')
+      || SalesConeTableContainer.checkFilter(filters, '[Товары].[Поставщик]')
+      || SalesConeTableContainer.checkFilter(filters, '[Товары].[Производитель]')
+      || SalesConeTableContainer.checkFilter(filters, '[Признаки товара].[Категории]');
   }
+
+  static checkFilter (filters, filterName) {
+    let vals = (new Map(filters.filterArray)).get(filterName);
+    return (vals && vals.length > 0 && !vals.includes('0'));
+  }
+
 
   refreshData () {
     if (this.timeout) clearTimeout(this.timeout);
@@ -101,7 +110,7 @@ class SalesConeTableContainer extends Component {
       this.timeout = null;
       this.multiDataSet = null;
       if (this.reqId) {
-        this.reqId.cancel;
+        this.reqId.cancel();
         this.reqId = null;
       }
       if (!this.state.filters) return; //todo move into the filter block
@@ -156,7 +165,7 @@ class SalesConeTableContainer extends Component {
 
       case EventTypes.FILTER_ERROR:
         icn = <i className="fa fa-frown-o text-danger fa-3x" />
-        text = <span className="text-danger">Нет ограничения по сегменту/категории</span>;
+        text = <span className="text-danger">Не заполнен ни один из основных фильтров</span>;
         break;
     }
 

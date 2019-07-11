@@ -77,7 +77,7 @@ class SalesConeFilter extends Component {
             </Col>
             <Col xs="12" lg="6">
               <FormGroup>
-                <Label htmlFor="good-select">Категории (обязательно)</Label>
+                <Label htmlFor="good-select">Категории</Label>
                 <WrappedSelect name="good-select" hierarchyName = '[Товары].[Товары]' maxLevel="3" />
               </FormGroup>
             </Col>
