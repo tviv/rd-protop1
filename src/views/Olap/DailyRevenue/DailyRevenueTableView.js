@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Card, CardHeader, CardBody, Col, Nav, NavItem, NavLink, Row, FormGroup, TabPane, Button } from 'reactstrap';
-import ColorTable from "../../../views/components/ColorTable";
+import ColorTable from "../../components/ColorTable/ColorTable";
 import FrozenTable from "../../components/FrozenTable/FrozenTable";
 
 import model from "./dailyRevenueModel";
@@ -40,8 +40,8 @@ class DailyRevenueTableView extends Component {
   render() {
     return (
       <div>
-              <DailyRevenueFilter onChange={this.handleChangeFilter} defaultValues={this.defaultValues} style = {{position:"relative", zIndex: 300}} stopFilterSelection = {this.state.stopFilterSelection}/>
-              <DailyRevenueTableContainer filters={this.state.filters} onCellClick={this.handleCellClick} cellId = {this.state.cellId} onRefresh={this.handleRefreshTable}/>
+        <DailyRevenueFilter onChange={this.handleChangeFilter} defaultValues={this.defaultValues} style = {{position:"relative", zIndex: 300}} stopFilterSelection = {this.state.stopFilterSelection}/>
+        <DailyRevenueTableContainer filters={this.state.filters} onCellClick={this.handleCellClick} cellId = {this.state.cellId} onRefresh={this.handleRefreshTable}/>
       </div>
 
     )

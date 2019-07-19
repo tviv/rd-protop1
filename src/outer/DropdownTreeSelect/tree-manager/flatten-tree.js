@@ -146,7 +146,7 @@ function walkNodes({ nodes, list = new Map(), parent, depth = 0, simple, showPar
     setInitialStateProps(node, parent)
 
     list.set(node._id, node)
-    if (!simple && node.children) {
+    if (node.children) { //tvv simple and tree was !simple && node.children
       node._children = []
       walkNodes({
         nodes: node.children,

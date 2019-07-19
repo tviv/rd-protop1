@@ -105,6 +105,7 @@ class TreeManager {
   }
 
   togglePreviousChecked(id) {
+    console.log('curr', this.currentChecked)
     const prevChecked = this.currentChecked
 
     // if id is same as previously selected node, then do nothing (since it's state is already set correctly by setNodeCheckedState)
@@ -113,6 +114,14 @@ class TreeManager {
 
     this.currentChecked = id
   }
+
+
+  //tvv, error if simple \/
+  setCurrentId(id) {
+    this.currentChecked = id
+  }
+  //tvv /\
+
 
   setNodeCheckedState(id, checked) {
     const node = this.getNodeById(id)

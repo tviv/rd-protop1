@@ -2,6 +2,7 @@
 
 import {getJsonFromOlapApi} from '../../../api/response-handle';
 import dateformat from 'dateformat';
+import olapModelView from "../OlapComponents/olapModelView";
 
 function addDays(date, days) {
   var result = new Date(date);
@@ -9,25 +10,28 @@ function addDays(date, days) {
   return result;
 }
 
-let GOOD_COLUMN = 0;
-let HIDDEN_COLS = [1];
-let KUP_COLUMN = 3;
-let coneDaysForView =  -21;
-let conedaysForDynamicCUP =  -26*7;
+const GOOD_COLUMN = 0;
+const KUP_COLUMN = 3;
+const CONE_DAYS_FOR_VIEW = -21;
+const CONE_DAYS_FOR_DYNAMIC_CUP = -26*7;
 
 //let coneResultMultiplier =  3;
 
-let salesConeModel = {
+let salesConeModel = Object.assign(Object.create(olapModelView), {
 
+  MAIN_URL: '/api/olap/sales-cone',
+  HIDDEN_COLS: [1],
+  EXCELCOLWIDTHS: [300, 50, 50, 30],
+
+  _super: olapModelView,
 
   data : {},
   dynamicCUPdata : {},
 
-  filterShopOptions: {},
   filters:{
     segmentFilter: process.env.NODE_ENV === 'development' ? '[Товары].[Товары].&[99841]' : '[Товары].[Товары].&[213571]', //  '[Товары].[Товары].[All].UNKNOWNMEMBER',
     //dateFilter: process.env.NODE_ENV === 'development' ? '2018-06-17' : dateformat(addDays(new Date(), - 1), 'yyyy-mm-dd'),
-    periodFilter: {date: (process.env.NODE_ENV === 'development' ? '2018-06-11' : dateformat(addDays(new Date(), 0), 'yyyy-mm-dd')), days: coneDaysForView + 1},
+    periodFilter: {date: (process.env.NODE_ENV === 'development' ? '2018-06-11' : dateformat(addDays(new Date(), 0), 'yyyy-mm-dd')), days: CONE_DAYS_FOR_VIEW + 1},
     //shopFilter: ['[Подразделения].[Подразделение].[All]']
     filterArray: [['[Товары].[Товары]', [process.env.NODE_ENV === 'development' ? '99841' : '99841']]
     //,['[Подразделения].[Подразделение]', ['201']]
@@ -35,46 +39,11 @@ let salesConeModel = {
   },
 
 
-  //---------------MODEL VIEW----------------------
-  getData: function(filters = this.filters) {
-    let model = this;
-
-    return new Promise((resolve, reject) => {
-
-      getJsonFromOlapApi('/api/olap/sales-cone', filters).then((response) => {
-        //set cellId
-        response.data.rows.forEach((row, yInd)=> {
-            row.forEach((cell, xInd) => {
-              Object.assign(cell, {
-                cellId: `c_${xInd}_${yInd}`,
-                label: cell.FmtValue ? cell.FmtValue : cell.Caption,
-                x: xInd,
-                y: yInd,
-                row: row,
-                headerCell: response.data.headerColumns[xInd][0],
-                hidden: HIDDEN_COLS.includes(xInd)
-              });
-              cell.background = this.getBackgroundColorOfCell(cell),
-              model.cellMap.set(cell.cellId, cell)
-            });
-          });
-
-        //refine header objects
-        this.convertDataToDisplay(response.data);
-
-        model.data = response.data;
-        resolve(model.data);
-        }
-      ).catch((e) => reject(e));
-    });
-  },
-
   convertDataToDisplay: function(data) {
-    data.headerColumns.forEach((x)=>{
-      x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, ''); //move names, remain only number
+    data.headerColumns.forEach((x, index)=>{
+      if (index > 0) x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, ''); //move names, remain only number
+      else  x[0].Caption = 'Товар' //todo move to backend
     });
-    data.headerColumns = data.headerColumns.map((item, index) =>{return {label:item[0].Caption, hidden: HIDDEN_COLS.includes(index)}});
-    //return data;
   },
 
   getFilterOption: function(dimension) {
@@ -104,8 +73,6 @@ let salesConeModel = {
     });
   },
 
-  //--------------VIEW MODEL----------------
-  cellMap: new Map(),
 
   getDataCellPropertyById: function (cellId)  {
     if (!cellId) return;
@@ -126,7 +93,7 @@ let salesConeModel = {
         goodFilter: good.UName
       };
       Object.assign(property, {
-        dynamicCUPdataFilter: {...property.filter, periodFilter: {date: this.filters.periodFilter.date, days: conedaysForDynamicCUP}},
+        dynamicCUPdataFilter: {...property.filter, periodFilter: {date: this.filters.periodFilter.date, days: CONE_DAYS_FOR_DYNAMIC_CUP}},
         goodName:             good.Caption,
         cell:                 cell,
         КУП:                  (cell.x > KUP_COLUMN ? cell.FmtValue : this.data.rows[cell.y][KUP_COLUMN].FmtValue),
@@ -162,14 +129,6 @@ let salesConeModel = {
     return property;
   },
 
-  getCellById: function (cellId) {
-    return this.cellMap.get(cellId)
-  },
-
-  // getDeviation: function(cellId) {
-  //   return  getDeviationOfCell(this.getCellById(cellId));
-  // },
-
   getDeviationOfCell: function(cell) {
     let cellCommonCup = cell.row[KUP_COLUMN];
     let commonCUP = cellCommonCup.Value;
@@ -177,12 +136,10 @@ let salesConeModel = {
     return  (commonCUP > 0 ? ((cell.Value - commonCUP)/commonCUP).toPrecision(4) : null);
   },
 
-  // getCellColor: function (cellId) {
-  //   return this.getBackgroundColorOfCell(this.getCellById(cellId));
-  // },
-
   getBackgroundColorOfCell: function (cell) {
     let res = null;
+    if (cell.row === undefined) return res;
+
     if (cell.row[1].Value == 'Нет') res = "#FFCC99";
 
     if (!cell || cell.x < KUP_COLUMN) return res;
@@ -196,67 +153,8 @@ let salesConeModel = {
     }
 
     return res;
-  },
-
-  //now only for col to labels
-  convertTableDataToChartData: function (data) {
-    let result = {
-      labels: [],
-      datasets: []
-    };
-    data.headerColumns.forEach((item, index) =>
-    {if (index > 0) result.labels.push(item[0].Caption)}
-    );
-
-    data.rows.map((item, index) => {
-      let dataset = {
-        data: []
-      };
-      result.datasets.push(dataset);
-      item.map((col, index) => {
-          if (index === 0) dataset.label = col.Caption;
-          else dataset.data.push(col.Value);
-        }
-      );
-    });
-
-    return result;
-  },
-
-  convertDataToExcelFormat: function (data) {
-    let widths = [300, 50, 50, 30];
-    //let headerRow = data.headerColumns.map((x, ind) =>{return {value: x.label, style: {font: {sz: "10"}}, width: {wpx: ind < widths.length ? widths[ind] : widths[widths.length-1]}}});
-    let res = [{
-      columns: data.headerColumns.map((x, ind) =>{return {title: x.label, style: {font: {sz: "10"}}, width: {wpx: ind < widths.length ? widths[ind] : widths[widths.length-1]}}}),
-      data: data.rows.map((row, rowIndex) =>
-          row.map((col, index)=> {return {value: (col.Value ? parseFloat(col.Value) || col.label : col.label) || '', style: {font: {sz: "10"}, fill: col.background && {patternType: "solid", fgColor: {rgb: 'FF'+col.background.replace('#','')}}}} }))
-    }];
-    return res;
-  },
-
-  convertFilterArrayToOptions(options, filter, onlyTrailNumbers = false) {
-    let res = filter && filter.map(x => {
-
-      let opt = this.getOptionByValue(options, x);
-      console.dir(opt);
-      let label = opt && (onlyTrailNumbers ? this.extractOnlyTrailNumber(opt.label) : opt.label);
-      return {
-        value: x,
-        label: label
-      }
-    });
-    console.dir(res);
-    return res;
-  },
-
-  getOptionByValue(options, value) {
-    return options.find(x => x.value === value);
-  },
-
-  extractOnlyTrailNumber(value) {
-    return value && value.replace(/^.*[- ]/g, '');
   }
 
-};
+});
 
 export default salesConeModel;

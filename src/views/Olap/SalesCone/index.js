@@ -3,11 +3,11 @@
 import React, { Component } from 'react';
 import { Badge, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane, Button } from 'reactstrap';
 import classnames from 'classnames';
-import SalesConeTable from "./SalesConeTable";
 import CompaireShopConesChart from "./CompaireShopConesChart";
 import TestComponent from "./TestComponent";
 import salesConeModel from "./salesConeModel";
 import SalesConeTableView from "./SalesConeTableView";
+import FrozenTable from "../../components/FrozenTable/FrozenTable";
 
 
 
@@ -88,7 +88,9 @@ class Tabs extends Component {
                 <CompaireShopConesChart option={this.state.cellProperty}/>
               </TabPane>
               <TabPane tabId="3">
+                {/*<FrozenTable>*/}
                 {/*<TestComponent config = {this.tableConfig} />*/}
+                {/*</FrozenTable>*/}
               </TabPane>
             </TabContent>
           </Col>

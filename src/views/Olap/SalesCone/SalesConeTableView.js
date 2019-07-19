@@ -19,6 +19,7 @@ class SalesConeTableView extends Component {
   defaultValues = new Map(model.filters.filterArray);
 
   handleChangeFilter = (filterMap) => {
+    console.log("table view filter")
     if (filterMap) {
       model.filters.filterArray = filterMap instanceof Map ? Array.from(filterMap.entries()) : filterMap;
     }
@@ -53,6 +54,7 @@ class SalesConeTableView extends Component {
   }
 
   handleRefreshTable = () => {
+    console.log("table view refresh")
     this.setState({stopFilterSelection: true});
   }
 

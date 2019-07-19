@@ -4,8 +4,18 @@ import 'react-dropdown-tree-select/dist/styles.css'
 import './style.css'
 import {getJsonFromOlapApi} from "../../../api/response-handle";
 import classnames from "classnames";
+import PropTypes from "prop-types";
 
 class DimensionSelect extends Component {
+  static propTypes = {
+    simpleSelect: PropTypes.bool,
+    disableToUpLevel: PropTypes.number
+  }
+
+  static defaultProps = {
+    disableToLevel: -1
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -48,26 +58,33 @@ class DimensionSelect extends Component {
   }
 
 
-  setDefaultVaules (data) {
+  setDefaultVaules (data, level = 0) {
+    let res = false
     //if (!this.props.getSelectedValues) return;
     let selected = this.props.getSelectedValues(this.props.hierarchyName) || [];
 
-    if (selected) {
+    if (selected || this.props.disableToLevel !== DimensionSelect.defaultProps.disableToLevel) {
       data.forEach(x => {
         x.checked = selected.includes(x.value);
+        if (x.checked) res = true;
+        //x.isDefaultValue = x.checked //it break selecting
+        //x.expanded = true
+        if (level <= this.props.disableToLevel) x.uncheckable = true;
         this.mapValues.set(x.value, x);
         //x.originalEntity = x;
         if (x.children) {
-          this.setDefaultVaules(x.children)
+          res = this.setDefaultVaules(x.children, level + 1)
+          if (res) x.expanded = true;
         }
       })
     }
+    return res;
   }
 
   refreshData () {
     let restrictiion = {hierarchyName: this.props.hierarchyName};
     if (this.props.maxLevel) restrictiion.maxLevel = this.props.maxLevel;
-    getJsonFromOlapApi('/api/olap/dim2', restrictiion).then((response) => {
+    getJsonFromOlapApi('/api/olap/dim', restrictiion).then((response) => {
       if (response.length > 0) response[0].expanded = true;
        this.setDefaultVaules(response);
         this.setState({
@@ -93,7 +110,7 @@ class DimensionSelect extends Component {
 
 
   render () {
-    return <DropdownTreeSelect ref={el=>this.myRef=el} keepTreeOnSearch = {true} showPartiallySelected = {true} noMatchesText = "нет соответствия" placeholderText={this.state.placeholderText} data={this.state.data}
+    return <DropdownTreeSelect ref={el=>this.myRef=el} simpleSelect={this.props.simpleSelect} keepTreeOnSearch = {true} showPartiallySelected = {true} noMatchesText = "нет соответствия" placeholderText={this.state.placeholderText} data={this.state.data}
                                onChange={this.handleChange} onAction={this.onAction} onNodeToggle={this.onNodeToggle} className={"dim-select " + this.tempUniqClassName}
                                forceCloseDropDown = {this.props.forceCloseDropDown} />
   }

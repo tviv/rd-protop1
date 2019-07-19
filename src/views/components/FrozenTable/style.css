@@ -17,8 +17,7 @@ div.sticky {
 .frozen-col {
   position:absolute ;
   left:0;
-  top:0px;
-  /*width: 109px;*/
+  top:0;
   background: white;
   border-top-width:2px !important;
   border-right-width:2px !important;
@@ -30,7 +29,7 @@ div.sticky {
   top:auto;
   border-top-width:0.5px !important;; /*only relevant for first row*/
   margin-top:-0.5px; /*compensate for top border*/
-  border-right-width:2px !important;;
+  /*border-right-width:2px !important;;*/
 }
 .table-bordered {
   /*margin-left: 109px;*/

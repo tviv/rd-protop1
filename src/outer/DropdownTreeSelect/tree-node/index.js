@@ -8,13 +8,14 @@ import NodeLabel from './node-label'
 import Toggle from './toggle'
 
 import styles from './index.css'
+import tvvstyles from './tvvstyles.css'
 
-const cx = cn.bind(styles)
+const cx = cn.bind(styles, tvvstyles)
 
 const isLeaf = children => isEmpty(children)
 
 const getNodeCx = props => {
-  const { keepTreeOnSearch, _children, matchInChildren, disabled, partial, hide, className, showPartiallySelected, readOnly } = props
+  const { keepTreeOnSearch, _children, matchInChildren, disabled, partial, hide, className, showPartiallySelected, readOnly, uncheckable } = props //tvv added uncheckable
 
   return cx(
     'node',
@@ -25,7 +26,8 @@ const getNodeCx = props => {
       hide,
       'match-in-children': keepTreeOnSearch && matchInChildren,
       partial: showPartiallySelected && partial,
-      readOnly
+      readOnly,
+      uncheckable //tvv
     },
     className
   )
@@ -53,7 +55,8 @@ class TreeNode extends PureComponent {
     onCheckboxChange: PropTypes.func,
     simpleSelect: PropTypes.bool,
     showPartiallySelected: PropTypes.bool,
-    readOnly: PropTypes.bool
+    readOnly: PropTypes.bool,
+    uncheckable: PropTypes.bool //tvv
   }
 
   render() {
@@ -77,7 +80,9 @@ class TreeNode extends PureComponent {
       onNodeToggle,
       onCheckboxChange,
       showPartiallySelected,
-      readOnly
+      readOnly,
+      uncheckable, //tvv
+      unch
     } = this.props
     const liCx = getNodeCx(this.props)
     const style = keepTreeOnSearch || !searchModeOn ? { paddingLeft: `${(_depth || 0) * 20}px` } : {}
@@ -97,6 +102,8 @@ class TreeNode extends PureComponent {
           onCheckboxChange={onCheckboxChange}
           showPartiallySelected={showPartiallySelected}
           readOnly={readOnly}
+          uncheckable={uncheckable /*tvv*/}
+          onNodeToggle={onNodeToggle /*tvv*/}
         />
         <Actions actions={actions} onAction={onAction} id={_id} readOnly={readOnly} />
       </li>

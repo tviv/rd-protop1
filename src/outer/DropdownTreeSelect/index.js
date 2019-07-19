@@ -68,10 +68,23 @@ class DropdownTreeSelect extends Component {
     }
   }
 
-  componentWillMount() {
-    const tree = this.createList(this.props.data, this.props.simpleSelect, this.props.showPartiallySelected)
+  //tvv \/
+  init(props) {
+    const tree = this.createList(props.data, props.simpleSelect, props.showPartiallySelected)
     const tags = this.treeManager.getTags()
-    this.setState({ tree, tags })
+
+    if (props.simpleSelect && tags.length) { //tvv no init for simple
+      this.treeManager.setCurrentId(tags[0]._id)
+    }
+    this.setState({tree, tags})
+  }
+  //tvv /\
+  componentWillMount() {
+    //tvv remarked out
+    // const tree = this.createList(this.props.data, this.props.simpleSelect, this.props.showPartiallySelected)
+    // const tags = this.treeManager.getTags()
+    // this.setState({ tree, tags })
+    this.init(this.props) //tvv
   }
 
   componentWillUnmount() {
@@ -80,11 +93,9 @@ class DropdownTreeSelect extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.data !== nextProps.data) { //tvv temp
-      const tree = this.createList(nextProps.data, nextProps.simpleSelect, nextProps.showPartiallySelected)
-      const tags = this.treeManager.getTags()
-      this.setState({tree, tags})
+      this.init(nextProps) //tvv
     }
-    if (this.state.showDropdown != !nextProps.forceCloseDropDown && this.state.showDropdown) this.handleClick(); //tvv
+    if (this.state.showDropdown !== !nextProps.forceCloseDropDown && this.state.showDropdown) this.handleClick(); //tvv
   }
 
   handleClick = () => {
