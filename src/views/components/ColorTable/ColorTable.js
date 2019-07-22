@@ -60,7 +60,6 @@ class ColorTable extends Component {
       this.handleExpand(rowInd, true);
 
     }).catch((e) => {
-      console.log(`expanded error: ${e}`);
       this.detailMap.set(rowInd, 'ошибка загрузки');
       this.handleExpand(rowInd, true);
     });

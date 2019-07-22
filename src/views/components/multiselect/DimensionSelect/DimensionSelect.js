@@ -120,7 +120,6 @@ class DimensionSelect extends Component {
   }
 
    handleChange = (currentNode, selectedNodes) => {
-      //console.log('handleChange::', currentNode, selectedNodes)
      this.mapValues.get(currentNode.value).checked = currentNode.checked;
       if (this.props.onChange) {
         this.props.onChange(this.props.hierarchyName, selectedNodes.map(x=>x.value));

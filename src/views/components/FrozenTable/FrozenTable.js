@@ -31,7 +31,7 @@ class FrozenTable extends Component {
       //this.table1Ref.width = this.table2Ref.offsetWidth;
       let cells2 = this.table2Ref.rows[0].cells;
       if (this.state.colNumbers !== cells2.length || true) {
-        console.log('frozen did')
+        //console.log('frozen did')
 
         this.setFrozenFeatures(true);
 
@@ -92,8 +92,8 @@ class FrozenTable extends Component {
 
     const parentWidth = this.table2Ref.parentElement.clientWidth;
     const tableWidth = this.table2Ref.offsetWidth + this.offsetLeft
-    console.log(`parent width: ${parentWidth}`);
-    console.log(`table width: ${tableWidth}`);
+    //console.log(`parent width: ${parentWidth}`);
+    //console.log(`table width: ${tableWidth}`);
 
     //remove fixing if table is fitted to given range
     if (tableWidth <= parentWidth) {
@@ -102,7 +102,6 @@ class FrozenTable extends Component {
 
 
     if (this.state.colNumbers) {
-      console.log('froze did updated')
       this.table1Ref.width = this.table2Ref.offsetWidth + 1; //todo
       let cells1 = this.table1Ref.rows[0].cells;
       let cells2 = this.table2Ref.rows[0].cells;
@@ -167,7 +166,6 @@ class FrozenTable extends Component {
 
     } else {
       //remove frozen cols
-      console.log('remove all')
       for (let j= 0; j < this.props.frozenCols; ++j) {
         if (this.table1Ref.rows[0] && this.table1Ref.rows[0].cells[0])
           this.table1Ref.rows[0].cells[j].classList.remove('frozen-col');
@@ -194,7 +192,6 @@ class FrozenTable extends Component {
 
 
   getArray = () => {
-    //console.log(this.state.colNumbers);
     let res = Array(this.state.colNumbers);
     for(let i = 0; i < this.state.colNumbers; ++i) {
       res[i] = '';
@@ -205,7 +202,6 @@ class FrozenTable extends Component {
   tempHandle = (chStateEl) => {
     if (this.state.chStateEl !== chStateEl) {
       this.setFrozenFeatures(false);
-      console.log('frozen updated')
       this.setState({chStateEl: chStateEl})
       this.componentDidMount()
       //this.table2Ref = this.div2Ref.children[0];

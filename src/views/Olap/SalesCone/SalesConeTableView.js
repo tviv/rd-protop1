@@ -19,7 +19,6 @@ class SalesConeTableView extends Component {
   defaultValues = new Map(model.filters.filterArray);
 
   handleChangeFilter = (filterMap) => {
-    console.log("table view filter")
     if (filterMap) {
       model.filters.filterArray = filterMap instanceof Map ? Array.from(filterMap.entries()) : filterMap;
     }
@@ -29,7 +28,6 @@ class SalesConeTableView extends Component {
   }
 
   handleCellClick = (cellId) => {
-    //console.log(cellId);
     if(model.getCellById(cellId).x < 2) return; //todo temp decision, because absolute position brakes down
     this.setState ({
       popoverOpen: this.state.cellId === cellId ? !this.state.popoverOpen : true,
@@ -54,7 +52,6 @@ class SalesConeTableView extends Component {
   }
 
   handleRefreshTable = () => {
-    console.log("table view refresh")
     this.setState({stopFilterSelection: true});
   }
 
