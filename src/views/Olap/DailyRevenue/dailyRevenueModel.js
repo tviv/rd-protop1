@@ -23,7 +23,7 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
   data : {},
 
   filters:{
-    filterArray: [['[Даты].[Месяцы]', [process.env.NODE_ENV === 'development' ? '2019-07-01T00:00:00' : '']]
+    filterArray: [['[Даты].[Месяцы]', [process.env.NODE_ENV === 'development' ? '2019-07-01T00:00:00' : '2019-07-01T00:00:00']]
       ]
   },
 
