@@ -18,7 +18,7 @@ class RevenueForm extends Component {
           <Col xs="12" sm="12">
             <Card>
               <CardHeader>
-                <strong>Ежедневная выгрузка</strong>
+                <strong>Ежедневная выручка</strong>
               </CardHeader>
               <CardBody>
                 <DailyRevenueTableView/>
