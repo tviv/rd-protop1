@@ -66,18 +66,27 @@ class Settings extends Component {
       }};
     //this.state = search();
 
-    fetch('/api/settings', {accept: 'application/json'}).then(checkStatus)
-      .then(parseJSON).then(data=>{this.setState({data: data})});
-
-    console.dir(this.state);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
     //this.setState({ЧекиРегулярнаяГлубинаСканированияДни: data.ЧекиРегулярнаяГлубинаСканированияДни});
   }
 
+  componentDidMount () {
+    fetch('/api/settings', {accept: 'application/json'}).then(checkStatus)
+      .then(parseJSON).then(data=>{
+        this.setState({data: data})
+      })
+      .catch(e=>{
+        console.log(e)
+        this.setState({
+          data: {},
+          error: e
+        })
+      });
+  }
 
-  //setState({});
+    //setState({});
 
   handleInputChange(event) {
     const target = event.target;
@@ -124,6 +133,13 @@ class Settings extends Component {
               </CardHeader>
               <CardBody>
                 <Form className="form-horizontal" >
+                  {this.state.error && (
+                    <Row>
+                      <Col>
+                        <Label className="text-danger">{this.state.error}</Label>
+                      </Col>
+                    </Row>
+                  )}
                   <FormGroup row>
                     <Col md="5">
                       <Label htmlFor="ЧекиРегулярнаяГлубинаСканированияДни">Чеки. Регулярная Глубина Сканирования, Дни</Label>

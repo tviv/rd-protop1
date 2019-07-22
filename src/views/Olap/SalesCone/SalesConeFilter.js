@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import DimensionSelect from '../../components/multiselect/DimensionSelect'
+import DimensionSelect from '../../components/multiselect/DimensionSelect/DimensionSelect'
 import {FormGroup,Label,Input,Col, Row, } from 'reactstrap';
 import model from "./salesConeModel";
 import { AppSwitch } from '@coreui/react'

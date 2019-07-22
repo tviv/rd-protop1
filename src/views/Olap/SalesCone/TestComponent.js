@@ -11,7 +11,7 @@ import {
   Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
 import DropdownTreeSelect from 'react-dropdown-tree-select'
 //import 'react-dropdown-tree-select/dist/styles.css'
-import DimensionSelect from '../../components/multiselect/DimensionSelect'
+import DimensionSelect from '../../components/multiselect/DimensionSelect/DimensionSelect'
 import model from "./salesConeModel";
 import SalesConeFilter from "./SalesConeFilter";
 import SalesConeTableContainer from "./SalesConeTableContainer";

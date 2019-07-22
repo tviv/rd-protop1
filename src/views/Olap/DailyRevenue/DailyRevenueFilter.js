@@ -29,7 +29,9 @@ class DailyRevenueFilter extends FilterHandler {
                   hierarchyName = '[Даты].[Месяцы]'
                   maxLevel = '2'
                   disableToLevel = {1}
-                  simpleSelect={true} />
+                  simpleSelect={true}
+                  reverse={true}
+                  ungroupLevels={[0]}/>
               </FormGroup>
             </Col>
             <Col xs="12" lg="3">

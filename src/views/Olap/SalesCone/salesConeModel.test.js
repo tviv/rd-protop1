@@ -1,7 +1,7 @@
 import salesConeModel from "./salesConeModel";
 
 
-it.only('dynamicCUP converting', () => {
+it('dynamicCUP converting', () => {
 
   let data = {
       "headerColumns": [

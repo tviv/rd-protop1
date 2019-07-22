@@ -43,6 +43,11 @@ if (process.env.NODE_ENV !== 'development') {
             url: '/olap/sales-cone',
             icon: 'icon-drop',
           },
+          {
+            name: 'Ежедневная выручка',
+            url: '/olap/daily-revenue',
+            icon: 'icon-briefcase',
+          }
         ]
       }
     ];

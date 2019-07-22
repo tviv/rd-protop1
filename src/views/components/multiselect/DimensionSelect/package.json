@@ -1,0 +1,6 @@
+{
+  "name": "DimensionSelect",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DimensionSelect.js"
+}

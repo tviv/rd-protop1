@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import DimensionSelect from "../../components/multiselect/DimensionSelect";
+import DimensionSelect from "../../components/multiselect/DimensionSelect/DimensionSelect";
 
 
 class FilterHandler extends PureComponent {

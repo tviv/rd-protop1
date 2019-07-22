@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import DropdownTreeSelect from '../../../outer/DropdownTreeSelect'
+import DropdownTreeSelect from '../../../../outer/DropdownTreeSelect/index'
 import 'react-dropdown-tree-select/dist/styles.css'
 import './style.css'
-import {getJsonFromOlapApi} from "../../../api/response-handle";
+import {getJsonFromOlapApi} from "../../../../api/response-handle";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 
 class DimensionSelect extends Component {
   static propTypes = {
     simpleSelect: PropTypes.bool,
-    disableToUpLevel: PropTypes.number
+    disableToUpLevel: PropTypes.number,
+    reverse: PropTypes.bool,
+    ungroupLevels: PropTypes.arrayOf(PropTypes.number)
   }
 
   static defaultProps = {
-    disableToLevel: -1
+    disableToLevel: -1,
+    ungroupLevels: []
   }
 
   constructor(props) {
@@ -81,12 +84,29 @@ class DimensionSelect extends Component {
     return res;
   }
 
+  ungroup(data, ungroupElement, destinationElement) {
+
+    if (ungroupElement.children) {
+      ungroupElement.children.forEach(x=>{
+        destinationElement.push(x)
+      })
+    }
+
+    const ungroupElementIndex = destinationElement.lastIndexOf(ungroupElement) //now for all our cases we can use it without recurse
+    if (ungroupElementIndex > -1)
+      destinationElement.splice(ungroupElementIndex, 1)
+
+    return data
+  }
+
   refreshData () {
     let restrictiion = {hierarchyName: this.props.hierarchyName};
     if (this.props.maxLevel) restrictiion.maxLevel = this.props.maxLevel;
+    restrictiion.reverse = true
     getJsonFromOlapApi('/api/olap/dim', restrictiion).then((response) => {
       if (response.length > 0) response[0].expanded = true;
        this.setDefaultVaules(response);
+       //this.props.forEach(x=>this.ungroup(response, response[x], response))
         this.setState({
           placeholderText: 'Выберите или введите...',
           data: response

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DimensionSelect from '../../components/multiselect/DimensionSelect'
+import DimensionSelect from '../../components/multiselect/DimensionSelect/DimensionSelect'
 import {
   FormGroup,
   Label,

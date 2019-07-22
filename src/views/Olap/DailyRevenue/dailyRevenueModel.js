@@ -23,7 +23,7 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
   data : {},
 
   filters:{
-    filterArray: [['[Даты].[Месяцы]', [process.env.NODE_ENV === 'development' ? '2019-04-01T00:00:00' : '']]
+    filterArray: [['[Даты].[Месяцы]', [process.env.NODE_ENV === 'development' ? '2019-07-01T00:00:00' : '']]
       ]
   },
 
@@ -75,6 +75,12 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
 
     if (!cell) return res;
 
+    if (cell.headerCell &&
+      (cell.headerCell.UName === '[Measures].[Выполнение плана выручки без НДС]' || cell.headerCell.UName === '[Measures].[Выполнение плана маржи без НДС]')) {
+      if (cell.Value >= 1.05) return '#BEFCBA'
+      if (cell.Value > 0 && cell.Value <= 0.97) return '#FCBFBF'
+    }
+
     if (cell.x > CERTIFICATE_COLUMN_START) return '#EFF3DE';
     if (cell.x > NIGHT_TIME_COLUMN_START) return '#DEEFF7';
     if (cell.x > NOCASH_COLUMN_START) return '#E7DFEF';
@@ -84,7 +90,7 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
   },
 
   convertDataToExcelFormat: function (data) {
-    let widths = [300, 50, 50, 30];
+    let widths = [70, 70];
     //let headerRow = data.headerColumns.map((x, ind) =>{return {value: x.label, style: {font: {sz: "10"}}, width: {wpx: ind < widths.length ? widths[ind] : widths[widths.length-1]}}});
     let res = [{
       columns: data.headerColumns.map((x, ind) =>{return {title: x.label, style: {font: {sz: "10"}}, width: {wpx: ind < widths.length ? widths[ind] : widths[widths.length-1]}}}),
