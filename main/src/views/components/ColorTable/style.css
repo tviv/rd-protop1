@@ -1,0 +1,22 @@
+td.cell-expand-button,
+th.cell-expand-button {
+    border-right-width: 0 !important;
+}
+
+th.cell-expand-button::before {
+    content: '';
+}
+td.cell-expand-button + td,
+th.cell-expand-button + th {
+    border-left-width: 0 !important;
+}
+
+td.cell-expanded-empty::before {
+    border-top-width: 0 !important;
+    content: ' ';
+}
+
+td.cell-expand-button > a {
+    margin-top: -15px;
+    margin-bottom: -15px;
+}
