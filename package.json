@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "react-admin-lerna",
+    "name": "rd-ardi-front-lerna",
     "scripts": {
         "build": "lerna run build",
         "test-unit": "cross-env NODE_ENV=test cross-env BABEL_ENV=cjs NODE_ICU_DATA=node_modules/full-icu jest",
