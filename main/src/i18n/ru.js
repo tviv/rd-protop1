@@ -108,7 +108,7 @@ export default {
             data_provider_error:
                 'dataProvider error. Check the console for details.',
             canceled: 'Action cancelled',
-            logged_out: 'Your session has ended, please reconnect.',
+            logged_out: 'Ваша сессия не действительна, переподключитесь',
         },
         validation: {
             required: 'Required',

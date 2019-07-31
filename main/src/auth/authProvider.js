@@ -4,7 +4,16 @@ import {
     AUTH_LOGOUT,
     AUTH_ERROR,
     AUTH_CHECK,
-} from 'ra-core'; // eslint-disable-line import/no-unresolved
+} from 'ra-core';
+import { getJsonFromOlapApi } from '../api/response-handle'; // eslint-disable-line import/no-unresolved
+
+const clearUserData = () => {
+    localStorage.removeItem('authenticated');
+    localStorage.removeItem('role');
+    localStorage.removeItem('username');
+    localStorage.removeItem('password');
+    localStorage.removeItem('token');
+};
 
 // Authenticatd by default
 export default (type, params) => {
@@ -12,43 +21,49 @@ export default (type, params) => {
     if (type === AUTH_LOGIN) {
         const { username, password } = params;
         if (username === 'login' && password === 'password') {
-            localStorage.removeItem('not_authenticated');
+            localStorage.setItem('authenticated', true);
             localStorage.removeItem('role');
             return Promise.resolve();
         }
-        if (username === 'user' && password === 'password') {
-            localStorage.setItem('role', 'user');
-            localStorage.removeItem('not_authenticated');
-            return Promise.resolve();
+        if (username && password) {
+            clearUserData();
+            return new Promise((resolve, reject) => {
+                getJsonFromOlapApi('/api/auth', {}, username, password)
+                    .then(response => {
+                        const { success, token } = response;
+                        if (success) {
+                            localStorage.setItem('role', 'user');
+                            localStorage.setItem('authenticated', true);
+                            localStorage.setItem('token', token);
+                            resolve();
+                        } else {
+                            reject();
+                        }
+                    })
+                    .catch(e => {
+                        reject();
+                    });
+            });
         }
-        if (username === 'admin' && password === 'password') {
-            localStorage.setItem('role', 'admin');
-            localStorage.removeItem('not_authenticated');
-            return Promise.resolve();
-        }
-        localStorage.setItem('not_authenticated', true);
-        return Promise.reject();
     }
+
     if (type === AUTH_LOGOUT) {
-        localStorage.setItem('not_authenticated', true);
-        localStorage.removeItem('role');
+        clearUserData();
         return Promise.resolve();
     }
     if (type === AUTH_ERROR) {
-        const { status } = params;
+        const { status } = params || {};
         return status === 401 || status === 403
             ? Promise.reject()
             : Promise.resolve();
     }
     if (type === AUTH_CHECK) {
-        console.log('param check', params)
         //return localStorage.getItem('not_authenticated') === null ||
-            return localStorage.getItem('not_authenticated')
+        return !localStorage.getItem('token')
             ? Promise.reject()
             : Promise.resolve();
     }
     if (type === AUTH_GET_PERMISSIONS) {
-        console.log('param perm', params)
         const role = localStorage.getItem('role');
         return Promise.resolve(role);
     }

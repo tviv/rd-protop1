@@ -25,7 +25,10 @@ class Login extends Component {
     submit = e => {
         e.preventDefault();
         // gather your data/credentials here
-        const credentials = { username: this.state.username, password: this.state.password };
+        const credentials = {
+            username: this.state.username,
+            password: this.state.password,
+        };
 
         // Dispatch the userLogin action (injected by connect)
         this.props.userLogin(credentials);
@@ -49,10 +52,20 @@ class Login extends Component {
                             <CardGroup>
                                 <Card className="p-4">
                                     <CardBody>
-                                        <h1>Login</h1>
-                                        <p className="text-muted">
-                                            Введите учетные данные
-                                        </p>
+                                        <div className="text-center col-12">
+                                            <img
+                                                src={'assets/img/favicon.png'}
+                                                style={{
+                                                    height: '30px',
+                                                    width: '30px',
+                                                    marginBottom: '1rem',
+                                                }}
+                                            />
+                                            {/*<h1>Ardi</h1>*/}
+                                            <p className="text-muted">
+                                                Для входа в Ardi, авторизуйтесь
+                                            </p>
+                                        </div>
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">
                                                 <InputGroupText>
@@ -102,7 +115,14 @@ class Login extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    console.log('login state', state);
+    return {
+        pathName: '/',
+    };
+};
+
 export default connect(
-    undefined,
+    mapStateToProps,
     { userLogin }
 )(Login);

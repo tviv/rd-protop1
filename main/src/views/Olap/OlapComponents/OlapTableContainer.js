@@ -5,6 +5,14 @@ import ReactExport from 'react-data-export';
 import FrozenTable from '../../components/FrozenTable/FrozenTable';
 import PropTypes from 'prop-types';
 
+import { FETCH_ERROR } from 'ra-core';
+import { connect } from 'react-redux';
+
+const fetchError = error => ({
+    type: FETCH_ERROR,
+    error,
+});
+
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
@@ -121,8 +129,9 @@ class OlapTableContainer extends Component {
                     this.reqId = null;
                     this.props.onRefresh();
                     this.setState({
-                        data: err,
+                        data: err.toString(),
                     });
+                    this.props.fetchError(err);
                 });
             this.reqId.reqId = this.reqId;
         }, this.delayInterval);
@@ -243,4 +252,7 @@ class OlapTableContainer extends Component {
     }
 }
 
-export default OlapTableContainer;
+export default connect(
+    undefined,
+    { fetchError }
+)(OlapTableContainer);

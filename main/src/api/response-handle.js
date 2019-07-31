@@ -8,7 +8,7 @@ function checkStatus(response) {
             resolve(response);
         } else {
             const error = new Error(`HTTP Error ${response.statusText}`);
-            error.status = response.statusText;
+            error.status = response.status;
             error.response = response;
             // console.log(error); // eslint-disable-line no-console
             // throw error;
@@ -22,14 +22,19 @@ function parseJSON(response) {
     return response.json();
 }
 
-function getJsonFromOlapApi(relPath, body) {
+function getJsonFromOlapApi(relPath, body, username, password) {
     return new Promise((resolve, reject) => {
         setTimeout(function() {
+            let authString =
+                username && password
+                    ? 'Basic ' + btoa(`${username}:${password}`)
+                    : `Bearer ${localStorage.getItem('token')}`;
             fetch('' + relPath, {
                 accept: 'application/json',
                 timeout: 120000,
                 method: 'POST',
                 headers: {
+                    Authorization: authString,
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
@@ -46,7 +51,7 @@ function getJsonFromOlapApi(relPath, body) {
                 })
                 .catch(e => {
                     //console.log(e);
-                    reject('Произошла ошибка при загрузке данных');
+                    reject(e);
                 });
         }, 500);
     });

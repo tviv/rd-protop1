@@ -1,7 +1,11 @@
-'use strict';
-
 import { getJsonFromOlapApi } from '../../../api/response-handle';
-import dateformat from 'dateformat';
+import { FETCH_ERROR } from 'ra-core';
+import { connect } from 'react-redux';
+
+const fetchError = error => ({
+    type: FETCH_ERROR,
+    error,
+});
 
 let olapModelView = {
     MAIN_URL: '/api/olap/...',
@@ -51,7 +55,9 @@ let olapModelView = {
                     model.data = response.data;
                     resolve(model.data);
                 })
-                .catch(e => reject(e));
+                .catch(e => {
+                    reject(e);
+                });
         });
     },
 
@@ -84,7 +90,7 @@ let olapModelView = {
 
                     resolve(options);
                 })
-                .catch(e => reject(e));
+                .catch((descr, e) => reject(descr, e));
         });
     },
 
