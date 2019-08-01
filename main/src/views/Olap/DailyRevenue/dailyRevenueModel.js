@@ -1,5 +1,3 @@
-'use strict';
-
 import { getJsonFromOlapApi } from '../../../api/response-handle';
 import dateformat from 'dateformat';
 import olapModelView from '../OlapComponents/olapModelView';
@@ -27,8 +25,8 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
                 '[Даты].[Месяцы]',
                 [
                     process.env.NODE_ENV === 'development'
-                        ? '2019-07-01T00:00:00'
-                        : '2019-07-01T00:00:00',
+                        ? '2019-08-01T00:00:00'
+                        : '2019-08-01T00:00:00',
                 ],
             ],
         ],
