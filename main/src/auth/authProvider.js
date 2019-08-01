@@ -8,10 +8,7 @@ import {
 import { getJsonFromOlapApi } from '../api/response-handle'; // eslint-disable-line import/no-unresolved
 
 const clearUserData = () => {
-    localStorage.removeItem('authenticated');
     localStorage.removeItem('role');
-    localStorage.removeItem('username');
-    localStorage.removeItem('password');
     localStorage.removeItem('token');
 };
 
@@ -21,7 +18,6 @@ export default (type, params) => {
     if (type === AUTH_LOGIN) {
         const { username, password } = params;
         if (username === 'login' && password === 'password') {
-            localStorage.setItem('authenticated', true);
             localStorage.removeItem('role');
             return Promise.resolve();
         }
@@ -33,15 +29,21 @@ export default (type, params) => {
                         const { success, token } = response;
                         if (success) {
                             localStorage.setItem('role', 'user');
-                            localStorage.setItem('authenticated', true);
                             localStorage.setItem('token', token);
                             resolve();
                         } else {
-                            reject();
+                            if (
+                                response.reason &&
+                                response.reason.status === 401
+                            ) {
+                                reject();
+                            } else {
+                                reject('Ошибка сервера');
+                            }
                         }
                     })
                     .catch(e => {
-                        reject();
+                        reject(e);
                     });
             });
         }
