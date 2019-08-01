@@ -12,6 +12,7 @@ import {
     InputGroupText,
     Row,
     Form,
+    UncontrolledTooltip,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { userLogin } from 'ra-core';
@@ -41,6 +42,8 @@ class Login extends Component {
     };
 
     render() {
+        const { isLoading } = this.props;
+
         return (
             <Form
                 className="app flex-row align-items-center"
@@ -79,6 +82,9 @@ class Login extends Component {
                                                 onChange={this.handleChange}
                                             />
                                         </InputGroup>
+                                        <UncontrolledTooltip placement="right" target="username">
+                                            Вводите c доменом, например: delta\ivanov.i
+                                        </UncontrolledTooltip>
                                         <InputGroup className="mb-4">
                                             <InputGroupAddon addonType="prepend">
                                                 <InputGroupText>
@@ -92,18 +98,21 @@ class Login extends Component {
                                                 onChange={this.handleChange}
                                             />
                                         </InputGroup>
-                                        <Row>
-                                            <Col xs="6" />
-                                            <Col xs="6" className="text-right">
+                                        <div>
+                                            <div className="d-flex justify-content-end">
                                                 <Button
                                                     color="primary"
                                                     className="px-4"
                                                     type="submit"
+                                                    disabled={isLoading}
                                                 >
+                                                    {isLoading && (
+                                                        <i className="spinner-border spinner-border-sm mr-1" />
+                                                    )}
                                                     Войти
                                                 </Button>
-                                            </Col>
-                                        </Row>
+                                            </div>
+                                        </div>
                                     </CardBody>
                                 </Card>
                             </CardGroup>
@@ -118,8 +127,13 @@ class Login extends Component {
 const mapStateToProps = state => {
     console.log('login state', state);
     return {
-        pathName: '/',
+        //pathName: '/',
+        isLoading: state.admin.loading > 0,
     };
+};
+
+Login.defaultProps = {
+    isLoading: false,
 };
 
 export default connect(
