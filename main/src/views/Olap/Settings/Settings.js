@@ -26,7 +26,7 @@ import {
     Row,
 } from 'reactstrap';
 
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 
 class SettingsData {}
 
@@ -83,7 +83,6 @@ class Settings extends Component {
                 });
                 NotificationManager.error('error message', 'Title here');
                 NotificationManager.error('error message', 'Title here', 30000);
-
             });
     }
 
@@ -101,7 +100,6 @@ class Settings extends Component {
     }
 
     handleSubmit(event) {
-        console.log(this.state.data);
         fetch('/api/settings', {
             method: 'PUT',
             body: JSON.stringify(this.state.data),
@@ -113,7 +111,6 @@ class Settings extends Component {
                 return response.json();
             })
             .then(json => {
-                console.log(json);
                 this.setState({
                     user: json,
                 });
@@ -126,7 +123,6 @@ class Settings extends Component {
         if (false) {
             return <Alert color="danger">{error}</Alert>;
         }
-
 
         return (
             <div className="animated fadeIn">

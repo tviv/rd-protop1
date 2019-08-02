@@ -4,27 +4,21 @@ import { Route, Switch } from 'react-router-dom';
 import { WithPermissions } from 'ra-core';
 
 interface EnhancedProps {
-    path: string,
-    render: any
+    path: string;
+    render: any;
 }
 class ProtectedRoute extends Component<EnhancedProps> {
-    constructor(props:any) {
-        super(props);
-        console.log('props', props);
-    }
-
     render() {
-        const {children, render} = this.props;
+        const { children, render } = this.props;
         return (
             <Route
-                render={routeProps =>
+                render={routeProps => (
                     <WithPermissions
                         {...routeProps}
-                        render = {children ? ()=>children : render}
+                        render={children ? () => children : render}
                     />
-                }
-            >
-            </Route>
+                )}
+            />
         );
     }
 }

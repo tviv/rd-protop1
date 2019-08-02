@@ -14,7 +14,6 @@ const clearUserData = () => {
 
 // Authenticatd by default
 export default (type, params) => {
-    console.log('auth in', type);
     if (type === AUTH_LOGIN) {
         const { username, password } = params;
         if (username === 'login' && password === 'password') {

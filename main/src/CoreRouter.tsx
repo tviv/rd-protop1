@@ -4,7 +4,8 @@ import React, {
     cloneElement,
     createElement,
     ComponentType,
-    CSSProperties, ReactNode,
+    CSSProperties,
+    ReactNode,
 } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -27,7 +28,8 @@ import {
     LayoutProps,
     ResourceProps,
     RenderResourcesFunction,
-    ResourceElement, CustomRoute,
+    ResourceElement,
+    CustomRoute,
 } from 'ra-core';
 
 const welcomeStyles: CSSProperties = {
@@ -50,31 +52,24 @@ interface State {
     children: Route[];
 }
 
-export class CoreRouter extends Component<
-    any,
-    State
-> {
+export class CoreRouter extends Component<any, State> {
     state: State = { children: [] };
 
     componentWillMount() {
-        console.log("adminrouter mounted");
         this.initializeResources(this.props);
     }
 
     initializeResources = (nextProps: any) => {
         //if (typeof nextProps.children === 'function') {
-            this.initializeResourcesAsync(nextProps);
+        this.initializeResourcesAsync(nextProps);
         //}
     };
 
-    initializeResourcesAsync = async (
-        props: any
-    ) => {
+    initializeResourcesAsync = async (props: any) => {
         const { authProvider } = props;
         try {
             if (authProvider) {
                 const permissions = await authProvider(AUTH_GET_PERMISSIONS);
-                console.log('permissions', permissions);
             }
             // if (!permissions) {
             //     this.props.userLogout();
@@ -99,9 +94,7 @@ export class CoreRouter extends Component<
     }
 
     render() {
-        const {
-            children,
-        } = this.props;
+        const { children } = this.props;
 
         if (
             process.env.NODE_ENV !== 'production' &&
@@ -131,23 +124,21 @@ export class CoreRouter extends Component<
         return (
             <Route
                 path="/"
-                render={routeProps =>
+                render={routeProps => (
                     <WithPermissions
                         {...routeProps}
-                        render = {()=>this.props.children}
+                        render={() => this.props.children}
                     />
-                }
-            >
-            </Route>
+                )}
+            />
         );
     }
 }
 
 const mapStateToProps = state => {
-    console.log('state', state);
     return {
         isLoggedIn: state.admin.auth.isLoggedIn,
-    }
+    };
 };
 
 export default compose(
