@@ -83,7 +83,6 @@ export default (authProvider?: AuthProvider) => {
                 break;
             }
             case USER_LOGOUT: {
-                console.log('push was', action.payload.redirectTo)
                 yield put(
                     push(
                         (action.payload && action.payload.redirectTo) ||

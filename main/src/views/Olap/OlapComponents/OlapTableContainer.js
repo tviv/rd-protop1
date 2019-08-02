@@ -47,7 +47,6 @@ class OlapTableContainer extends Component {
     }
 
     componentDidMount() {
-        console.log('table container did mount');
         this.refreshData();
         this.delayInterval = 3000;
         //window.addEventListener("resize", this.handleResize); //todo temp
@@ -72,7 +71,6 @@ class OlapTableContainer extends Component {
             return;
         }
         if (this.state.data === null) {
-            console.log(`table containter state data: ${this.state.data}`);
             this.refreshData();
         }
         //console.log(this.state);
@@ -95,9 +93,9 @@ class OlapTableContainer extends Component {
     //   this.setState({refresh: true});
     // }
     //
-    reqId = 0;
+    refrCount = 0;
     refreshData() {
-        this.reqId++;
+        this.refrCount++;
         if (this.timeout) clearTimeout(this.timeout);
         // if (this.reqId) {
         //   console.log(`cancel = ${this.reqId}`);
@@ -111,8 +109,8 @@ class OlapTableContainer extends Component {
             this.reqId = this.model
                 .getData(this.props.filters)
                 .then(data => {
-                    const cur = this.reqId.reqId;
-                    if (cur != this.reqId) {
+                    const cur = this.reqId.refrCount;
+                    if (cur != this.refrCount) {
                         this.reqId = null;
                         return;
                     }
@@ -133,7 +131,7 @@ class OlapTableContainer extends Component {
                     });
                     this.props.fetchError(err);
                 });
-            this.reqId.reqId = this.reqId;
+            this.reqId.refrCount = this.refrCount;
         }, this.delayInterval);
     }
 

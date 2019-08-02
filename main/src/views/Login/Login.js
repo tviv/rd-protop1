@@ -82,8 +82,12 @@ class Login extends Component {
                                                 onChange={this.handleChange}
                                             />
                                         </InputGroup>
-                                        <UncontrolledTooltip placement="right" target="username">
-                                            Вводите c доменом, например: delta\ivanov.i
+                                        <UncontrolledTooltip
+                                            placement="right"
+                                            target="username"
+                                        >
+                                            Вводите c доменом, например:
+                                            delta\ivanov.i
                                         </UncontrolledTooltip>
                                         <InputGroup className="mb-4">
                                             <InputGroupAddon addonType="prepend">
@@ -125,7 +129,6 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log('login state', state);
     return {
         //pathName: '/',
         isLoading: state.admin.loading > 0,

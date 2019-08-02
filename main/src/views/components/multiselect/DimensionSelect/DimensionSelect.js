@@ -111,9 +111,10 @@ class DimensionSelect extends Component {
     }
 
     refreshData() {
-        let restrictiion = { hierarchyName: this.props.hierarchyName };
-        if (this.props.maxLevel) restrictiion.maxLevel = this.props.maxLevel;
-        restrictiion.reverse = true;
+        const { reverse, maxLevel, hierarchyName } = this.props;
+        let restrictiion = { hierarchyName: hierarchyName };
+        if (this.props.maxLevel) restrictiion.maxLevel = maxLevel;
+        restrictiion.reverse = reverse;
         getJsonFromOlapApi('/api/olap/dim', restrictiion)
             .then(response => {
                 if (response.length > 0) response[0].expanded = true;

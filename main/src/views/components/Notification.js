@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import classnames from 'classnames';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {
+    NotificationContainer,
+    NotificationManager,
+} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 import {
@@ -22,19 +25,21 @@ class Notification extends React.Component {
         this.setOpenState(this.props);
     };
     componentWillReceiveProps = nextProps => {
-        console.log('props not', nextProps)
         this.setOpenState(nextProps);
-        const {notification, translate} = nextProps
-        let msg = notification &&
-        notification.message &&
-        translate(notification.message, notification.messageArgs)
+        const { notification, translate } = nextProps;
+        let msg =
+            notification &&
+            notification.message &&
+            translate(notification.message, notification.messageArgs);
 
         if (msg) {
             let dd = translate(notification.message, notification.messageArgs);
 
-            NotificationManager.error(translate(notification.message, notification.messageArgs), '',);
+            NotificationManager.error(
+                translate(notification.message, notification.messageArgs),
+                ''
+            );
         }
-
     };
 
     setOpenState = ({ notification }) => {
@@ -43,8 +48,7 @@ class Notification extends React.Component {
         });
     };
     componentDidUpdate() {
-        if (this.state.open)
-            this.handleExited();
+        if (this.state.open) this.handleExited();
     }
 
     handleRequestClose = () => {
@@ -80,7 +84,7 @@ class Notification extends React.Component {
         //     undo: undoClass, // Rename classes.undo to undoClass in this scope to avoid name conflicts
         //     ...snackbarClasses
         // } = classes;
-        return (<NotificationContainer />);
+        return <NotificationContainer />;
     }
 }
 
@@ -108,9 +112,8 @@ Notification.defaultProps = {
 
 let i = 0;
 const mapStateToProps = state => {
-    console.log('state', state);
     return {
-        notification: getNotification(state)
+        notification: getNotification(state),
     };
 };
 

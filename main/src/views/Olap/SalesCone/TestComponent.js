@@ -79,7 +79,6 @@ class TestComponent extends Component {
     };
 
     componentWillMount() {
-        console.log('child will mount');
         // setTimeout(() => {
         //   this.updated = Date.now();
         //   this.setState({data: {
@@ -91,8 +90,6 @@ class TestComponent extends Component {
     }
 
     componentDidUpdate() {
-        console.log('child did update');
-        console.log(this.updated);
         //    this.props.onCng(this.updated)
     }
 
