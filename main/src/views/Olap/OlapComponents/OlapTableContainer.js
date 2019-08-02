@@ -109,7 +109,7 @@ class OlapTableContainer extends Component {
             this.reqId = this.model
                 .getData(this.props.filters)
                 .then(data => {
-                    const cur = this.reqId.refrCount;
+                    const cur = this.reqId && this.reqId.refrCount;
                     if (cur != this.refrCount) {
                         this.reqId = null;
                         return;
@@ -131,7 +131,7 @@ class OlapTableContainer extends Component {
                     });
                     this.props.fetchError(err);
                 });
-            this.reqId.refrCount = this.refrCount;
+            if (this.reqId) this.reqId.refrCount = this.refrCount;
         }, this.delayInterval);
     }
 
