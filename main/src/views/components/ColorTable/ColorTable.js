@@ -124,6 +124,7 @@ class ColorTable extends Component {
                             id={col.cellId}
                             className={
                                 'cell-cone ' +
+                                (col.bold ? 'font-weight-bold' : '') +
                                 (col.cellId && this.props.cellId === col.cellId
                                     ? 'focus'
                                     : '')
@@ -165,13 +166,10 @@ class ColorTable extends Component {
                         </td>
                         {rowD.map((col, index) => (
                             <td
-                                className={'cell-cone'}
+                                className={'cell-cone, cell-cone-detail'}
                                 style={{
                                     background: col.background,
                                     ...styles.tableCell,
-                                    ...(index >= 0
-                                        ? styles.tableExpandedCellValue
-                                        : {}),
                                 }}
                                 key={`dcell${rowIndex}_${index}`}
                             >
@@ -237,10 +235,6 @@ const styles = {
     },
     tableCellValue: {
         textAlign: 'center',
-    },
-    tableExpandedCellValue: {
-        textAlign: 'right',
-        fontStyle: 'italic',
     },
 };
 

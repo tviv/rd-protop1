@@ -55,7 +55,7 @@ class DailyRevenueFilter extends FilterHandler {
                     <Col xs="12" lg="2">
                         <FormGroup>
                             <div>
-                                <Label htmlFor="act-select">LKL</Label>
+                                <Label htmlFor="act-select">LFL</Label>
                             </div>
                             <AppSwitch
                                 name="act-select"

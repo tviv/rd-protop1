@@ -9,9 +9,9 @@ function addDays(date, days) {
 }
 
 let DAY_COLUMN = 0;
-let ORDER_COLUMN_START = 15;
+let ORDER_COLUMN_START = 17;
 let NOCASH_COLUMN_START = ORDER_COLUMN_START + 7;
-let NIGHT_TIME_COLUMN_START = NOCASH_COLUMN_START + 6;
+let NIGHT_TIME_COLUMN_START = NOCASH_COLUMN_START + 5;
 let CERTIFICATE_COLUMN_START = NIGHT_TIME_COLUMN_START + 4;
 
 let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
@@ -104,8 +104,21 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
         return res;
     },
 
+    convertDataToDisplay: function(data) {
+        if (data.rows.length > 0 && data.rows[0][0].label === 'All') {
+            //data.rows[0][0].label = 'Итого';
+            data.rows[0].forEach((col, index) => {
+                if (index === 0) col.label = 'Итого';
+                col.bold = true;
+            });
+
+            data.rows.push(data.rows[0]);
+            data.rows.shift();
+        }
+    },
+
     convertDataToExcelFormat: function(data) {
-        let widths = [70, 70];
+        let widths = [80, 80];
         //let headerRow = data.headerColumns.map((x, ind) =>{return {value: x.label, style: {font: {sz: "10"}}, width: {wpx: ind < widths.length ? widths[ind] : widths[widths.length-1]}}});
         let res = [
             {

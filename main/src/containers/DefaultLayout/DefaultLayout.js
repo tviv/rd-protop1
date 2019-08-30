@@ -41,10 +41,7 @@ class DefaultLayout extends Component {
                     <DefaultHeader />
                 </AppHeader>
                 <div className="app-body">
-                    <AppSidebar
-                        fixed
-                        display={process.env.NODE_ENV === 'development' && 'lg'}
-                    >
+                    <AppSidebar fixed display={'lg'}>
                         <AppSidebarHeader />
                         <AppSidebarForm />
                         <AppSidebarNav navConfig={navigation} {...this.props} />
@@ -68,7 +65,7 @@ class DefaultLayout extends Component {
                                         />
                                     ) : null;
                                 })}
-                                <Redirect from="/" to="/olap/sales-cone" />
+                                <Redirect from="/" to="/olap/daily-revenue" />
                             </Switch>
                         </Container>
                     </main>
