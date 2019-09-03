@@ -35,7 +35,6 @@ td.cell-expanded-empty:hover {
 }
 
 td.cell-detail {
-    font-weight: lighter;
     font-size: smaller;
     font-style: italic;
     text-align: right;
