@@ -94,7 +94,13 @@ class ColorTable extends Component {
         const firstRow = (
             <tr key={rowIndex}>
                 {this.isExpandable() && (
-                    <td className="cell-expand-button" width="30px">
+                    <td
+                        className={
+                            'cell-expand-button ' +
+                            (row.isTotal ? 'cell-total' : '')
+                        }
+                        width="30px"
+                    >
                         {/*<button  onClick={()=>this.handleExpand(rowIndex)}>*/}
                         {this.isExpanded(rowIndex) &&
                         !this.detailMap.has(rowIndex) ? (
@@ -124,7 +130,7 @@ class ColorTable extends Component {
                             id={col.cellId}
                             className={
                                 'cell-cone ' +
-                                (col.bold ? 'font-weight-bold' : '') +
+                                (col.row.isTotal ? 'cell-total' : '') +
                                 (col.cellId && this.props.cellId === col.cellId
                                     ? 'focus'
                                     : '')
@@ -166,7 +172,7 @@ class ColorTable extends Component {
                         </td>
                         {rowD.map((col, index) => (
                             <td
-                                className={'cell-cone, cell-cone-detail'}
+                                className={'cell-cone, cell-detail'}
                                 style={{
                                     background: col.background,
                                     ...styles.tableCell,

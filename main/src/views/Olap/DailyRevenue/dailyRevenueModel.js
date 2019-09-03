@@ -11,7 +11,7 @@ function addDays(date, days) {
 let DAY_COLUMN = 0;
 let ORDER_COLUMN_START = 17;
 let NOCASH_COLUMN_START = ORDER_COLUMN_START + 7;
-let NIGHT_TIME_COLUMN_START = NOCASH_COLUMN_START + 5;
+let NIGHT_TIME_COLUMN_START = NOCASH_COLUMN_START + 6;
 let CERTIFICATE_COLUMN_START = NIGHT_TIME_COLUMN_START + 4;
 
 let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
@@ -25,8 +25,8 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
                 '[Даты].[Месяцы]',
                 [
                     process.env.NODE_ENV === 'development'
-                        ? '2019-08-01T00:00:00'
-                        : '2019-08-01T00:00:00',
+                        ? '2019-09-01T00:00:00'
+                        : '2019-09-01T00:00:00',
                 ],
             ],
         ],
@@ -109,9 +109,10 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
             //data.rows[0][0].label = 'Итого';
             data.rows[0].forEach((col, index) => {
                 if (index === 0) col.label = 'Итого';
-                col.bold = true;
+                //col.bold = true;
             });
 
+            data.rows[0].isTotal = true;
             data.rows.push(data.rows[0]);
             data.rows.shift();
         }

@@ -21,14 +21,30 @@ td.cell-expand-button > a {
     margin-bottom: -15px;
 }
 
+td.cell-expanded-empty {
+    font-size: smaller;
+}
+
 td.cell-expand-button:hover {
     cursor: pointer;
     color: #8ad4ee;
 }
 
-td.cell-cone-detail {
+td.cell-expanded-empty:hover {
+    cursor: inherit;
+}
+
+td.cell-detail {
     font-weight: lighter;
     font-size: smaller;
     font-style: italic;
     text-align: right;
+}
+
+td.cell-total {
+    font-weight: bold;
+}
+
+tr:last-child td {
+    border-bottom-width: 3px;
 }
