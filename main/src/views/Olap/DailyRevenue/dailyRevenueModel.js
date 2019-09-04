@@ -126,7 +126,26 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
                 columns: data.headerColumns.map((x, ind) => {
                     return {
                         title: x.label,
-                        style: { font: { sz: '10' } },
+                        style: {
+                            font: { sz: '10', bold: true },
+                            alignment: {
+                                vertical: 'center',
+                                horizontal: 'center',
+                                wrapText: 'true',
+                            },
+                            border: {
+                                bottom: {
+                                    style: 'medium',
+                                    color: { rgb: '888888' },
+                                },
+                            },
+                            fill: x.background && {
+                                patternType: 'solid',
+                                fgColor: {
+                                    rgb: 'FF' + x.background.replace('#', ''),
+                                },
+                            },
+                        },
                         width: {
                             wpx:
                                 ind < widths.length
@@ -140,10 +159,31 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
                         return {
                             value:
                                 (col.Value
-                                    ? parseFloat(col.Value) || col.label
+                                    ? parseFloat(
+                                          Math.round(col.Value * 10000) / 10000
+                                      ) || col.label
                                     : col.label) || '',
                             style: {
-                                font: { sz: '10' },
+                                font: {
+                                    sz: '10',
+                                    bold: row.isTotal,
+                                },
+                                border: {
+                                    top: row.isTotal && {
+                                        style: 'thin',
+                                        color: { rgb: '888888' },
+                                    },
+                                },
+                                alignment: {
+                                    horizontal:
+                                        index > 0 ? 'center' : undefined,
+                                },
+                                numFmt: col.label
+                                    ? col.label.charAt(col.label.length - 1) ===
+                                      '%'
+                                        ? '#,##0.00%'
+                                        : '#,##0.00'
+                                    : undefined,
                                 fill: col.background && {
                                     patternType: 'solid',
                                     fgColor: {

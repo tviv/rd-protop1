@@ -36,7 +36,12 @@ class DefaultHeader extends Component {
                 <AppSidebarToggler className="d-lg-none" display="md" mobile />
                 <AppNavbarBrand
                     full={{ src: logo, width: 95, height: 25, alt: 'Logo' }}
-                    minimized={{ src: sygnet, width: 30, height: 30, alt: 'Logo' }}
+                    minimized={{
+                        src: sygnet,
+                        width: 30,
+                        height: 30,
+                        alt: 'Logo',
+                    }}
                 />
                 <AppSidebarToggler className="d-md-down-none" display="lg" />
 
@@ -47,7 +52,9 @@ class DefaultHeader extends Component {
                         </DropdownToggle>
                         <DropdownMenu right style={{ right: 'auto' }}>
                             <LogoutElement>
-                                <DropdownItem><i className="fa fa-lock"></i> Выход</DropdownItem>
+                                <DropdownItem>
+                                    <i className="fa fa-lock" /> Выход
+                                </DropdownItem>
                             </LogoutElement>
                         </DropdownMenu>
                     </AppHeaderDropdown>
