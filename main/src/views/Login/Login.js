@@ -27,7 +27,11 @@ class Login extends Component {
         e.preventDefault();
         // gather your data/credentials here
         const credentials = {
-            username: this.state.username,
+            username:
+                (this.state.username &&
+                !this.state.username.includes('delta\\', 0)
+                    ? 'delta\\'
+                    : '') + this.state.username,
             password: this.state.password,
         };
 
