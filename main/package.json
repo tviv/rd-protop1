@@ -25,7 +25,7 @@
     "ra-core": "^2.9.5",
     "react": "^16.8.6",
     "react-chartjs-2": "^2.7.4",
-    "react-data-export": "^0.5.0",
+    "react-data-export": "git+https://github.com/tviv/react-data-export.git",
     "react-dom": "^16.8.6",
     "react-double-scrollbar": "0.0.15",
     "react-dropdown-tree-select": "^1.14.0",

@@ -141,7 +141,6 @@ let olapModelView = {
                 columns: data.headerColumns.map((x, ind) => {
                     return {
                         title: x.label,
-                        style: { font: { sz: '10' } },
                         width: {
                             wpx:
                                 ind < widths.length

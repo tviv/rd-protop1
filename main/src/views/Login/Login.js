@@ -17,6 +17,8 @@ import {
 import { connect } from 'react-redux';
 import { userLogin } from 'ra-core';
 
+const DEFAULT_DOMAIN = 'delta';
+
 class Login extends Component {
     state = {
         username: '',
@@ -25,12 +27,12 @@ class Login extends Component {
 
     submit = e => {
         e.preventDefault();
-        // gather your data/credentials here
+
         const credentials = {
             username:
                 (this.state.username &&
-                !this.state.username.includes('delta\\', 0)
-                    ? 'delta\\'
+                !this.state.username.startsWith(DEFAULT_DOMAIN)
+                    ? `${DEFAULT_DOMAIN}\\`
                     : '') + this.state.username,
             password: this.state.password,
         };
@@ -41,7 +43,7 @@ class Login extends Component {
 
     handleChange = event => {
         this.setState({
-            [event.target.id]: event.target.value,
+            [event.target.id]: event.target.value.trim(),
         });
     };
 
@@ -61,6 +63,7 @@ class Login extends Component {
                                     <CardBody>
                                         <div className="text-center col-12">
                                             <img
+                                                alt="logo"
                                                 src={'assets/img/favicon.png'}
                                                 style={{
                                                     height: '30px',
