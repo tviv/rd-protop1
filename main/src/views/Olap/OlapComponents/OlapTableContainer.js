@@ -239,6 +239,7 @@ class OlapTableContainer extends Component {
                             <FrozenTable frozenCols={this.props.frozenCols}>
                                 <ColorTable
                                     data={this.state.data}
+                                    valueColumnsOffset={3}
                                     {...this.props}
                                 />
                             </FrozenTable>

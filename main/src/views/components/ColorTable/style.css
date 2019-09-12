@@ -3,12 +3,16 @@ th.cell-expand-button {
     border-right-width: 0 !important;
 }
 
+th {
+    text-align: center;
+}
 th.cell-expand-button::before {
     content: '';
 }
 td.cell-expand-button + td,
 th.cell-expand-button + th {
     border-left-width: 0 !important;
+    border-right-width: 0 !important;
 }
 
 td.cell-expanded-empty::before {
@@ -46,4 +50,11 @@ td.cell-total {
 
 tr:last-child td {
     border-bottom-width: 3px;
+}
+
+th > div {
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -18,9 +18,9 @@ div.sticky {
     left: 0;
     top: 0;
     background: white;
-    border-top-width: 2px !important;
+    /*border-top-width: 2px !important;*/
     border-right-width: 2px !important;
-    border-bottom-width: 3px !important;
+    /*border-bottom-width: 3px !important;*/
     /*margin-top:0px; !*compensate for top border*!*/
 }
 

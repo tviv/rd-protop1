@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { PureComponent } from 'react';
 import model from './dailyRevenueModel';
 import OlapTableContainer from '../OlapComponents/OlapTableContainer';
@@ -22,7 +20,7 @@ class DailyRevenueTableContainer extends PureComponent {
             <OlapTableContainer
                 title="Ежедневная выручка за месяц"
                 model={model}
-                frozenCols={2}
+                frozenCols={model.FROZEN_COLUMN_COUNT + 1 /*1 expand column*/}
                 checkFilters={this.checkFilters}
                 onExpand={this.onExpand}
                 {...this.props}

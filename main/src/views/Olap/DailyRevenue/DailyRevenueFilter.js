@@ -52,6 +52,16 @@ class DailyRevenueFilter extends FilterHandler {
                             />
                         </FormGroup>
                     </Col>
+                    <Col xs="12" lg="3">
+                        <FormGroup>
+                            <Label htmlFor="org-select">Организации</Label>
+                            <WrappedSelect
+                                name="shop-select"
+                                hierarchyName="[Подразделения].[Организации]"
+                                maxLevel="1"
+                            />
+                        </FormGroup>
+                    </Col>
                     <Col xs="12" lg="2">
                         <FormGroup>
                             <div>
@@ -75,12 +85,8 @@ class DailyRevenueFilter extends FilterHandler {
                 <Row>
                     <Col xs="12" lg="3">
                         <FormGroup>
-                            <Label htmlFor="org-select">Организации</Label>
-                            <WrappedSelect
-                                name="shop-select"
-                                hierarchyName="[Подразделения].[Организации]"
-                                maxLevel="1"
-                            />
+                            <Label>Дни недели</Label>
+                            <WrappedSelect hierarchyName="[Даты].[День недели]" />
                         </FormGroup>
                     </Col>
                     <Col xs="12" lg="3">
@@ -99,12 +105,6 @@ class DailyRevenueFilter extends FilterHandler {
                                 hierarchyName="[Подразделения].[Подформаты]"
                                 maxLevel="1"
                             />
-                        </FormGroup>
-                    </Col>
-                    <Col xs="12" lg="3">
-                        <FormGroup>
-                            <Label>Направления</Label>
-                            <WrappedSelect hierarchyName="[Товары].[Направление менеджера]" />
                         </FormGroup>
                     </Col>
                 </Row>

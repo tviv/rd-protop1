@@ -150,14 +150,17 @@ class FrozenTable extends Component {
             //set frozen cols
             for (let j = 0; j < this.props.frozenCols; ++j) {
                 let colWidth = this.table2Ref.rows[1].cells[j].offsetWidth;
+                let colHeight = this.table2Ref.rows[1].cells[j].offsetHeight;
                 // if (this.table1Ref.rows[0] && this.table1Ref.rows[0].cells[0])
                 //   this.table1Ref.rows[0].cells[j].classList.add('frozen-col');
                 for (let i = 0; i < this.table2Ref.rows.length; ++i) {
                     let cell = this.table2Ref.rows[i].cells[j];
                     cell.classList.add('frozen-col');
 
-                    if (i >= this.headRowsNumber)
+                    if (i >= this.headRowsNumber) {
                         cell.classList.add('frozen-col-temp');
+                        cell.style.setProperty('height', `${colHeight + 3}px`); //todo about 3 px above
+                    }
                     cell.style.setProperty('width', `${colWidth}px`);
                     cell.style.setProperty('left', `${this.offsetLeft}px`);
                 }
@@ -176,6 +179,7 @@ class FrozenTable extends Component {
                     cell.classList.remove('frozen-col-temp');
                     cell.style.removeProperty('width');
                     cell.style.removeProperty('left');
+                    cell.style.removeProperty('height');
                 }
             }
         }

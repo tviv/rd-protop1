@@ -138,7 +138,9 @@ class ColorTable extends Component {
                             style={{
                                 background: col.background,
                                 ...styles.tableCell,
-                                ...(index >= 1 ? styles.tableCellValue : {}),
+                                ...(index >= this.props.valueColumnsOffset
+                                    ? styles.tableCellValue
+                                    : {}),
                             }}
                             key={index}
                             onClick={this.handleCellClick}
@@ -170,18 +172,20 @@ class ColorTable extends Component {
                         <td className="cell-expand-button cell-expanded-empty">
                             <br />
                         </td>
-                        {rowD.map((col, index) => (
-                            <td
-                                className={'cell-cone, cell-detail'}
-                                style={{
-                                    background: col.background,
-                                    ...styles.tableCell,
-                                }}
-                                key={`dcell${rowIndex}_${index}`}
-                            >
-                                {col.label}
-                            </td>
-                        ))}
+                        {rowD
+                            .filter(x => !x.hidden)
+                            .map((col, index) => (
+                                <td
+                                    className={'cell-cone, cell-detail'}
+                                    style={{
+                                        background: col.background,
+                                        ...styles.tableCell,
+                                    }}
+                                    key={`dcell${rowIndex}_${index}`}
+                                >
+                                    {col.label}
+                                </td>
+                            ))}
                     </tr>
                 ));
                 rows.push(detailRow);
@@ -212,7 +216,11 @@ class ColorTable extends Component {
                                                 background: item.background,
                                             }}
                                         >
-                                            {item.label}
+                                            <div>
+                                                {' '}
+                                                {/* todo move from here to FrozenTable component */}
+                                                {item.label}
+                                            </div>
                                         </th>
                                     );
                                 })}
@@ -232,7 +240,12 @@ class ColorTable extends Component {
 
 ColorTable.propTypes = {
     data: PropTypes.object.isRequired,
+    valueColumnsOffset: PropTypes.number,
     onExpand: PropTypes.func,
+};
+
+ColorTable.defaultProps = {
+    valueColumnsOffset: 1,
 };
 
 const styles = {

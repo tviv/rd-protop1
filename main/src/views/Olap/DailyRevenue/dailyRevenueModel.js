@@ -9,14 +9,18 @@ function addDays(date, days) {
 }
 
 let DAY_COLUMN = 0;
-let ORDER_COLUMN_START = 17;
+let COMMENT_COUNT_COLUMN = 2;
+
+let ORDER_COLUMN_START = 20;
 let NOCASH_COLUMN_START = ORDER_COLUMN_START + 7;
 let NIGHT_TIME_COLUMN_START = NOCASH_COLUMN_START + 6;
 let CERTIFICATE_COLUMN_START = NIGHT_TIME_COLUMN_START + 4;
+let COMMENT_COLUMN_START = CERTIFICATE_COLUMN_START + 8;
 
 let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
     MAIN_URL: '/api/olap/daily-revenue',
-
+    HIDDEN_COLS: [2],
+    FROZEN_COLUMN_COUNT: 2,
     data: {},
 
     filters: {
@@ -96,10 +100,16 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
             if (cell.Value > 0 && cell.Value <= 0.97) return '#FCBFBF';
         }
 
-        if (cell.x > CERTIFICATE_COLUMN_START) return '#EFF3DE';
-        if (cell.x > NIGHT_TIME_COLUMN_START) return '#DEEFF7';
-        if (cell.x > NOCASH_COLUMN_START) return '#E7DFEF';
-        if (cell.x > ORDER_COLUMN_START) return '#DEF7E0';
+        if (cell.x === DAY_COLUMN || cell.x === COMMENT_COLUMN_START) {
+            if (cell.row && cell.row[COMMENT_COUNT_COLUMN].Value > 0)
+                return '#BFFCE7';
+        }
+
+        if (cell.x >= COMMENT_COLUMN_START) return null;
+        if (cell.x >= CERTIFICATE_COLUMN_START) return '#EFF3DE';
+        if (cell.x >= NIGHT_TIME_COLUMN_START) return '#DEEFF7';
+        if (cell.x >= NOCASH_COLUMN_START) return '#E7DFEF';
+        if (cell.x >= ORDER_COLUMN_START) return '#DEF7E0';
 
         return res;
     },
