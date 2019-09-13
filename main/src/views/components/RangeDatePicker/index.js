@@ -6,7 +6,9 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Input } from 'reactstrap';
-import { FormControl } from 'react-bootstrap'; //todo temporally - or remove reactstrap
+import './style.css';
+
+//import { FormControl } from 'react-bootstrap'; //todo temporally - or remove reactstrap
 
 class RangeDatePicker extends React.Component {
     constructor(props) {
@@ -101,9 +103,10 @@ class RangeDatePicker extends React.Component {
                 alwaysShowCalendars
                 onApply={this.onDatesChange}
             >
-                <FormControl
+                <Input
                     id="formControlsTextB"
                     type="text"
+                    label="Text"
                     placeholder="Enter text"
                     disabled={true}
                     style={{ cursor: 'pointer', backgroundColor: 'white' }}
