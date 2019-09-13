@@ -6,7 +6,7 @@ class DailyRevenueTableContainer extends PureComponent {
     //todo move to filter block
     checkFilters = filters => {
         let vals = new Map(filters.filterArray).get('[Даты].[Месяцы]');
-        let res = vals && vals.length > 0 && !vals.includes('0');
+        let res = (vals && vals.length > 0 && !vals.includes('0')) || true;
         if (res) return undefined;
         else return 'Нет ограничения по дате';
     };

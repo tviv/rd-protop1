@@ -1,6 +1,7 @@
 import { getJsonFromOlapApi } from '../../../api/response-handle';
 import dateformat from 'dateformat';
 import olapModelView from '../OlapComponents/olapModelView';
+import moment from 'moment';
 
 function addDays(date, days) {
     var result = new Date(date);
@@ -24,15 +25,23 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
     data: {},
 
     filters: {
+        periodFilter: {
+            date: moment()
+                .startOf('month')
+                .format('YYYY-MM-DD'),
+            endDate: moment()
+                .endOf('month')
+                .format('YYYY-MM-DD'),
+        },
         filterArray: [
-            [
-                '[Даты].[Месяцы]',
-                [
-                    process.env.NODE_ENV === 'development'
-                        ? '2019-09-01T00:00:00'
-                        : '2019-09-01T00:00:00',
-                ],
-            ],
+            // [
+            //     '[Даты].[Месяцы]',
+            //     [
+            //         process.env.NODE_ENV === 'development'
+            //             ? '2019-09-01T00:00:00'
+            //             : '2019-09-01T00:00:00',
+            //     ],
+            // ],
         ],
     },
 

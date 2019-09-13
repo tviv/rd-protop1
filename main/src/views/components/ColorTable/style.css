@@ -49,6 +49,7 @@ td.cell-total {
 }
 
 tr:last-child td {
+    /*border-top-width: 2px !important;*/
     border-bottom-width: 3px;
 }
 
