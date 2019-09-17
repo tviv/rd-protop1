@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './style.css';
 import PropTypes from 'prop-types';
+import { UncontrolledTooltip } from 'reactstrap';
 
 class ColorTable extends Component {
     state = {
@@ -88,6 +89,22 @@ class ColorTable extends Component {
         </div>
     );
 
+    getTooltip = cell => {
+        return cell.tooltip ? (
+            <UncontrolledTooltip
+                placement="bottom"
+                style={
+                    cell.background && {
+                        background: cell.background,
+                    }
+                }
+                target={cell.cellId}
+            >
+                {cell.tooltip}
+            </UncontrolledTooltip>
+        ) : null;
+    };
+
     getRows = (row, rowIndex) => {
         let rows = [];
 
@@ -142,10 +159,11 @@ class ColorTable extends Component {
                                     ? styles.tableCellValue
                                     : {}),
                             }}
-                            key={index}
+                            key={col.cellId}
                             onClick={this.handleCellClick}
                         >
                             {col.label}
+                            {this.getTooltip(col)}
                         </td>
                     ))}
             </tr>
@@ -176,6 +194,7 @@ class ColorTable extends Component {
                             .filter(x => !x.hidden)
                             .map((col, index) => (
                                 <td
+                                    id={col.cellId}
                                     className={'cell-cone, cell-detail'}
                                     style={{
                                         background: col.background,
@@ -184,6 +203,7 @@ class ColorTable extends Component {
                                     key={`dcell${rowIndex}_${index}`}
                                 >
                                     {col.label}
+                                    {this.getTooltip(col)}
                                 </td>
                             ))}
                     </tr>

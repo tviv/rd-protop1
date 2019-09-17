@@ -7,25 +7,6 @@
   -webkit-appearance: none;
 }
 
-td.cell-cone {
-  color: #5c6873;
- }
-
-td.cell-cone.focus {
-
-  background-color: #fff;
-  border-color: #8ad4ee;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(32, 168, 216, 0.25); }
-
-td.cell-cone:hover {
-
-  background-color: #fff;
-  cursor: pointer;
-  border-color: #8ad4ee;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(32, 168, 216, 0.25); }
-
 .main .container-fluid {
   height: 100%;
   padding-bottom: 80px!important;

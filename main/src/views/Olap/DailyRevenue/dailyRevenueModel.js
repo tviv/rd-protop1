@@ -64,7 +64,7 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
                     response.data.rows.forEach((row, yInd) => {
                         row.forEach((cell, xInd) => {
                             Object.assign(cell, {
-                                cellId: `dc_${xInd}_${yInd}`,
+                                cellId: `dc_${rowIndex}_${xInd}_${yInd}`,
                                 label: cell.FmtValue
                                     ? cell.FmtValue
                                     : cell.Caption,
@@ -135,6 +135,15 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
             data.rows.push(data.rows[0]);
             data.rows.shift();
         }
+
+        data.rows.forEach((row, index) => {
+            if (row[COMMENT_COLUMN_START].Value) {
+                row[0].tooltip =
+                    (row[COMMENT_COUNT_COLUMN].Value > 1
+                        ? 'Комментариев: '
+                        : '') + row[COMMENT_COLUMN_START].label;
+            }
+        });
     },
 
     convertDataToExcelFormat: function(data) {
