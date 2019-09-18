@@ -124,20 +124,6 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
     },
 
     convertDataToDisplay: function(data) {
-        data.rows.forEach((row, index) => {
-            if (row[COMMENT_COLUMN_START].Value) {
-                if (index === 0) {
-                    row[COMMENT_COLUMN_START].label = `${
-                        row[COMMENT_COUNT_COLUMN].Value
-                    } шт.`;
-                }
-                row[0].tooltip =
-                    row[COMMENT_COUNT_COLUMN].Value > 1 || index === 0
-                        ? `Комментариев: ${row[COMMENT_COUNT_COLUMN].Value} шт.`
-                        : `${row[COMMENT_COLUMN_START].label}`;
-            }
-        });
-
         if (data.rows.length > 0 && data.rows[0][0].label === 'All') {
             //data.rows[0][0].label = 'Итого';
             data.rows[0].forEach((col, index) => {
@@ -149,6 +135,20 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
             data.rows.push(data.rows[0]);
             data.rows.shift();
         }
+
+        data.rows.forEach((row, index) => {
+            if (row[COMMENT_COLUMN_START].Value) {
+                if (row.isTotal) {
+                    row[COMMENT_COLUMN_START].label = `${
+                        row[COMMENT_COUNT_COLUMN].Value
+                    } шт.`;
+                }
+                row[0].tooltip =
+                    row[COMMENT_COUNT_COLUMN].Value > 1 || row.isTotal
+                        ? `Комментариев: ${row[COMMENT_COUNT_COLUMN].Value} шт.`
+                        : `${row[COMMENT_COLUMN_START].label}`;
+            }
+        });
     },
 
     convertDataToExcelFormat: function(data) {
