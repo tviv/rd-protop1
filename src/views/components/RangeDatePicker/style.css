@@ -1,0 +1,11 @@
+.react-bootstrap-daterangepicker-container {
+    display: inherit !important;
+}
+
+.daterangepicker td.in-range {
+    background-color: #E2F1F8;
+}
+
+.daterangepicker td.active {
+    background-color: #357ebd;
+}

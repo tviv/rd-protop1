@@ -1,0 +1,39 @@
+div.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 55px;
+    background-color: #fff;
+}
+
+.hide-scroll {
+    -ms-overflow-style: none;
+}
+
+.hide-scroll::-webkit-scrollbar {
+    height: 0 !important;
+}
+
+.frozen-col {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: white;
+    /*border-top-width: 2px !important;*/
+    border-right-width: 2px !important;
+    /*border-bottom-width: 3px !important;*/
+    /*margin-top:0px; !*compensate for top border*!*/
+}
+
+.frozen-col-temp {
+    top: auto;
+    border-top-width: 0.5px !important; /*only relevant for first row*/
+    margin-top: -0.5px; /*compensate for top border*/
+    /*border-right-width:2px !important;;*/
+}
+.table-bordered {
+    /*margin-left: 109px;*/
+}
+
+.hide-table-header > thead {
+    display: none;
+}

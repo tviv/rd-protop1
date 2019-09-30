@@ -1,0 +1,86 @@
+td.cell-expand-button,
+th.cell-expand-button {
+    border-right-width: 0 !important;
+}
+
+
+td.cell-cone, div.tooltip-inner {
+    color: #5c6873;
+}
+
+td.cell-cone.focus {
+
+    background-color: #fff;
+    border-color: #8ad4ee;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(32, 168, 216, 0.25); }
+
+td.cell-cone:hover {
+
+    background-color: #fff;
+    cursor: pointer;
+    border-color: #8ad4ee;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(32, 168, 216, 0.25); }
+
+th {
+    text-align: center;
+}
+th.cell-expand-button::before {
+    content: '';
+}
+td.cell-expand-button + td,
+th.cell-expand-button + th {
+    border-left-width: 0 !important;
+    border-right-width: 0 !important;
+}
+
+td.cell-expanded-empty::before {
+    border-top-width: 0 !important;
+    content: ' ';
+}
+
+td.cell-expand-button > a {
+    margin-top: -15px;
+    margin-bottom: -15px;
+}
+
+td.cell-expanded-empty {
+    font-size: smaller;
+}
+
+td.cell-expand-button:hover {
+    cursor: pointer;
+    color: #8ad4ee;
+}
+
+td.cell-expanded-empty:hover {
+    cursor: inherit;
+}
+
+td.cell-detail {
+    font-size: smaller;
+    font-style: italic;
+    text-align: right;
+}
+
+td.cell-total {
+    font-weight: bold;
+}
+
+tr:last-child td {
+    /*border-top-width: 2px !important;*/
+    border-bottom-width: 3px;
+}
+
+th > div {
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+div.tooltip-inner {
+    border: 1px solid #737373;
+}
