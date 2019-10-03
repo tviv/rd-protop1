@@ -24,11 +24,11 @@ let olapModelView = {
         return this.getData(this.MAIN_URL, filters);
     },
 
-    getData: function(url, filters, cellPrefixId = 'c') {
+    getData: function(url, options, cellPrefixId = 'c') {
         let model = this;
 
         return new Promise((resolve, reject) => {
-            getJsonFromOlapApi(url, filters)
+            getJsonFromOlapApi(url, options)
                 .then(response => {
                     //set cellId
                     response.data.rows.forEach((row, yInd) => {
@@ -135,6 +135,16 @@ let olapModelView = {
         });
 
         return result;
+    },
+
+    getExcelToDownload: function(index) {
+        let model = this;
+        return new Promise(resolve => {
+            if (model.data)
+                resolve(this.convertDataToExcelFormat(model.data));
+            else
+                resolve(null)
+        });
     },
 
     convertDataToExcelFormat: function(data) {

@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import ColorTable from '../../components/ColorTable/ColorTable';
-import { Button, Col, Row } from 'reactstrap';
+import {
+    Col,
+    Row,
+} from 'reactstrap';
 import ReactExport from 'react-data-export';
 import FrozenTable from '../../components/FrozenTable/FrozenTable';
+import ExcelDownloadButton from '../../components/ExcelDownloadButton';
 import PropTypes from 'prop-types';
 
 import { FETCH_ERROR } from 'ra-core';
@@ -13,8 +17,6 @@ const fetchError = error => ({
     error,
 });
 
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
 const EventTypes = { LOADING: 1, ERROR: 2, NO_DATA: 3, FILTER_ERROR: 4 };
 
@@ -26,11 +28,13 @@ class OlapTableContainer extends Component {
         checkFilters: PropTypes.func,
         onExpand: PropTypes.func,
         frozenCols: PropTypes.number,
+        downloadOptions: PropTypes.arrayOf(PropTypes.string),
     };
 
     static defaultProps = {
         onRefresh: () => {},
         checkFilters: () => undefined,
+        downloadOptions: [],
     };
 
     constructor(props, model, addProps) {
@@ -43,7 +47,6 @@ class OlapTableContainer extends Component {
         this.state = {
             error: '',
             data: null, //{headerColumns:['dd dfdd', 'bbbb dd'], rows: [[{label: '343', cellId: '33', background: '#A6CAF0'}, {label: '22', cellId: '22'}]]},
-            downloadChoice: -1,
         };
     }
 
@@ -191,33 +194,12 @@ class OlapTableContainer extends Component {
         return res;
     };
 
-    onDownloadClick = () => {
-        if (!(this.state.downloadChoice >= 0)) {
-            this.setState({ downloadChoice: 0 });
-        }
+    onRequestToDownloadData = index => {
+        return this.model.getExcelToDownload(index);
     };
 
     render() {
-        let downloadBlock = (
-            <div>
-                <Button
-                    color="primary"
-                    className="float-right"
-                    filename="данные"
-                    onClick={this.onDownloadClick}
-                >
-                    <i className="icon-cloud-download" />
-                </Button>
-                {this.state.downloadChoice >= 0 && (
-                    <ExcelFile hideElement={true}>
-                        <ExcelSheet
-                            dataSet={this.getDownloadData(this.state.data)}
-                            name="Sheet 1"
-                        />
-                    </ExcelFile>
-                )}
-            </div>
-        );
+        let { downloadOptions } = this.props;
 
         if (this.state.refresh) {
             return this.getMessageBox(EventTypes.LOADING);
@@ -247,7 +229,12 @@ class OlapTableContainer extends Component {
                             </h5>
                         </Col>
                         <Col ms="1">
-                            {downloadBlock}
+                            <div className="float-right">
+                                <ExcelDownloadButton
+                                downloadOptions={downloadOptions}
+                                getDownloadDataPromise={this.onRequestToDownloadData}
+                                />
+                            </div>
                         </Col>
                     </Row>
                     <Row>

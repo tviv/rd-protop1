@@ -1,6 +1,6 @@
 {
   "name": "Ardi",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Ardi",
   "author": "",
   "homepage": "",
@@ -91,7 +91,6 @@
     "watch-css": "npm run build-css --watch --recursive",
     "start-js": "set PORT=3009 && react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
-    "startMono": "npm-run-all -p watch-cssMono start-js",
     "build-js": "react-scripts build",
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",

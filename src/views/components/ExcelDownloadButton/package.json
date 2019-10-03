@@ -1,0 +1,6 @@
+{
+    "name": "ExcelDownloadButton",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./ExcelDownloadButton.tsx"
+}

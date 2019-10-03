@@ -10,9 +10,9 @@ function addDays(date, days) {
 }
 
 let DAY_COLUMN = 0;
-let COMMENT_COUNT_COLUMN = 2;
+let COMMENT_COUNT_COLUMN = 3;
 
-let ORDER_COLUMN_START = 20;
+let ORDER_COLUMN_START = 21;
 let NOCASH_COLUMN_START = ORDER_COLUMN_START + 7;
 let NIGHT_TIME_COLUMN_START = NOCASH_COLUMN_START + 6;
 let CERTIFICATE_COLUMN_START = NIGHT_TIME_COLUMN_START + 4;
@@ -20,7 +20,7 @@ let COMMENT_COLUMN_START = CERTIFICATE_COLUMN_START + 8;
 
 let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
     MAIN_URL: '/api/olap/daily-revenue',
-    HIDDEN_COLS: [2],
+    HIDDEN_COLS: [1, 3],
     FROZEN_COLUMN_COUNT: 2,
     data: {},
 
@@ -98,6 +98,7 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
             //data.rows[0][0].label = 'Итого';
             data.rows[0].forEach((col, index) => {
                 if (index === 0) col.label = 'Итого';
+                if (index === 1 && col.label === 'All') col.label = null; //the shop columns is added to table
                 //col.bold = true;
             });
 
@@ -105,6 +106,12 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
             data.rows.push(data.rows[0]);
             data.rows.shift();
         }
+
+        data.rows.forEach(row =>
+            row.forEach(col => {
+                if (col.label === 'All') col.label = 'Все';
+            })
+        );
 
         data.rows.forEach((row, index) => {
             if (row[COMMENT_COLUMN_START].Value) {
@@ -119,6 +126,26 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
                         : `${row[COMMENT_COLUMN_START].label}`;
             }
         });
+    },
+
+    getExcelToDownload: function(index) {
+        let model = this;
+        switch (index) {
+            case 0: //what we see
+                return new Promise(resolve =>
+                    resolve(model.convertDataToExcelFormat(model.data))
+                );
+            case 1: //request to detail data
+                let options = { ...model.filters, withShopColumn: true };
+                return new Promise((resolve, reject) => {
+                    return model
+                        .getMainData(options)
+                        .then(data =>
+                            resolve(model.convertDataToExcelFormat(data))
+                        )
+                        .catch(e => reject());
+                });
+        }
     },
 
     convertDataToExcelFormat: function(data) {

@@ -23,6 +23,7 @@ class DailyRevenueTableContainer extends PureComponent {
                 frozenCols={model.FROZEN_COLUMN_COUNT + 1 /*1 expand column*/}
                 checkFilters={this.checkFilters}
                 onExpand={this.onExpand}
+                downloadOptions={['Краткая форма', 'Подробная форма (время загрузки до 1,5 минут)']}
                 {...this.props}
             />
         );
