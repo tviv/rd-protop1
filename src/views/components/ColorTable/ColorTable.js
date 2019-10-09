@@ -60,7 +60,8 @@ class ColorTable extends Component {
                 this.handleExpand(rowInd, true);
             })
             .catch(e => {
-                this.detailMap.set(rowInd, 'ошибка загрузки');
+                this.props.onError('Ошибка загрузки детализации: ' + e);
+                this.detailMap.set(rowInd, 'ошибка');
                 this.handleExpand(rowInd, true);
             });
     };
@@ -176,7 +177,7 @@ class ColorTable extends Component {
             if (detailData) {
                 if (typeof detailData === 'string') {
                     rows.push(
-                        <tr>
+                        <tr key={rowIndex * 1000}>
                             <td>
                                 <br />
                             </td>
@@ -262,10 +263,12 @@ ColorTable.propTypes = {
     data: PropTypes.object.isRequired,
     valueColumnsOffset: PropTypes.number,
     onExpand: PropTypes.func,
+    onError: PropTypes.func,
 };
 
 ColorTable.defaultProps = {
     valueColumnsOffset: 1,
+    onError: () => {},
 };
 
 const styles = {

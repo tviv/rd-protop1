@@ -14,8 +14,7 @@ import {
     TabPane,
     Button,
 } from 'reactstrap';
-import ColorTable from '../../components/ColorTable/ColorTable';
-import FrozenTable from '../../components/FrozenTable/FrozenTable';
+
 
 import model from './dailyRevenueModel';
 import DailyRevenueTableContainer from './DailyRevenueTableContainer';

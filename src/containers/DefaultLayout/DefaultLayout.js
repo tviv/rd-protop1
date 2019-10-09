@@ -24,16 +24,6 @@ import DefaultHeader from './DefaultHeader';
 import ProtectedRoute from '../../auth/ProtectedRoute';
 
 class DefaultLayout extends Component {
-    constructor(props) {
-        super(props);
-        this.myRef = React.createRef();
-        this.state = {};
-    }
-    componentDidMount() {
-        //let { clientHeight, clientWidth } = this.refs.myImgContainer;
-        //console.log(this.refs);
-    }
-
     render() {
         return (
             <div className="app">
@@ -48,7 +38,7 @@ class DefaultLayout extends Component {
                         <AppSidebarFooter />
                         <AppSidebarMinimizer />
                     </AppSidebar>
-                    <main className="main" ref="myImgContainer">
+                    <main className="main">
                         <AppBreadcrumb appRoutes={routes} />
                         <Container fluid>
                             <Switch>

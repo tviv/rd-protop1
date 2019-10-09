@@ -9,7 +9,7 @@ import FrozenTable from '../../components/FrozenTable/FrozenTable';
 import ExcelDownloadButton from '../../components/ExcelDownloadButton';
 import PropTypes from 'prop-types';
 
-import { FETCH_ERROR } from 'ra-core';
+import { FETCH_ERROR, showNotification } from 'ra-core';
 import { connect } from 'react-redux';
 
 const fetchError = error => ({
@@ -199,7 +199,7 @@ class OlapTableContainer extends Component {
     };
 
     render() {
-        let { downloadOptions } = this.props;
+        let { downloadOptions, showNotification } = this.props;
 
         if (this.state.refresh) {
             return this.getMessageBox(EventTypes.LOADING);
@@ -244,6 +244,7 @@ class OlapTableContainer extends Component {
                                 <ColorTable
                                     data={this.state.data}
                                     valueColumnsOffset={3}
+                                    onError={showNotification}
                                     {...this.props}
                                 />
                             </FrozenTable>
@@ -257,5 +258,5 @@ class OlapTableContainer extends Component {
 
 export default connect(
     undefined,
-    { fetchError }
+    { fetchError, showNotification }
 )(OlapTableContainer);

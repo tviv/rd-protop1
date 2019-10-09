@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     Badge,
+    UncontrolledDropdown,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
@@ -46,19 +47,20 @@ class DefaultHeader extends Component {
                 <AppSidebarToggler className="d-md-down-none" display="lg" />
 
                 <Nav className="ml-auto" navbar>
-                    <AppHeaderDropdown direction="down">
+                    <UncontrolledDropdown nav direction="down">
+                        <DropdownToggle nav>
+                            <i className="fa fa-user" />
+                        </DropdownToggle>
 
-                        <DropdownMenu right style={{ right: 'auto' }}>
+                        <DropdownMenu right>
                             <LogoutElement>
                                 <DropdownItem>
                                     <i className="fa fa-lock" /> Выход
                                 </DropdownItem>
                             </LogoutElement>
                         </DropdownMenu>
-                    </AppHeaderDropdown>
+                    </UncontrolledDropdown>
                 </Nav>
-
-                {/*<AppAsideToggler className="d-lg-none" mobile />*/}
             </React.Fragment>
         );
     }
