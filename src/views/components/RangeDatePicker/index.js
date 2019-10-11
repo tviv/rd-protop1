@@ -1,7 +1,5 @@
 import React from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
-import 'bootstrap/dist/css/bootstrap.css';
-// you will also need the css that comes with bootstrap-daterangepicker
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import moment from 'moment';
 import PropTypes from 'prop-types';

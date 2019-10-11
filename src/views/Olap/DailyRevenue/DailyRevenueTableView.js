@@ -1,20 +1,6 @@
 'use strict';
 
 import React, { Component } from 'react';
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Col,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    FormGroup,
-    TabPane,
-    Button,
-} from 'reactstrap';
-
 
 import model from './dailyRevenueModel';
 import DailyRevenueTableContainer from './DailyRevenueTableContainer';

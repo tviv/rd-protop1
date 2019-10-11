@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { Component } from 'react';
 import {
     Badge,
@@ -14,11 +12,11 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import CompaireShopConesChart from './CompaireShopConesChart';
-import TestComponent from './TestComponent';
-import salesConeModel from './salesConeModel';
 import SalesConeTableView from './SalesConeTableView';
-import FrozenTable from '../../components/FrozenTable/FrozenTable';
-import { Authenticated } from 'ra-core';
+import compose from 'recompose/compose';
+import { LegendWindow } from '../../components/modalInfos';
+import { translate } from 'ra-core';
+import legendBody from "./legendDescription";
 
 class Tabs extends Component {
     constructor(props) {
@@ -54,10 +52,25 @@ class Tabs extends Component {
     tableConfig = {};
 
     render() {
+        const { translate } = this.props;
+
+        const helpElement = (
+            <div className="float-right">
+                <Button block color="ghost-secondary">
+                    <i className="fa fa-info-circle fa-lg" />
+                </Button>
+            </div>
+        );
+
         return (
             <div className="animated fadeIn">
                 <Row>
                     <Col xs="12" md="12">
+                        <LegendWindow
+                            legend={legendBody}
+                            element={helpElement}
+                            translation={{ cancel: translate('ra.action.cancel') }}
+                        />
                         <Nav tabs>
                             <NavItem>
                                 <NavLink
@@ -308,4 +321,5 @@ const tempData = {
         ],
     ],
 };
-export default Tabs;
+
+export default translate(Tabs);

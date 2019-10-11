@@ -1,23 +1,5 @@
 import React, { Component } from 'react';
-import {
-    FormGroup,
-    Label,
-    Input,
-    Popover,
-    PopoverHeader,
-    PopoverBody,
-    Button,
-    Collapse,
-    Card,
-    CardBody,
-    CardHeader,
-    Col,
-    Pagination,
-    PaginationItem,
-    PaginationLink,
-    Row,
-    Table,
-} from 'reactstrap';
+import { FormGroup, Label, Col, Row } from 'reactstrap';
 
 import model from './dailyRevenueModel';
 import { AppSwitch } from '@coreui/react';

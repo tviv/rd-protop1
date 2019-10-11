@@ -1,23 +1,5 @@
-'use strict';
-
 import React, { Component } from 'react';
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Col,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    TabContent,
-    TabPane,
-    Button,
-} from 'reactstrap';
-import ColorTable from '../../components/ColorTable/ColorTable';
-import FrozenTable from '../../components/FrozenTable/FrozenTable';
-
-import model from './dailyRevenueModel';
+import { Card, CardHeader, CardBody, Col, Row } from 'reactstrap';
 import DailyRevenueTableView from './DailyRevenueTableView';
 
 class RevenueForm extends Component {

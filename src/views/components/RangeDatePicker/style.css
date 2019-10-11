@@ -9,3 +9,7 @@
 .daterangepicker td.active {
     background-color: #357ebd;
 }
+
+.form-control {
+    font-size: 1rem;
+}

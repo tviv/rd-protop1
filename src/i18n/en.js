@@ -5,7 +5,7 @@ export default {
             add: 'Add',
             back: 'Go Back',
             bulk_actions: '1 item selected |||| %{smart_count} items selected',
-            cancel: 'Отмена',
+            cancel: 'Cancel',
             clear_input_value: 'Clear value',
             clone: 'Clone',
             confirm: 'Confirm',
