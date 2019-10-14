@@ -37,7 +37,7 @@ const routes = [
     { path: '/', exact: true, name: 'Начало', component: DefaultLayout },
     {
         path: '/dashboard',
-        name: 'Общая панель аналитики',
+        name: 'Общая панель',
         component: Dashboard,
     },
     {

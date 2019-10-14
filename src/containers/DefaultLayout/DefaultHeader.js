@@ -7,7 +7,6 @@ import {
     DropdownToggle,
     Nav,
     NavItem,
-    NavLink,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import LogoutElement from '../../views/LogoutElement';
@@ -20,6 +19,7 @@ import {
 } from '@coreui/react';
 import logo from '../../assets/img/brand/logo.png';
 import sygnet from '../../assets/img/brand/sygnet.png';
+import { Link, NavLink } from 'react-router-dom';
 
 const propTypes = {
     children: PropTypes.node,
@@ -35,16 +35,35 @@ class DefaultHeader extends Component {
         return (
             <React.Fragment>
                 <AppSidebarToggler className="d-lg-none" display="md" mobile />
-                <AppNavbarBrand
-                    full={{ src: logo, width: 95, height: 25, alt: 'Logo' }}
-                    minimized={{
-                        src: sygnet,
-                        width: 30,
-                        height: 30,
-                        alt: 'Logo',
-                    }}
+                <Link to="./dashboard">
+                    <AppNavbarBrand
+                        tag="span"
+                        full={{ src: logo, width: 95, height: 25, alt: 'Logo' }}
+                        minimized={{
+                            src: sygnet,
+                            width: 30,
+                            height: 30,
+                            alt: 'Logo'
+                        }}
+                    />
+                </Link>
+                <AppSidebarToggler
+                    className="d-md-down-none"
+                    display="lg"
+                    style={{ display: 'none' }}
                 />
-                <AppSidebarToggler className="d-md-down-none" display="lg" />
+                <Nav className="d-md-down-none" navbar>
+                    <NavItem className="px-3">
+                        <NavLink to="/olap/sales-cone" className="nav-link">
+                            Воронка продаж
+                        </NavLink>
+                    </NavItem>
+                    <NavItem className="px-3">
+                        <NavLink to="/olap/daily-revenue" className="nav-link">
+                            Ежедневная выручка
+                        </NavLink>
+                    </NavItem>
+                </Nav>
 
                 <Nav className="ml-auto" navbar>
                     <UncontrolledDropdown nav direction="down">

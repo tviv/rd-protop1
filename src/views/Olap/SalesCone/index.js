@@ -16,7 +16,7 @@ import SalesConeTableView from './SalesConeTableView';
 import compose from 'recompose/compose';
 import { LegendWindow } from '../../components/modalInfos';
 import { translate } from 'ra-core';
-import legendBody from "./legendDescription";
+import legendBody from './legendDescription';
 
 class Tabs extends Component {
     constructor(props) {
@@ -52,7 +52,7 @@ class Tabs extends Component {
     tableConfig = {};
 
     render() {
-        const { translate } = this.props;
+        const { translate, locale } = this.props;
 
         const helpElement = (
             <div className="float-right">
@@ -67,9 +67,12 @@ class Tabs extends Component {
                 <Row>
                     <Col xs="12" md="12">
                         <LegendWindow
-                            legend={legendBody}
+                            legend={legendBody[locale]}
                             element={helpElement}
-                            translation={{ cancel: translate('ra.action.cancel') }}
+                            isLarge={false}
+                            translation={{
+                                cancel: translate('ra.action.cancel'),
+                            }}
                         />
                         <Nav tabs>
                             <NavItem>

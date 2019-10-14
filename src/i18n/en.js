@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     ra: {
         action: {
             add_filter: 'Add filter',
@@ -95,7 +95,7 @@ export default {
             username: 'Username',
             password: 'Password',
             sign_in: 'Sign in',
-            sign_in_error: 'Логин и пароль не распознаны, попробуйте еще раз',
+            sign_in_error: 'Authentication failed, please retry',
             logout: 'Logout',
         },
         notification: {
@@ -108,7 +108,7 @@ export default {
             data_provider_error:
                 'dataProvider error. Check the console for details.',
             canceled: 'Action cancelled',
-            logged_out: 'Ваша сессия не действительна, переподключитесь',
+            logged_out: 'Your session has ended, please reconnect.',
         },
         validation: {
             required: 'Required',

@@ -3,6 +3,7 @@
 import { getJsonFromOlapApi } from '../../../api/response-handle';
 import dateformat from 'dateformat';
 import olapModelView from '../OlapComponents/olapModelView';
+import Constants from './constants';
 
 function addDays(date, days) {
     var result = new Date(date);
@@ -178,16 +179,16 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
         let res = null;
         if (cell.row === undefined) return res;
 
-        if (cell.row[1].Value == 'Нет') res = '#FFCC99';
+        if (cell.row[1].Value == 'Нет') res = Constants.noActiveGoodColor;
 
         if (!cell || cell.x < KUP_COLUMN) return res;
 
         let deviation = this.getDeviationOfCell(cell);
         if (deviation > 0.2) {
-            return '#A6CAF0';
+            return Constants.deviationPositiveColor;
         }
         if (deviation < -0.2 && deviation > -1) {
-            return '#FFC0CB';
+            return Constants.deviationNegativeColor;
         }
 
         return res;

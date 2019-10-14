@@ -4,7 +4,6 @@ import withContext from 'recompose/withContext';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import { CoreRouter } from './CoreRouter';
 import { TranslationProvider } from 'ra-core';
 
 import './App.css';
@@ -25,7 +24,7 @@ import Login from './views/Login';
 import createAdminStore from './createAdminStore';
 import dataProvider from './dataProvider';
 import authProvider from './auth/authProvider';
-import i18nProvider from './i18n/i18nProvider';
+import i18nProvider from './i18nProvider';
 import { createHashHistory } from 'history';
 import Notification from './views/components/Notification';
 
