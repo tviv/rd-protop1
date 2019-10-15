@@ -23,7 +23,8 @@
   "exclude": [
     "**/*.spec.ts",
     "**/*.spec.tsx",
-    "**/*.spec.js"
+    "**/*.spec.js",
+    "**/*.stories.tsx"
   ],
   "include": [
     "src"
