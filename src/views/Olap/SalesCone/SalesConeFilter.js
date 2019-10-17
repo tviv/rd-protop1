@@ -16,6 +16,8 @@ class SalesConeFilter extends FilterHandler {
     };
 
     render() {
+        const { defaultValues } = this.props;
+
         let WrappedSelect = this.WrappedSelect;
         return (
             <FilterContainer>
@@ -99,6 +101,12 @@ class SalesConeFilter extends FilterHandler {
                                 className={'mx-1'}
                                 color={'primary'}
                                 outline={'alt'}
+                                checked={
+                                    defaultValues.get('[Товары].[Активный]') &&
+                                    defaultValues.get(
+                                        '[Товары].[Активный]'
+                                    )[0] === '1'
+                                }
                                 onChange={event => {
                                     this.handleChange('[Товары].[Активный]', [
                                         event.target.checked ? '1' : '0',

@@ -18,6 +18,8 @@ class DailyRevenueFilter extends FilterHandler {
     };
 
     render() {
+        const { defaultValues } = this.props;
+
         let WrappedSelect = this.WrappedSelect;
 
         console.dir(model.filters.periodFilter);
@@ -107,6 +109,12 @@ class DailyRevenueFilter extends FilterHandler {
                                 className={'mx-1'}
                                 color={'primary'}
                                 outline={'alt'}
+                                checked={
+                                    defaultValues.get('[Подразделения].[Like for like]') &&
+                                    defaultValues.get(
+                                        '[Подразделения].[Like for like]'
+                                    )[0] === 'Да'
+                                }
                                 onChange={event => {
                                     this.handleChange(
                                         '[Подразделения].[Like for like]',
