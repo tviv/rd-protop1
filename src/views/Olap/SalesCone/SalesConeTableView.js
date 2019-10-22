@@ -31,7 +31,8 @@ class SalesConeTableView extends Component {
     };
 
     handleCellClick = cellId => {
-        if (model.getCellById(cellId).x < 2) return; //todo temp decision, because absolute position brakes down
+        const cell = model.getCellById(cellId);
+        if (cell.x < cell.dataSetOnwer.CUP_COL_INDEX) return;
         this.setState({
             popoverOpen:
                 this.state.cellId === cellId ? !this.state.popoverOpen : true,

@@ -17,7 +17,9 @@ class ActualityWidget extends React.Component {
 
     setActualColor = (strDate: string): string => {
         const date = moment(strDate, 'DD.MM.YYYY');
-        const dayDiff = moment().diff(date, 'days');
+        const dayDiff = moment()
+            .startOf('day')
+            .diff(date, 'days');
         switch (dayDiff) {
             case 0:
                 return 'primary';

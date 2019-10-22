@@ -45,8 +45,8 @@ const createBody = (legend: LegendDescriptionType): ReactNode => {
                 </Row>
             )}
             {legend.signs &&
-                legend.signs.map(x => (
-                    <Row style={{ display: 'flex', alignItems: 'center' }}>
+                legend.signs.map((x, index) => (
+                    <Row key={`${index}`} style={{ display: 'flex', alignItems: 'center' }}>
                         <Col xs="1">
                             <div
                                 className="pr-4"
@@ -75,8 +75,8 @@ const createBody = (legend: LegendDescriptionType): ReactNode => {
                 </Row>
             )}
             {legend.terms &&
-                legend.terms.map(x => (
-                    <Row>
+                legend.terms.map((x, index) => (
+                    <Row key={`${index}`}>
                         <Col>
                             <strong>{x.term}</strong>
                             <span className="ml-1">

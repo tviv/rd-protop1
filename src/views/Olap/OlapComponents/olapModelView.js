@@ -30,6 +30,7 @@ let olapModelView = {
         return new Promise((resolve, reject) => {
             getJsonFromOlapApi(url, options)
                 .then(response => {
+                    this.convertDataToDisplay(response.data);
                     //set cellId
                     response.data.rows.forEach((row, yInd) => {
                         row.forEach((cell, xInd) => {
@@ -43,6 +44,7 @@ let olapModelView = {
                                 row: row,
                                 headerCell:
                                     response.data.headerColumns[xInd][0],
+                                dataSetOnwer: response.data,
                                 hidden: this.HIDDEN_COLS.includes(xInd),
                             });
                             cell.background = this.getBackgroundColorOfCell(
@@ -53,7 +55,6 @@ let olapModelView = {
                     });
 
                     //refine header objects
-                    this.convertDataToDisplay(response.data);
                     this.convertHeaderToDisplay(response.data);
 
                     resolve(response.data);

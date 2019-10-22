@@ -1,5 +1,3 @@
-'use strict';
-
 import { getJsonFromOlapApi } from '../../../api/response-handle';
 import dateformat from 'dateformat';
 import olapModelView from '../OlapComponents/olapModelView';
@@ -11,16 +9,15 @@ function addDays(date, days) {
     return result;
 }
 
-const GOOD_COLUMN = 0;
-const KUP_COLUMN = 3;
 const CONE_DAYS_FOR_VIEW = -21;
 const CONE_DAYS_FOR_DYNAMIC_CUP = -26 * 7;
+const DEVIATON_THRL = 0.2;
 
 //let coneResultMultiplier =  3;
 
 let salesConeModel = Object.assign(Object.create(olapModelView), {
     MAIN_URL: '/api/olap/sales-cone',
-    HIDDEN_COLS: [1],
+    HIDDEN_COLS: [1, 2],
     EXCELCOLWIDTHS: [300, 50, 50, 30],
 
     _super: olapModelView,
@@ -56,6 +53,24 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
             if (index > 0) x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, '');
             //move names, remain only number
             else x[0].Caption = 'Товар'; //todo move to backend
+
+            //col properties by name
+            const colName = x[0].Caption;
+            switch (x[0].sign) {
+                case 'item':
+                    data.GOOD_COL_INDEX = index;
+                    break;
+                case 'total':
+                    data.CUP_COL_INDEX = index;
+                    break;
+            }
+
+            if (x[0].sign === 'active') {
+                data.ACTIVE_COL_INDEX = index;
+            }
+            if (x[0].sign === 'new') {
+                data.NEW_COL_INDEX = index;
+            }
         });
     },
 
@@ -94,7 +109,6 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
 
     getDataCellPropertyById: function(cellId) {
         if (!cellId) return;
-        let model = this;
         let cell = this.getCellById(cellId);
 
         let property = {};
@@ -102,7 +116,7 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
         // if (!cell) return property;
         if (this.data.rows.length === 0) return property; //todo why we enter here when table empty (before we watch property window).
         try {
-            let good = this.data.rows[cell.y][GOOD_COLUMN];
+            let good = this.data.rows[cell.y][cell.dataSetOnwer.GOOD_COL_INDEX];
             let shop = cell.headerCell;
             property.filter = {
                 periodFilter: this.filters.periodFilter,
@@ -123,11 +137,18 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
                 goodName: good.Caption,
                 cell: cell,
                 КУП:
-                    cell.x > KUP_COLUMN
+                    cell.x >= cell.dataSetOnwer.CUP_COL_INDEX
                         ? cell.FmtValue
-                        : this.data.rows[cell.y][KUP_COLUMN].FmtValue,
+                        : this.data.rows[cell.y][
+                              cell.dataSetOnwer.CUP_COL_INDEX
+                          ].FmtValue,
                 'Отклонение %':
-                    Math.round(this.getDeviationOfCell(cell) * 10000) / 100,
+                    Math.round(
+                        this.getDeviationOfCell(
+                            cell,
+                            cell.dataSetOnwer.CUP_COL_INDEX
+                        ) * 10000
+                    ) / 100,
             });
         } catch (e) {
             throw e;
@@ -166,9 +187,9 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
         return property;
     },
 
-    getDeviationOfCell: function(cell) {
-        let cellCommonCup = cell.row[KUP_COLUMN];
-        let commonCUP = cellCommonCup.Value;
+    getDeviationOfCell: function(cell, kupColIndex) {
+        let cellCommonCup = cell.row[kupColIndex];
+        let commonCUP = cellCommonCup && cellCommonCup.Value;
 
         return commonCUP > 0
             ? ((cell.Value - commonCUP) / commonCUP).toPrecision(4)
@@ -179,18 +200,26 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
         let res = null;
         if (cell.row === undefined) return res;
 
-        if (cell.row[1].Value == 'Нет') res = Constants.noActiveGoodColor;
+        if (cell.dataSetOnwer.NEW_COL_INDEX !== undefined)
+            if (cell.row[cell.dataSetOnwer.NEW_COL_INDEX].Value === '1')
+                res = Constants.newGoodColor;
 
-        if (!cell || cell.x < KUP_COLUMN) return res;
+        if (cell.dataSetOnwer.ACTIVE_COL_INDEX !== undefined)
+            if (cell.row[cell.dataSetOnwer.ACTIVE_COL_INDEX].Value === '0')
+                res = Constants.noActiveGoodColor;
 
-        let deviation = this.getDeviationOfCell(cell);
-        if (deviation > 0.2) {
-            return Constants.deviationPositiveColor;
+        const cupColIndex = cell.dataSetOnwer.CUP_COL_INDEX;
+        if (cupColIndex !== undefined) {
+            if (!cell || cell.x > cupColIndex) {
+                let deviation = this.getDeviationOfCell(cell, cupColIndex);
+                if (deviation > DEVIATON_THRL) {
+                    return Constants.deviationPositiveColor;
+                }
+                if (deviation < -DEVIATON_THRL && deviation > -1) {
+                    return Constants.deviationNegativeColor;
+                }
+            }
         }
-        if (deviation < -0.2 && deviation > -1) {
-            return Constants.deviationNegativeColor;
-        }
-
         return res;
     },
 });
