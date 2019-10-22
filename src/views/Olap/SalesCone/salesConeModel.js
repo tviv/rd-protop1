@@ -54,8 +54,7 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
             //move names, remain only number
             else x[0].Caption = 'Товар'; //todo move to backend
 
-            //col properties by name
-            const colName = x[0].Caption;
+            //col properties by tag values
             switch (x[0].sign) {
                 case 'item':
                     data.GOOD_COL_INDEX = index;
@@ -63,19 +62,17 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
                 case 'total':
                     data.CUP_COL_INDEX = index;
                     break;
-            }
-
-            if (x[0].sign === 'active') {
-                data.ACTIVE_COL_INDEX = index;
-            }
-            if (x[0].sign === 'new') {
-                data.NEW_COL_INDEX = index;
+                case 'active':
+                    data.ACTIVE_COL_INDEX = index;
+                    break;
+                case 'new':
+                    data.NEW_COL_INDEX = index;
+                    break;
             }
         });
     },
 
     getFilterOption: function(dimension) {
-        let model = this;
 
         return new Promise((resolve, reject) => {
             getJsonFromOlapApi('/api/olap/dim', { dim: dimension })

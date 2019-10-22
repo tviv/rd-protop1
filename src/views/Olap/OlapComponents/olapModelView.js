@@ -30,7 +30,6 @@ let olapModelView = {
         return new Promise((resolve, reject) => {
             getJsonFromOlapApi(url, options)
                 .then(response => {
-                    this.convertDataToDisplay(response.data);
                     //set cellId
                     response.data.rows.forEach((row, yInd) => {
                         row.forEach((cell, xInd) => {
@@ -54,9 +53,20 @@ let olapModelView = {
                         });
                     });
 
+                    //some visual logic
+                    this.convertDataToDisplay(response.data);
+
                     //refine header objects
                     this.convertHeaderToDisplay(response.data);
 
+                    //background color
+                    response.data.rows.forEach((row, yInd) =>
+                        row.forEach(
+                            cell => cell.background = this.getBackgroundColorOfCell(cell)
+                        )
+                    );
+
+                    //return result
                     resolve(response.data);
                 })
                 .catch(e => {
@@ -141,10 +151,8 @@ let olapModelView = {
     getExcelToDownload: function(index) {
         let model = this;
         return new Promise(resolve => {
-            if (model.data)
-                resolve(this.convertDataToExcelFormat(model.data));
-            else
-                resolve(null)
+            if (model.data) resolve(this.convertDataToExcelFormat(model.data));
+            else resolve(null);
         });
     },
 

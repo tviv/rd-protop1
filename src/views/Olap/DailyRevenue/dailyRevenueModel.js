@@ -1,5 +1,3 @@
-import { getJsonFromOlapApi } from '../../../api/response-handle';
-import dateformat from 'dateformat';
 import olapModelView from '../OlapComponents/olapModelView';
 import moment from 'moment';
 
