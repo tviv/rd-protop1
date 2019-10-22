@@ -46,9 +46,6 @@ let olapModelView = {
                                 dataSetOnwer: response.data,
                                 hidden: this.HIDDEN_COLS.includes(xInd),
                             });
-                            cell.background = this.getBackgroundColorOfCell(
-                                cell
-                            );
                             model.cellMap.set(cell.cellId, cell);
                         });
                     });
