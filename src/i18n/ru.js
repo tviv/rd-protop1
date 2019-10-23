@@ -1,4 +1,7 @@
 export default {
+    rd: {
+      actuality: 'Актуальность',
+    },
     ra: {
         action: {
             add_filter: 'Add filter',

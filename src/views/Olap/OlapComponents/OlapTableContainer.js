@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import ColorTable from '../../components/ColorTable/ColorTable';
-import {
-    Col,
-    Row,
-} from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import ReactExport from 'react-data-export';
 import FrozenTable from '../../components/FrozenTable/FrozenTable';
 import ExcelDownloadButton from '../../components/ExcelDownloadButton';
@@ -11,12 +8,12 @@ import PropTypes from 'prop-types';
 
 import { FETCH_ERROR, showNotification } from 'ra-core';
 import { connect } from 'react-redux';
+import { actualUpdate, actualShow } from '../../../actions/extraActions';
 
 const fetchError = error => ({
     type: FETCH_ERROR,
     error,
 });
-
 
 const EventTypes = { LOADING: 1, ERROR: 2, NO_DATA: 3, FILTER_ERROR: 4 };
 
@@ -53,6 +50,8 @@ class OlapTableContainer extends Component {
     componentDidMount() {
         this.refreshData();
         this.delayInterval = 3000;
+        this.props.actualUpdate();
+        this.props.actualShow();
         //window.addEventListener("resize", this.handleResize); //todo temp
     }
 
@@ -231,8 +230,10 @@ class OlapTableContainer extends Component {
                         <Col ms="1">
                             <div className="float-right">
                                 <ExcelDownloadButton
-                                downloadOptions={downloadOptions}
-                                getDownloadDataPromise={this.onRequestToDownloadData}
+                                    downloadOptions={downloadOptions}
+                                    getDownloadDataPromise={
+                                        this.onRequestToDownloadData
+                                    }
                                 />
                             </div>
                         </Col>
@@ -258,5 +259,5 @@ class OlapTableContainer extends Component {
 
 export default connect(
     undefined,
-    { fetchError, showNotification }
+    { fetchError, showNotification, actualUpdate, actualShow }
 )(OlapTableContainer);

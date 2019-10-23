@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 import { connect } from 'react-redux';
-import { userLogout as UserLogoutAction } from 'ra-core';
+import { userLogout } from 'ra-core';
 
 //todo remake to hoc
 const LogoutElement = ({ userLogout, children, ...rest }) => (
@@ -14,5 +14,5 @@ const LogoutElement = ({ userLogout, children, ...rest }) => (
 
 export default connect(
     undefined,
-    { userLogout: () => UserLogoutAction('/login') }
+    { userLogout: () => userLogout('/login') }
 )(LogoutElement);

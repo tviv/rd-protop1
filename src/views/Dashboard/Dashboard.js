@@ -1,33 +1,11 @@
 import React, { Component } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
-import {
-    Badge,
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-    Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    Progress,
-    Row,
-    Table,
-    Container,
-    Jumbotron,
-} from 'reactstrap';
-//import Widget03 from '../../views/Widgets/Widget03'
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { Card, CardBody, Col, Row, Jumbotron } from 'reactstrap';
+
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { Link } from 'react-router-dom';
-import Widget02 from '../../Widgets/Widget02';
-import ActualityWidget from "../Olap/Actuality/ActualityWidget";
+import ActualityWidget from '../Olap/Actuality/ActualityWidget';
+import { connect } from 'react-redux';
+import { actualHide, actualUpdate } from '../../actions/extraActions';
 
 const brandPrimary = getStyle('--primary');
 const brandSuccess = getStyle('--success');
@@ -36,29 +14,14 @@ const brandWarning = getStyle('--warning');
 const brandDanger = getStyle('--danger');
 
 class Dashboard extends Component {
-    constructor(props) {
-        super(props);
 
-        this.toggle = this.toggle.bind(this);
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+    componentDidMount() {
+        const { actualUpdate, actualHide } = this.props;
 
-        this.state = {
-            dropdownOpen: false,
-            radioSelected: 2,
-        };
+        actualUpdate();
+        actualHide();
     }
 
-    toggle() {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
-        });
-    }
-
-    onRadioBtnClick(radioSelected) {
-        this.setState({
-            radioSelected: radioSelected,
-        });
-    }
 
     render() {
         return (
@@ -136,4 +99,7 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard;
+export default connect(
+    undefined,
+    { actualHide, actualUpdate }
+)(Dashboard);

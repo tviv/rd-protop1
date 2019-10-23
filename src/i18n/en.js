@@ -1,4 +1,7 @@
 module.exports = {
+    rd: {
+        actuality: 'Actuality',
+    },
     ra: {
         action: {
             add_filter: 'Add filter',

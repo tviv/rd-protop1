@@ -13,6 +13,9 @@ import {
     USER_LOGOUT,
 } from 'ra-core';
 
+import extraReducer from './reducers/nativeReducer';
+import actualityEffect from "./sideEffects/actualityEffect";
+
 export default ({
     authProvider,
     dataProvider,
@@ -25,6 +28,7 @@ export default ({
         i18n: i18nReducer(locale, i18nProvider(locale)),
         form: formReducer,
         router: routerReducer,
+        native: extraReducer,
     });
     const resettableAppReducer = (state, action) =>
         reducer(action.type !== USER_LOGOUT ? state : undefined, action);
@@ -34,6 +38,7 @@ export default ({
             [
                 adminSaga(dataProvider, authProvider, i18nProvider),
                 // add your own sagas here
+                actualityEffect,
             ].map(fork)
         );
     };
@@ -43,6 +48,7 @@ export default ({
         resettableAppReducer,
         {
             /* set your initial state here */
+            //native: {actualDate:'-'}
         },
         compose(
             applyMiddleware(

@@ -20,6 +20,7 @@ import {
 import logo from '../../assets/img/brand/logo.png';
 import sygnet from '../../assets/img/brand/sygnet.png';
 import { Link, NavLink } from 'react-router-dom';
+import ActualitySmallWidget from '../../views/Olap/Actuality/ActualitySmallWidget';
 
 const propTypes = {
     children: PropTypes.node,
@@ -66,6 +67,11 @@ class DefaultHeader extends Component {
                 </Nav>
 
                 <Nav className="ml-auto" navbar>
+                    <NavItem className="d-md-down-none mr-5">
+                        <NavLink to="#" className="nav-link">
+                            <ActualitySmallWidget />
+                        </NavLink>
+                    </NavItem>
                     <UncontrolledDropdown nav direction="down">
                         <DropdownToggle nav>
                             <i className="fa fa-user" />
