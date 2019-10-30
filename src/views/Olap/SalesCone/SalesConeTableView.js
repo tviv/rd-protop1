@@ -12,6 +12,7 @@ class SalesConeTableView extends Component {
         this.state = {
             filters: model.filters,
             cellId: null,
+            ignoreToggle: false
         };
     }
 
@@ -50,6 +51,7 @@ class SalesConeTableView extends Component {
     };
 
     handlePopupWindowToggle = () => {
+        //console.log('toggle cellId: ', this.state.cellId);
         this.setState({
             popoverOpen: false,
         });
@@ -60,6 +62,7 @@ class SalesConeTableView extends Component {
     };
 
     render() {
+        //console.log('render cellId: ', this.state.cellId);
         return (
             <div>
                 <Row>

@@ -29,10 +29,11 @@ class CellPropertyWindow extends Component {
             <div>
                 {cellId && isOpen && (
                     <Popover
-                        placement="top"
+                        placement="left"
                         isOpen={isOpen}
                         target={cellId}
                         toggle={this.props.toggle}
+                        trigger="legacy" delay={0}
                     >
                         <PopoverHeader>Свойства значения</PopoverHeader>
                         {typeof addValues === 'string' ? (
