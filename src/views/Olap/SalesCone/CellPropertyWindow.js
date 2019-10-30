@@ -58,7 +58,19 @@ class CellPropertyWindow extends Component {
                                             Маржа: {addValues['Маржа %']}%
                                         </div>
                                         <div>
+                                            Маржа план: {addValues['Плановый УВМ']}
+                                        </div>
+                                        <div>
                                             Остаток: {addValues['Остаток']}
+                                        </div>
+                                        <div>
+                                            Оборачиваемость: {addValues['Оборачиваемость']}
+                                        </div>
+                                        <div>
+                                            Сумма списания: {addValues['Сумма списания']}
+                                        </div>
+                                        <div>
+                                            Списание к ТО: {addValues['Доля списания к ТО']}
                                         </div>
                                     </div>
                                 )}
