@@ -80,8 +80,8 @@ class SalesConeTableView extends Component {
                                 onRefresh={this.handleRefreshTable}
                             />
                             <CellPropertyWindow
+                                cellId={this.state.cellId}
                                 property={{
-                                    cellId: this.state.cellId,
                                     ...model.getDataCellPropertyById(
                                         this.state.cellId
                                     ),

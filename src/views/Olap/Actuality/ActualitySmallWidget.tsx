@@ -64,7 +64,7 @@ class ActualitySmallWidget extends Component<Props> {
         return (
             visible && (
                 <div id="actualitySW">
-                    <div className={card.classes} {...attributes}>
+                    <div className={card.classes} >
                         {blockIcon(card.icon)}
                         <span className={lead.classes}>{header}</span>
                     </div>

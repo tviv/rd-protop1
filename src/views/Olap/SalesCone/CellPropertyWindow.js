@@ -19,18 +19,19 @@ class CellPropertyWindow extends Component {
                     this.setState({ addValues: err });
                 });
         }
-        this.setState({ data: props.property, addValues: {} });
+        this.setState({ data: props.property, addValues: null });
     }
 
     render() {
         let { data, addValues } = this.state;
+        const { cellId, isOpen } = this.props;
         return (
             <div>
-                {data.cellId && this.props.isOpen && (
+                {cellId && isOpen && (
                     <Popover
                         placement="top"
-                        isOpen={this.props.isOpen}
-                        target={data.cellId}
+                        isOpen={isOpen}
+                        target={cellId}
                         toggle={this.props.toggle}
                     >
                         <PopoverHeader>Свойства значения</PopoverHeader>
