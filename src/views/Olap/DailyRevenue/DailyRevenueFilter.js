@@ -33,7 +33,7 @@ class DailyRevenueFilter extends FilterHandler {
                                 startDate={moment(
                                     model.filters.periodFilter.date
                                 )}
-                                endtDate={moment(
+                                endDate={moment(
                                     model.filters.periodFilter.endDate
                                 )}
                                 onChange={this.handleDateChange}

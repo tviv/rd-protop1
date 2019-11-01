@@ -41,7 +41,7 @@ const nativeReducer: Reducer<State> = (
         case ACTUAL_UPDATED:
             return {
                 ...previousState,
-                actualDate: payload.data,
+                actualDate: payload.data.slice(0, 10),
                 actualColor: setActualColor(payload.data),
             };
         case ACTUAL_ERROR:

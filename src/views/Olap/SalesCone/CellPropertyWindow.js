@@ -66,6 +66,9 @@ class CellPropertyWindow extends Component {
                                             Остаток: {addValues['Остаток']}
                                         </div>
                                         <div>
+                                            Количество в день: {addValues['Количество в день']}
+                                        </div>
+                                        <div>
                                             Оборачиваемость: {addValues['Оборачиваемость']}
                                         </div>
                                         <div>
