@@ -34,7 +34,7 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
         periodFilter: {
             date:
                 process.env.NODE_ENV === 'development'
-                    ? '2018-06-11'
+                    ? '2019-11-01'
                     : dateformat(addDays(new Date(), 0), 'yyyy-mm-dd'),
             days: CONE_DAYS_FOR_VIEW + 1,
         },

@@ -73,6 +73,31 @@ class DailyRevenueFilter extends FilterHandler {
                             />
                         </FormGroup>
                     </Col>
+                    <Col xs="12" lg="2">
+                        <FormGroup>
+                            <div>
+                                <Label htmlFor="act-select">Работающие</Label>
+                            </div>
+                            <AppSwitch
+                                name="act-select"
+                                className={'mx-1'}
+                                color={'primary'}
+                                outline={'alt'}
+                                checked={
+                                    defaultValues.get('[Подразделения].[Действующий]') &&
+                                    defaultValues.get(
+                                        '[Подразделения].[Действующий]'
+                                    )[0] === '1'
+                                }
+                                onChange={event => {
+                                    this.handleChange(
+                                        '[Подразделения].[Действующий]',
+                                        [event.target.checked ? '1' : '0']
+                                    );
+                                }}
+                            />
+                        </FormGroup>
+                    </Col>
                 </Row>
                 <Row>
                     <Col xs="12" lg="3">
@@ -83,9 +108,9 @@ class DailyRevenueFilter extends FilterHandler {
                     </Col>
                     <Col xs="12" lg="3">
                         <FormGroup>
-                            <Label>РУ</Label>
+                            <Label>Районы</Label>
                             <WrappedSelect
-                                hierarchyName="[Подразделения].[Районые управляющие]"
+                                hierarchyName="[Подразделения].[Район]"
                                 maxLevel="1"
                             />
                         </FormGroup>
