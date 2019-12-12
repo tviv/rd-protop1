@@ -76,7 +76,7 @@ class DailyRevenueFilter extends FilterHandler {
                     <Col xs="12" lg="2">
                         <FormGroup>
                             <div>
-                                <Label htmlFor="act-select">Работающие</Label>
+                                <Label htmlFor="act-select">Только открытые</Label>
                             </div>
                             <AppSwitch
                                 name="act-select"
