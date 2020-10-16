@@ -51,12 +51,18 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
         let day = model.data.rows[rowIndex][DAY_COLUMN].UName;
 
         //todo move to filter class
-        let filterArray = [...filters.filterArray];
-        filterArray.push(day);
+        let _filter = {};
+
+        if (model.data.rows[rowIndex].isTotal) {
+            _filter = this.filters;
+        } else {
+            _filter.filterArray = [...filters.filterArray];
+            _filter.filterArray.push(day);
+        }
 
         return this.getData(
             '/api/olap/daily-revenue-day-shop',
-            { filterArray: filterArray },
+            _filter,
             `dc_${rowIndex}`
         );
     },
