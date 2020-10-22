@@ -37,6 +37,7 @@ class SalesConeTableContainer extends PureComponent {
                 title="Данные по КУП за три полных недели"
                 model={model}
                 checkFilters={this.checkFilters}
+                valueColumnsOffset={3}
                 {...this.props}
             />
         );

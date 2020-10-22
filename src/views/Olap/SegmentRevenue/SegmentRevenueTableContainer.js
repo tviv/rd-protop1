@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import model from './dailyRevenueModel';
+import model from './segmentRevenueModel';
 import OlapTableContainer from '../OlapComponents/OlapTableContainer';
 
-class DailyRevenueTableContainer extends PureComponent {
+class SegmentRevenueTableContainer extends PureComponent {
     //todo move to filter block
     checkFilters = filters => {
         let vals = new Map(filters.filterArray).get('[Даты].[Месяцы]');
@@ -18,20 +18,17 @@ class DailyRevenueTableContainer extends PureComponent {
     render() {
         return (
             <OlapTableContainer
-                title="Ежедневная выручка"
+                title=""
                 model={model}
-                frozenCols={model.FROZEN_COLUMN_COUNT + 1 /*1 expand column*/}
+                frozenCols={model.FROZEN_COLUMN_COUNT}
                 checkFilters={this.checkFilters}
                 onExpand={this.onExpand}
-                downloadOptions={[
-                    'Краткая форма',
-                    'Подробная форма (время загрузки до 1,5 минут)',
-                ]}
-                valueColumnsOffset={2}
+                downloadOptions={[null]}
+                valueColumnsOffset={1}
                 {...this.props}
             />
         );
     }
 }
 
-export default DailyRevenueTableContainer;
+export default SegmentRevenueTableContainer;

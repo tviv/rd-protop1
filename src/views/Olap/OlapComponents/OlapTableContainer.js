@@ -26,13 +26,15 @@ class OlapTableContainer extends Component {
         onExpand: PropTypes.func,
         frozenCols: PropTypes.number,
         downloadOptions: PropTypes.arrayOf(PropTypes.string),
-    };
+        valueColumnsOffset: PropTypes.number,
+};
 
     static defaultProps = {
         onRefresh: () => {},
         checkFilters: () => undefined,
         downloadOptions: [],
-    };
+        valueColumnsOffset: 1,
+};
 
     constructor(props, model, addProps) {
         super(props);
@@ -198,7 +200,7 @@ class OlapTableContainer extends Component {
     };
 
     render() {
-        let { downloadOptions, showNotification } = this.props;
+        let { downloadOptions, showNotification, valueColumnsOffset } = this.props;
 
         if (this.state.refresh) {
             return this.getMessageBox(EventTypes.LOADING);
@@ -224,7 +226,7 @@ class OlapTableContainer extends Component {
                                     marginBottom: '2px',
                                 }}
                             >
-                                {this.props.title}:
+                                {this.props.title && this.props.title + ':'}
                             </h5>
                         </Col>
                         <Col ms="1">
@@ -244,7 +246,6 @@ class OlapTableContainer extends Component {
                             <FrozenTable frozenCols={this.props.frozenCols}>
                                 <ColorTable
                                     data={this.state.data}
-                                    valueColumnsOffset={3}
                                     onError={showNotification}
                                     {...this.props}
                                 />

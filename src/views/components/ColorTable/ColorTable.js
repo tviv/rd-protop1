@@ -155,6 +155,8 @@ class ColorTable extends Component {
                             }
                             style={{
                                 background: col.background,
+                                maxWidth: col.maxWidth,
+                                overflow: col.maxWidth && 'hidden',
                                 ...styles.tableCell,
                                 ...(index >= this.props.valueColumnsOffset
                                     ? styles.tableCellValue

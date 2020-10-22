@@ -98,7 +98,7 @@ class ExcelDownloadButton extends Component<Props> {
 
         return (
             <div>
-                {downloadOptions.length ? optionsBlock : defaultBlock}
+                {downloadOptions.length ? downloadOptions[0] ? optionsBlock : null : defaultBlock}
 
                 {data && (
                     <ExcelFile hideElement={true}>

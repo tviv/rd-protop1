@@ -22,5 +22,6 @@
 
 import OlapSalesCone from './views/Olap/DailyRevenue';
 import OlapDailyRevenue from './views/Olap/DailyRevenue';
+import OlapSegmentRevenue from './views/Olap/SegmentRevenue';
 
-export { OlapSalesCone, OlapDailyRevenue };
+export { OlapSalesCone, OlapDailyRevenue, OlapSegmentRevenue };

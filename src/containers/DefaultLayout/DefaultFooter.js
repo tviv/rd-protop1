@@ -15,7 +15,7 @@ class DefaultFooter extends Component {
         return (
             <React.Fragment>
                 <span>
-                    <a href="">Ardi</a> &copy; 2019 раз-два.
+                    <a href="">Ardi</a> &copy; 2018-2020 раз-два.
                 </span>
                 {/*<span className="ml-auto">Powered by <a href="">CoreUI for React</a></span>*/}
             </React.Fragment>

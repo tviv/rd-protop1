@@ -22,6 +22,11 @@ const OlapDailyRevenue = Loadable({
     loading: Loading,
 });
 
+const OlapSegmentRevenue = Loadable({
+    loader: () => import('./views/Olap/SegmentRevenue'),
+    loading: Loading,
+});
+
 const OlapSettings = Loadable({
     loader: () => import('./views/Olap/Settings'),
     loading: Loading,
@@ -54,6 +59,11 @@ const routes = [
         path: '/olap/daily-revenue',
         name: 'Ежедневная выручка',
         component: OlapDailyRevenue,
+    },
+    {
+        path: '/olap/segment-revenue',
+        name: 'Ввыручка по сегментам',
+        component: OlapSegmentRevenue,
     },
     { path: '/olap/settings', name: 'Настройки', component: OlapSettings },
 ];
