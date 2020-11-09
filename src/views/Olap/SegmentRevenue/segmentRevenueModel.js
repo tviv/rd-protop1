@@ -83,7 +83,7 @@ let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
             } else if (forNegativeValIfPos.includes(cell.headerCell.Caption)) {
                 if (cell.Value > 0) return '#FCBFBF';
             } else if (kpi1.includes(cell.headerCell.Caption)) {
-                if (cell.Value >= 1.03) return '#BEFCBA';
+                if (cell.Value > 1.03) return '#BEFCBA';
                 if (cell.Value < 0.95) return '#FCBFBF';
             }
         }
