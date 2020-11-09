@@ -17,6 +17,13 @@ class SegmentRevenueFilter extends FilterHandler {
         }
     };
 
+    handleSegment310Change = value => {
+        model.filters.withoutSegment310 = value;
+        if (this.props.onChange) {
+            this.props.onChange();
+        }
+    };
+
     render() {
         const { defaultValues } = this.props;
 
@@ -122,7 +129,7 @@ class SegmentRevenueFilter extends FilterHandler {
                     <Col xs="12" lg="2">
                         <FormGroup>
                             <div>
-                                <Label htmlFor="act-select3">С непродаваемыми</Label>
+                                <Label htmlFor="act-select3">Без сегмента 310</Label>
                             </div>
                             <AppSwitch
                                 name="act-select3"
@@ -130,16 +137,10 @@ class SegmentRevenueFilter extends FilterHandler {
                                 color={'primary'}
                                 outline={'alt'}
                                 checked={
-                                    defaultValues.get('[Продажные].[Наличие]') &&
-                                    defaultValues.get(
-                                        '[Продажные].[Наличие]'
-                                    )[0] === '0'
+                                    model.filters.withoutSegment310
                                 }
                                 onChange={event => {
-                                    this.handleChange(
-                                        '[Продажные].[Наличие]',
-                                        [event.target.checked ? '0' : '1']
-                                    );
+                                    this.handleSegment310Change(event.target.checked);
                                 }}
                             />
                         </FormGroup>

@@ -1,6 +1,13 @@
 import olapModelView from '../OlapComponents/olapModelView';
 import moment from 'moment';
 
+let INCOME_COLUMN_START = 1;
+let PROFIT_COLUMN_START = INCOME_COLUMN_START + 3;
+let CLIENT_COLUMN_START = PROFIT_COLUMN_START + 7;
+let ARTICLE_COLUMN_START = CLIENT_COLUMN_START + 3;
+let KOB_COLUMN_START = ARTICLE_COLUMN_START + 9;
+let OTHER_COLUMN_START = KOB_COLUMN_START + 3;
+
 let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
     MAIN_URL: '/api/olap/segment-revenue',
     //HIDDEN_COLS: [1, 3],
@@ -55,6 +62,41 @@ let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
             _filter,
             `dc_${rowIndex}`
         );
+    },
+
+    //1.	В колонках: «Отклонение выполнение по ВМ от выполнение по ТО», «Отклонение УВМ от плана», «Отклонение от плана Ср ст-ть артикула», «Отклонение от плана Кол артикулов на 1 клиента» - значения меньше нуля выделить красным цветом
+    // 2.	В колонке «Отклонение от плана Коэф оборачиваемости» - значения больше нуля выделить красным цветом
+    // 3.	В колонках: «Выполнение план сегмент Выручка без НДС», «Выполнение план сегмент Маржа без НДС», «Выполнение плана Кол клиентов», «Выполнение плана Кол артикулов» - значение меньше 95% выделять красным цветом, значения больше 103% выделить зеленым цветом
+
+    getBackgroundColorOfCell: function(cell) {
+        let res = null;
+
+        if (!cell) return res;
+
+        let forNegativVal = ["Отклонение выполнение по ВМ от выполнение по ТО", "Отклонение УВМ от плана", "Отклонение от плана Ср. ст-ть артикула", "Отклонение от плана Кол артикулов на 1 клиента"];
+        let forNegativeValIfPos = ["Отклонение от плана Коэф оборачиваемости"];
+        let kpi1 = ["Выполнение план сегмент Выручка без НДС", "Выполнение план сегмент Маржа без НДС", "Выполнение плана Кол клиентов", "Выполнение плана Кол артикулов"];
+
+        if (cell.headerCell) {
+            if (forNegativVal.includes(cell.headerCell.Caption)) {
+                if (cell.Value < 0) return '#FCBFBF';
+            } else if (forNegativeValIfPos.includes(cell.headerCell.Caption)) {
+                if (cell.Value > 0) return '#FCBFBF';
+            } else if (kpi1.includes(cell.headerCell.Caption)) {
+                if (cell.Value >= 1.03) return '#BEFCBA';
+                if (cell.Value < 0.95) return '#FCBFBF';
+            }
+        }
+
+        //if (cell.x >= CLIENT_COLUMN_START) return null;
+        if (cell.x >= OTHER_COLUMN_START) return null;
+        if (cell.x >= KOB_COLUMN_START) return '#EFF3DE';
+        if (cell.x >= ARTICLE_COLUMN_START) return '#DEEFF7';
+        if (cell.x >= CLIENT_COLUMN_START) return '#E7DFEF';
+        if (cell.x >= PROFIT_COLUMN_START) return '#dfebf7';
+        if (cell.x >= INCOME_COLUMN_START) return '#f7eddd';
+
+        return res;
     },
 
     convertDataToDisplay: function(data) {
