@@ -37,6 +37,11 @@ const OlapSalesConeChart = Loadable({
     loading: Loading,
 });
 
+const OlapActualtiyToolPage = Loadable({
+    loader: () => import('./views/Olap/Actuality/PlainToolActuality'),
+    loading: Loading,
+});
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
     { path: '/', exact: true, name: 'Начало', component: DefaultLayout },
@@ -66,6 +71,7 @@ const routes = [
         component: OlapSegmentRevenue,
     },
     { path: '/olap/settings', name: 'Настройки', component: OlapSettings },
+    { path: '/sitehealth', name: 'Настройки', component: OlapActualtiyToolPage },
 ];
 
 export default routes;

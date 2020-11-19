@@ -5,7 +5,9 @@ let INCOME_COLUMN_START = 1;
 let PROFIT_COLUMN_START = INCOME_COLUMN_START + 3;
 let CLIENT_COLUMN_START = PROFIT_COLUMN_START + 7;
 let ARTICLE_COLUMN_START = CLIENT_COLUMN_START + 3;
-let KOB_COLUMN_START = ARTICLE_COLUMN_START + 9;
+let ARTICLE2_COLUMN_START = ARTICLE_COLUMN_START + 3;
+let ARTICLE3_COLUMN_START = ARTICLE2_COLUMN_START + 3;
+let KOB_COLUMN_START = ARTICLE3_COLUMN_START + 3;
 let OTHER_COLUMN_START = KOB_COLUMN_START + 3;
 
 let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
@@ -88,13 +90,16 @@ let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
             }
         }
 
+        let backColor = '#f0f8ff';
         //if (cell.x >= CLIENT_COLUMN_START) return null;
         if (cell.x >= OTHER_COLUMN_START) return null;
-        if (cell.x >= KOB_COLUMN_START) return '#EFF3DE';
-        if (cell.x >= ARTICLE_COLUMN_START) return '#DEEFF7';
-        if (cell.x >= CLIENT_COLUMN_START) return '#E7DFEF';
-        if (cell.x >= PROFIT_COLUMN_START) return '#dfebf7';
-        if (cell.x >= INCOME_COLUMN_START) return '#f7eddd';
+        if (cell.x >= KOB_COLUMN_START) return backColor;
+        if (cell.x >= ARTICLE3_COLUMN_START) return null;
+        if (cell.x >= ARTICLE2_COLUMN_START) return backColor;
+        if (cell.x >= ARTICLE_COLUMN_START) return null;
+        if (cell.x >= CLIENT_COLUMN_START) return backColor;
+        if (cell.x >= PROFIT_COLUMN_START) return null;
+        if (cell.x >= INCOME_COLUMN_START) return null;
 
         return res;
     },
