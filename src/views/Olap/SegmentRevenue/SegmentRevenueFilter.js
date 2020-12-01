@@ -110,15 +110,6 @@ class SegmentRevenueFilter extends FilterHandler {
                 <Row>
                     <Col xs="12" lg="3">
                         <FormGroup>
-                            <Label htmlFor="segment-select">Сегменты</Label>
-                            <WrappedSelect
-                                name="segment-select"
-                                hierarchyName="[Сегменты].[Сегмент]"
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col xs="12" lg="3">
-                        <FormGroup>
                             <Label htmlFor="segment-select">Направления</Label>
                             <WrappedSelect
                                 name="segment-select"
