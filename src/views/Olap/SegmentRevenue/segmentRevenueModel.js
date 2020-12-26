@@ -11,7 +11,7 @@ let KOB_COLUMN_START = ARTICLE3_COLUMN_START + 3;
 let OTHER_COLUMN_START = KOB_COLUMN_START + 3;
 
 let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
-    MAIN_URL: '/api/olap/segment-revenue',
+    MAIN_URL: '/api/olap/segment/revenue',
     //HIDDEN_COLS: [1, 3],
     FROZEN_COLUMN_COUNT: 2,
     data: {},
@@ -60,13 +60,29 @@ let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
         }
 
         return this.getData(
-            '/api/olap/segment-revenue-detail',
+            '/api/olap/segment/revenue-detail',
             _filter,
             `dc_${rowIndex}`
         );
     },
 
-    //1.	В колонках: «Отклонение выполнение по ВМ от выполнение по ТО», «Отклонение УВМ от плана», «Отклонение от плана Ср ст-ть артикула», «Отклонение от плана Кол артикулов на 1 клиента» - значения меньше нуля выделить красным цветом
+    getBackgroundColorOfColumn: function(cell) {
+        let res = undefined;
+
+        if (!cell) return res;
+
+        let backColor = '#f0f8ff';
+        if (cell.label &&
+            (cell.label.indexOf('клиентов') >= 0 ||
+                cell.label.indexOf('артикула') >= 0 ||
+                cell.label.indexOf('борачиваемос') >= 0
+            )
+        ) res = backColor;
+
+        return res;
+    },
+
+    // 1.	В колонках: «Отклонение выполнение по ВМ от выполнение по ТО», «Отклонение УВМ от плана», «Отклонение от плана Ср ст-ть артикула», «Отклонение от плана Кол артикулов на 1 клиента» - значения меньше нуля выделить красным цветом
     // 2.	В колонке «Отклонение от плана Коэф оборачиваемости» - значения больше нуля выделить красным цветом
     // 3.	В колонках: «Выполнение план сегмент Выручка без НДС», «Выполнение план сегмент Маржа без НДС», «Выполнение плана Кол клиентов», «Выполнение плана Кол артикулов» - значение меньше 95% выделять красным цветом, значения больше 103% выделить зеленым цветом
 
@@ -80,26 +96,17 @@ let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
         let kpi1 = ["Выполнение план сегмент Выручка без НДС", "Выполнение план сегмент Маржа без НДС", "Выполнение плана Кол клиентов", "Выполнение плана Кол артикулов"];
 
         if (cell.headerCell) {
-            if (forNegativVal.includes(cell.headerCell.Caption)) {
+            res = cell.headerCell.background;
+
+            if (forNegativVal.includes(cell.headerCell.label)) {
                 if (cell.Value < 0) return '#FCBFBF';
-            } else if (forNegativeValIfPos.includes(cell.headerCell.Caption)) {
+            } else if (forNegativeValIfPos.includes(cell.headerCell.label)) {
                 if (cell.Value > 0) return '#FCBFBF';
-            } else if (kpi1.includes(cell.headerCell.Caption)) {
+            } else if (kpi1.includes(cell.headerCell.label)) {
                 if (cell.Value > 1.03) return '#BEFCBA';
                 if (cell.Value < 0.95) return '#FCBFBF';
             }
         }
-
-        let backColor = '#f0f8ff';
-        //if (cell.x >= CLIENT_COLUMN_START) return null;
-        if (cell.x >= OTHER_COLUMN_START) return null;
-        if (cell.x >= KOB_COLUMN_START) return backColor;
-        if (cell.x >= ARTICLE3_COLUMN_START) return null;
-        if (cell.x >= ARTICLE2_COLUMN_START) return backColor;
-        if (cell.x >= ARTICLE_COLUMN_START) return null;
-        if (cell.x >= CLIENT_COLUMN_START) return backColor;
-        if (cell.x >= PROFIT_COLUMN_START) return null;
-        if (cell.x >= INCOME_COLUMN_START) return null;
 
         return res;
     },
@@ -109,7 +116,6 @@ let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
             data.rows[0].forEach((col, index) => {
                 if (index === 0) col.label = 'Итого';
                 if (index === 1 && col.label === 'All') col.label = null; //the detail columns is added to table
-                //col.bold = true;
             });
 
             data.rows[0].isTotal = true;
@@ -123,6 +129,25 @@ let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
                 if (col.index === 0) col.maxWidth = '300px';
             })
         );
+    },
+
+    getExcelToDownload: function(index) {
+        let model = this;
+        switch (index) {
+            case 0:
+                return new Promise(resolve =>
+                    resolve(model.convertDataToExcelFormat(model.data))
+                );
+            case 1: //request to detail data
+                return new Promise((resolve, reject) => {
+                    return model
+                        .getData('/api/olap/segment/revenue-detail-expanded', model.filters)
+                        .then(data =>
+                            resolve(model.convertDataToExcelFormat(data))
+                        )
+                        .catch(e => reject());
+                });
+        }
     },
 });
 

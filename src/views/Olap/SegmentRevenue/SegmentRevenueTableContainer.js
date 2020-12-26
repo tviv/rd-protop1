@@ -23,7 +23,10 @@ class SegmentRevenueTableContainer extends PureComponent {
                 frozenCols={model.FROZEN_COLUMN_COUNT}
                 checkFilters={this.checkFilters}
                 onExpand={this.onExpand}
-                downloadOptions={[null]}
+                downloadOptions={[
+                    'Краткая форма',
+                    'Подробная форма (время загрузки до 1,5 минут)',
+                ]}
                 valueColumnsOffset={1}
                 {...this.props}
             />

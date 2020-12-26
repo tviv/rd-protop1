@@ -50,7 +50,7 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
 
     convertDataToDisplay: function(data) {
         data.headerColumns.forEach((x, index) => {
-            if (index > 0) x[0].Caption = x[0].Caption.replace(/^.*[- ]/g, '');
+            if (index > 0) x.label = x.label.replace(/^.*[- ]/g, '');
             //move names, remain only number
             else x[0].Caption = 'Товар'; //todo move to backend
 

@@ -10,7 +10,7 @@ const fetchError = error => ({
 let olapModelView = {
     MAIN_URL: '/api/olap/...',
     HIDDEN_COLS: [],
-    EXCELCOLWIDTHS: [],
+    EXCELCOLWIDTHS: [190, 80],
 
     data: {},
     dynamicCUPdata: {},
@@ -30,19 +30,22 @@ let olapModelView = {
         return new Promise((resolve, reject) => {
             getJsonFromOlapApi(url, options)
                 .then(response => {
+                    //refine header objects
+                    this.convertHeaderToDisplay(response.data);
+
                     //set cellId
                     response.data.rows.forEach((row, yInd) => {
                         row.forEach((cell, xInd) => {
                             Object.assign(cell, {
                                 cellId: `${cellPrefixId}_${xInd}_${yInd}`,
                                 label: cell.FmtValue
-                                    ? cell.FmtValue
+                                    ? (['1,#INF', '-1,#IND', '1,#QNAN'].includes(cell.FmtValue) ? null : cell.FmtValue)
                                     : cell.Caption,
                                 x: xInd,
                                 y: yInd,
                                 row: row,
                                 headerCell:
-                                    response.data.headerColumns[xInd][0],
+                                    response.data.headerColumns[xInd],
                                 dataSetOnwer: response.data,
                                 hidden: this.HIDDEN_COLS.includes(xInd),
                             });
@@ -52,9 +55,6 @@ let olapModelView = {
 
                     //some visual logic
                     this.convertDataToDisplay(response.data);
-
-                    //refine header objects
-                    this.convertHeaderToDisplay(response.data);
 
                     //background color
                     response.data.rows.forEach((row, yInd) =>
@@ -75,12 +75,13 @@ let olapModelView = {
     convertHeaderToDisplay: function(data) {
         data.headerColumns = data.headerColumns.map((item, index) => {
             let cell = {
+                [0]: item[0],
                 label: item[0].Caption,
                 x: index,
                 y: 0,
                 hidden: this.HIDDEN_COLS.includes(index),
             };
-            cell.background = this.getBackgroundColorOfCell(cell);
+            cell.background = this.getBackgroundColorOfColumn(cell) || this.getBackgroundColorOfCell(cell);
             return cell;
         });
     },
@@ -121,6 +122,12 @@ let olapModelView = {
         return res;
     },
 
+    getBackgroundColorOfColumn: function(headerCell) {
+        let res = null;
+
+        return res;
+    },
+
     //now only for col to labels
     convertTableDataToChartData: function(data) {
         let result = {
@@ -145,7 +152,7 @@ let olapModelView = {
         return result;
     },
 
-    getExcelToDownload: function(index) {
+    getExcelToDownload: function() {
         let model = this;
         return new Promise(resolve => {
             if (model.data) resolve(this.convertDataToExcelFormat(model.data));
@@ -173,10 +180,25 @@ let olapModelView = {
                         return {
                             value:
                                 (col.Value
-                                    ? parseFloat(col.Value) || col.label
+                                    ? parseFloat(
+                                    Math.round(col.Value * 10000) / 10000
+                                ) || col.label
                                     : col.label) || '',
                             style: {
-                                font: { sz: '10' },
+                                font: {
+                                    sz: '10',
+                                    bold: row.isTotal,
+                                },
+                                border: {
+                                    top: row.isTotal && {
+                                        style: 'thin',
+                                        color: { rgb: '888888' },
+                                    },
+                                },
+                                alignment: {
+                                    horizontal: undefined,
+                                },
+                                numFmt: col.FormatString,
                                 fill: col.background && {
                                     patternType: 'solid',
                                     fgColor: {
