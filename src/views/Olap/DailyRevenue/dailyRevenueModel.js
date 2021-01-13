@@ -73,13 +73,9 @@ let dailyRevenueModel = Object.assign(Object.create(olapModelView), {
         let res = null;
 
         if (!cell) return res;
-
         if (
             cell.headerCell &&
-            (cell.headerCell.UName ===
-                '[Measures].[Выполнение плана выручки без НДС]' ||
-                cell.headerCell.UName ===
-                    '[Measures].[Выполнение плана маржи без НДС]')
+            ['Выполнение плана выручки без НДС', 'Выполнение плана маржи без НДС'].includes(cell.headerCell.label)
         ) {
             if (cell.Value >= 1.05) return '#BEFCBA';
             if (cell.Value > 0 && cell.Value <= 0.97) return '#FCBFBF';
