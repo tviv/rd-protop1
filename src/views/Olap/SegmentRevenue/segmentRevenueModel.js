@@ -17,15 +17,15 @@ let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
     data: {},
 
     filters: {
-        periodFilter: { date: '2020-04-01', endDate: '2020-04-30'
-            // date: moment()
-            //     .add(-1, 'day')
-            //     .startOf('month')
-            //     .format('YYYY-MM-DD'),
-            // endDate: moment()
-            //     .add(-1, 'day')
-            //     .endOf('month')
-            //     .format('YYYY-MM-DD'),
+        periodFilter: { //date: '2020-04-01', endDate: '2020-04-30'
+            date: moment()
+                .add(-1, 'day')
+                .startOf('month')
+                .format('YYYY-MM-DD'),
+            endDate: moment()
+                .add(-1, 'day')
+                .endOf('month')
+                .format('YYYY-MM-DD'),
         },
         filterArray: [
             // [
