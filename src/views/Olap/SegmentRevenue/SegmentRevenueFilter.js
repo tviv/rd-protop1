@@ -106,6 +106,31 @@ class SegmentRevenueFilter extends FilterHandler {
                             />
                         </FormGroup>
                     </Col>
+                    <Col xs="12" lg="2">
+                        <FormGroup>
+                            <div>
+                                <Label htmlFor="act-select1">Без новых</Label>
+                            </div>
+                            <AppSwitch
+                                name="act-select1"
+                                className={'mx-1'}
+                                color={'primary'}
+                                outline={'alt'}
+                                checked={
+                                    defaultValues.get('[Подразделения].[Новый]') &&
+                                    defaultValues.get(
+                                        '[Подразделения].[Новый]'
+                                    )[0] === ' 0'
+                                }
+                                onChange={event => {
+                                    this.handleChange(
+                                        '[Подразделения].[Новый]',
+                                        [event.target.checked ? ' 0' : '1']
+                                    );
+                                }}
+                            />
+                        </FormGroup>
+                    </Col>
                 </Row>
                 <Row>
                     <Col xs="12" lg="3">
