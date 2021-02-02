@@ -92,7 +92,7 @@ class DailyRevenueFilter extends FilterHandler {
                                 onChange={event => {
                                     this.handleChange(
                                         '[Подразделения].[Действующий]',
-                                        [event.target.checked ? '1' : '0']
+                                        [event.target.checked ? '1' : '']
                                     );
                                 }}
                             />
@@ -143,7 +143,7 @@ class DailyRevenueFilter extends FilterHandler {
                                 onChange={event => {
                                     this.handleChange(
                                         '[Подразделения].[Like for like]',
-                                        [event.target.checked ? 'Да' : '0']
+                                        [event.target.checked ? 'Да' : '']
                                     );
                                 }}
                             />

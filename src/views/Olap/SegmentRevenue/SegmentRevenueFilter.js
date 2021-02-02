@@ -75,7 +75,7 @@ class SegmentRevenueFilter extends FilterHandler {
                                 onChange={event => {
                                     this.handleChange(
                                         '[Подразделения].[Действующий]',
-                                        [event.target.checked ? '1' : '0']
+                                        [event.target.checked ? '1' : '']
                                     );
                                 }}
                             />
@@ -100,7 +100,7 @@ class SegmentRevenueFilter extends FilterHandler {
                                 onChange={event => {
                                     this.handleChange(
                                         '[Подразделения].[Like for like]',
-                                        [event.target.checked ? 'Да' : '0']
+                                        [event.target.checked ? 'Да' : '']
                                     );
                                 }}
                             />
@@ -120,12 +120,12 @@ class SegmentRevenueFilter extends FilterHandler {
                                     defaultValues.get('[Подразделения].[Новый]') &&
                                     defaultValues.get(
                                         '[Подразделения].[Новый]'
-                                    )[0] === ' 0'
+                                    )[0] === '0'
                                 }
                                 onChange={event => {
                                     this.handleChange(
                                         '[Подразделения].[Новый]',
-                                        [event.target.checked ? ' 0' : '1']
+                                        [event.target.checked ? '0' : ''] //'' means all or no any filter
                                     );
                                 }}
                             />

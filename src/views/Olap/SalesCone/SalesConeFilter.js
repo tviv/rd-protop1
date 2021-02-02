@@ -109,7 +109,7 @@ class SalesConeFilter extends FilterHandler {
                                 }
                                 onChange={event => {
                                     this.handleChange('[Товары].[Активный]', [
-                                        event.target.checked ? '1' : '0',
+                                        event.target.checked ? '1' : '',
                                     ]);
                                 }}
                             />
