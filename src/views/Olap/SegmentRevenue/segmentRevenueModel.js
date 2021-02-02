@@ -1,14 +1,6 @@
 import olapModelView from '../OlapComponents/olapModelView';
 import moment from 'moment';
 
-let INCOME_COLUMN_START = 1;
-let PROFIT_COLUMN_START = INCOME_COLUMN_START + 3;
-let CLIENT_COLUMN_START = PROFIT_COLUMN_START + 7;
-let ARTICLE_COLUMN_START = CLIENT_COLUMN_START + 3;
-let ARTICLE2_COLUMN_START = ARTICLE_COLUMN_START + 3;
-let ARTICLE3_COLUMN_START = ARTICLE2_COLUMN_START + 3;
-let KOB_COLUMN_START = ARTICLE3_COLUMN_START + 3;
-let OTHER_COLUMN_START = KOB_COLUMN_START + 3;
 
 let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
     MAIN_URL: '/api/olap/segment/revenue',
@@ -28,14 +20,6 @@ let segmentRevenueModel = Object.assign(Object.create(olapModelView), {
                 .format('YYYY-MM-DD'),
         },
         filterArray: [
-            // [
-            //     '[Даты].[Месяцы]',
-            //     [
-            //         process.env.NODE_ENV === 'development'
-            //             ? '2019-09-01T00:00:00'
-            //             : '2019-09-01T00:00:00',
-            //     ],
-            // ],
         ],
     },
 
