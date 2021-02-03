@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, Col, Row, Jumbotron } from 'reactstrap';
+import { CardDeck, Card, CardBody, Col, Row, Jumbotron } from 'reactstrap';
 
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { Link } from 'react-router-dom';
@@ -32,11 +32,12 @@ class Dashboard extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <CardDeck>
+
                         <Card>
                             <CardBody>
                                 <Jumbotron>
-                                    <h1 className="display-3">
+                                    <h1 className="display-4">
                                         Воронка продаж
                                     </h1>
                                     <p className="lead">
@@ -61,19 +62,18 @@ class Dashboard extends Component {
                                 </Jumbotron>
                             </CardBody>
                         </Card>
-                    </Col>
-                    <Col>
+
                         <Card>
                             <CardBody>
                                 <Jumbotron>
-                                    <h1 className="display-3">
+                                    <h1 className="display-4">
                                         Ежедневная выручка
                                     </h1>
                                     <p className="lead">
-                                        В отчете собранны все основные
+                                        В отчете собраны все основные
                                         показатели по сети и магазинам,
                                         необходимые для ежедневного анализа
-                                        дейтельности компании.
+                                        деятельности компании
                                     </p>
                                     <hr className="my-2" />
                                     <p>
@@ -92,7 +92,36 @@ class Dashboard extends Component {
                                 </Jumbotron>
                             </CardBody>
                         </Card>
-                    </Col>
+
+                        <Card>
+                            <CardBody>
+                                <Jumbotron>
+                                    <h1 className="display-4">
+                                        Выручка по сегментам
+                                    </h1>
+                                    <p className="lead">
+                                        В отчете представлены
+                                        плановые и фактические показатели продаж в разрезе сегментов.
+                                    </p>
+                                    <hr className="my-2" />
+                                    <p>
+                                        Отчет предназначен для служб,
+                                        ответственных за выполнение основных
+                                        показателей по магазинам.
+                                    </p>
+                                    <p className="lead">
+                                        <Link
+                                            to="/olap/segment-revenue"
+                                            className="btn btn-primary"
+                                        >
+                                            Открыть
+                                        </Link>
+                                    </p>
+                                </Jumbotron>
+                            </CardBody>
+                        </Card>
+
+                    </CardDeck>
                 </Row>
             </div>
         );
