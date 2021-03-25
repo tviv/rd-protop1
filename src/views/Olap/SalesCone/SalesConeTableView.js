@@ -34,11 +34,20 @@ class SalesConeTableView extends Component {
     handleCellClick = cellId => {
         const cell = model.getCellById(cellId);
         if (cell.x < cell.dataSetOnwer.CUP_COL_INDEX) return;
-        this.setState({
-            popoverOpen:
-                this.state.cellId === cellId ? !this.state.popoverOpen : true,
-            cellId: cellId,
-        });
+
+        const handler = () => {
+            this.setState({
+                popoverOpen:
+                    this.state.cellId === cellId ? !this.state.popoverOpen : true,
+                cellId: cellId,
+            });
+        };
+
+        if (this.state.popoverOpen) {
+            setTimeout(handler, 100); //to evoid closing by the toggle event
+        } else {
+            handler();
+        }
     };
 
     onDynamicClick = e => {

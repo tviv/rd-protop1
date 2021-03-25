@@ -44,41 +44,43 @@ class CellPropertyWindow extends Component {
                             <PopoverBody>
                                 <div>КУП: {data.КУП}</div>
                                 <div>Отклонение: {data['Отклонение %']}%</div>
-                                {addValues && (
-                                    <div>
+                                <LoadingWrappedView loading={!addValues} height="180px">
+                                    {addValues && (
                                         <div>
-                                            <span>Цена продажи: </span>
-                                            <span>
+                                            <div>
+                                                <span>Цена продажи: </span>
+                                                <span>
                                                 {addValues['Цена продажи']}
                                             </span>
+                                            </div>
+                                            <div>
+                                                Сумма продажи:{' '}
+                                                {addValues['Сумма продажи']}
+                                            </div>
+                                            <div>
+                                                Маржа: {addValues['Маржа %']}%
+                                            </div>
+                                            <div>
+                                                Маржа план: {addValues['Плановый УВМ']}
+                                            </div>
+                                            <div>
+                                                Остаток: {addValues['Остаток']}
+                                            </div>
+                                            <div>
+                                                Количество в день: {addValues['Количество в день']}
+                                            </div>
+                                            <div>
+                                                Оборачиваемость: {addValues['Оборачиваемость']}
+                                            </div>
+                                            <div>
+                                                Сумма списания: {addValues['Сумма списания']}
+                                            </div>
+                                            <div>
+                                                Списание к ТО: {addValues['Доля списания к ТО']}
+                                            </div>
                                         </div>
-                                        <div>
-                                            Сумма продажи:{' '}
-                                            {addValues['Сумма продажи']}
-                                        </div>
-                                        <div>
-                                            Маржа: {addValues['Маржа %']}%
-                                        </div>
-                                        <div>
-                                            Маржа план: {addValues['Плановый УВМ']}
-                                        </div>
-                                        <div>
-                                            Остаток: {addValues['Остаток']}
-                                        </div>
-                                        <div>
-                                            Количество в день: {addValues['Количество в день']}
-                                        </div>
-                                        <div>
-                                            Оборачиваемость: {addValues['Оборачиваемость']}
-                                        </div>
-                                        <div>
-                                            Сумма списания: {addValues['Сумма списания']}
-                                        </div>
-                                        <div>
-                                            Списание к ТО: {addValues['Доля списания к ТО']}
-                                        </div>
-                                    </div>
-                                )}
+                                    )}
+                                </LoadingWrappedView>
                                 <hr />
 
                                 <Button

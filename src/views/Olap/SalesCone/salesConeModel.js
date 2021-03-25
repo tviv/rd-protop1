@@ -114,7 +114,7 @@ let salesConeModel = Object.assign(Object.create(olapModelView), {
         if (this.data.rows.length === 0) return property; //todo why we enter here when table empty (before we watch property window).
         try {
             let good = this.data.rows[cell.y][cell.dataSetOnwer.GOOD_COL_INDEX];
-            let shop = cell.headerCell;
+            let shop = cell.headerCell[0];
             property.filter = {
                 periodFilter: this.filters.periodFilter,
                 shopFilter:

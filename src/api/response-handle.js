@@ -18,7 +18,6 @@ function checkStatus(response) {
 }
 
 function parseJSON(response) {
-    console.dir(response);
     return response.json();
 }
 

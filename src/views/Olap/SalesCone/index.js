@@ -25,7 +25,7 @@ class Tabs extends Component {
         this.toggle = this.toggle.bind(this);
         this.state = {
             activeTab: process.env.NODE_ENV !== 'development' ? '1' : '1',
-            cellProperty: {},
+            cellProperty: null,
         };
 
         this.tableConfig.showDynamicCUP = this.showDynamicCUP;
@@ -54,7 +54,7 @@ class Tabs extends Component {
     render() {
         const { translate, locale } = this.props;
 
-        const helpElement = (
+        const helpElement = this.state.activeTab === '1' && (
             <div className="float-right">
                 <Button block color="ghost-secondary">
                     <i className="fa fa-info-circle fa-lg" />
@@ -87,18 +87,20 @@ class Tabs extends Component {
                                     Таблица
                                 </NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    className={classnames({
-                                        active: this.state.activeTab === '2',
-                                    })}
-                                    onClick={() => {
-                                        this.toggle('2');
-                                    }}
-                                >
-                                    Динамика КУП
-                                </NavLink>
-                            </NavItem>
+                            {this.state.cellProperty && (
+                                <NavItem>
+                                    <NavLink
+                                        className={classnames({
+                                            active: this.state.activeTab === '2',
+                                        })}
+                                        onClick={() => {
+                                            this.toggle('2');
+                                        }}
+                                    >
+                                        Динамика КУП
+                                    </NavLink>
+                                </NavItem>
+                            )}
                             {process.env.NODE_ENV === 'development' && (
                                 <NavItem>
                                     <NavLink

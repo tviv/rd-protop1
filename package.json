@@ -1,6 +1,6 @@
 {
   "name": "Ardi",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Ardi",
   "author": "",
   "homepage": "",
@@ -28,7 +28,7 @@
     "react": "^16.8.6",
     "react-bootstrap": "0.31.3",
     "react-bootstrap-daterangepicker": "^4.1.0",
-    "react-chartjs-2": "^2.7.4",
+    "react-chartjs-2": "^2.11.1",
     "react-data-export": "tviv/react-data-export",
     "react-dom": "^16.8.6",
     "react-double-scrollbar": "0.0.15",
