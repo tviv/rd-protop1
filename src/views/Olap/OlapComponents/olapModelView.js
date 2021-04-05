@@ -221,7 +221,6 @@ let olapModelView = {
             filter &&
             filter.map(x => {
                 let opt = this.getOptionByValue(options, x);
-                console.dir(opt);
                 let label =
                     opt &&
                     (onlyTrailNumbers
@@ -232,7 +231,6 @@ let olapModelView = {
                     label: label,
                 };
             });
-        console.dir(res);
         return res;
     },
 

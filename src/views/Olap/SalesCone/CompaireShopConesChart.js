@@ -173,7 +173,8 @@ class CompaireShopConesChart extends Component {
             .then(data => {
                 this.data = data;
                 data.datasets.forEach((item, index) => {
-                    console.dir(item);
+                    //console.dir(item);
+                    if (data.datasets.length > 5 && index >= 2) item.label = item.label.replace(/^.*[- ]/g, '');
                     item.backgroundColor = 'transparent';
                     item.borderColor = colorArray[index];
                     item.pointHoverBackgroundColor = '#fff';
