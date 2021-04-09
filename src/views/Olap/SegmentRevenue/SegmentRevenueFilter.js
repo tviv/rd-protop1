@@ -109,7 +109,7 @@ class SegmentRevenueFilter extends FilterHandler {
                     <Col xs="12" lg="2">
                         <FormGroup>
                             <div>
-                                <Label htmlFor="act-select1">Без новых</Label>
+                                <Label htmlFor="act-select1">Без новых (с районами)</Label>
                             </div>
                             <AppSwitch
                                 name="act-select1"
@@ -117,15 +117,15 @@ class SegmentRevenueFilter extends FilterHandler {
                                 color={'primary'}
                                 outline={'alt'}
                                 checked={
-                                    defaultValues.get('[Подразделения].[Новый]') &&
+                                    defaultValues.get('[Подразделения].[ЕстьРайон]') &&
                                     defaultValues.get(
-                                        '[Подразделения].[Новый]'
-                                    )[0] === '0'
+                                        '[Подразделения].[ЕстьРайон]'
+                                    )[0] === '1'
                                 }
                                 onChange={event => {
                                     this.handleChange(
-                                        '[Подразделения].[Новый]',
-                                        [event.target.checked ? '0' : ''] //'' means all or no any filter
+                                        '[Подразделения].[ЕстьРайон]',
+                                        [event.target.checked ? '1' : ''] //'' means all or no any filter
                                     );
                                 }}
                             />
@@ -139,6 +139,15 @@ class SegmentRevenueFilter extends FilterHandler {
                             <WrappedSelect
                                 name="segment-select"
                                 hierarchyName="[Сегменты].[Направление менеджера]"
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col xs="12" lg="3">
+                        <FormGroup>
+                            <Label>Форматы</Label>
+                            <WrappedSelect
+                                hierarchyName="[Подразделения].[Формат]"
+                                maxLevel="1"
                             />
                         </FormGroup>
                     </Col>

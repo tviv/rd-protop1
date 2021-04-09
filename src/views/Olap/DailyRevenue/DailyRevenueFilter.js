@@ -63,7 +63,7 @@ class DailyRevenueFilter extends FilterHandler {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xs="12" lg="3">
+                    <Col xs="12" lg="2">
                         <FormGroup>
                             <Label htmlFor="org-select">Организации</Label>
                             <WrappedSelect
@@ -98,32 +98,6 @@ class DailyRevenueFilter extends FilterHandler {
                             />
                         </FormGroup>
                     </Col>
-                </Row>
-                <Row>
-                    <Col xs="12" lg="3">
-                        <FormGroup>
-                            <Label>Дни недели</Label>
-                            <WrappedSelect hierarchyName="[Даты].[День недели]" />
-                        </FormGroup>
-                    </Col>
-                    <Col xs="12" lg="3">
-                        <FormGroup>
-                            <Label>Районы</Label>
-                            <WrappedSelect
-                                hierarchyName="[Подразделения].[Район]"
-                                maxLevel="1"
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col xs="12" lg="3">
-                        <FormGroup>
-                            <Label>Подформаты</Label>
-                            <WrappedSelect
-                                hierarchyName="[Подразделения].[Подформаты]"
-                                maxLevel="1"
-                            />
-                        </FormGroup>
-                    </Col>
                     <Col xs="12" lg="2">
                         <FormGroup>
                             <div>
@@ -146,6 +120,41 @@ class DailyRevenueFilter extends FilterHandler {
                                         [event.target.checked ? 'Да' : '']
                                     );
                                 }}
+                            />
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs="12" lg="3">
+                        <FormGroup>
+                            <Label>Дни недели</Label>
+                            <WrappedSelect hierarchyName="[Даты].[День недели]" />
+                        </FormGroup>
+                    </Col>
+                    <Col xs="12" lg="3">
+                        <FormGroup>
+                            <Label>Районы</Label>
+                            <WrappedSelect
+                                hierarchyName="[Подразделения].[Район]"
+                                maxLevel="1"
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col xs="12" lg="2">
+                        <FormGroup>
+                            <Label>Форматы</Label>
+                            <WrappedSelect
+                                hierarchyName="[Подразделения].[Формат]"
+                                maxLevel="1"
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col xs="12" lg="3">
+                        <FormGroup>
+                            <Label>Подформаты</Label>
+                            <WrappedSelect
+                                hierarchyName="[Подразделения].[Подформат]"
+                                maxLevel="1"
                             />
                         </FormGroup>
                     </Col>
